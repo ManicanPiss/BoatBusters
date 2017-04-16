@@ -36,6 +36,7 @@ public class Game {
 		Scanner scan = new Scanner (System.in);
 		System.out.println("Hauptmenu:\n\n Optionen:\n 1. Spiel Starten \n 2. Highscore anzeigen\n 3. Beenden");
 		int i = Integer.parseInt(scan.next());
+		//Oder int i = scan.nextInt(); ???
 		// scan.close();
 		
 		switch (i) {

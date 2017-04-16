@@ -234,8 +234,9 @@ public class Schiffe extends Game {
 
 			//wahl des benutzers
 			choice = Integer.parseInt(scan.next());
+			// Oder choice = scan.nextInt(); ???
 
-			scan.close();
+			//scan.close();
 
 			if (checkChoiceNr(choice) && checkIfShipAvailable(choice)) {
 				// Anzahl der verfügbaren schiffe des typs verringern und ersten Teil des Schiffs setzen!
