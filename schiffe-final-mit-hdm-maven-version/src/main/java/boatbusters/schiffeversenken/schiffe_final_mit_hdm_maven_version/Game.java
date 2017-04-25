@@ -28,6 +28,8 @@ public class Game {
 	
 	
 	public static void showHighscore () {
+		System.out.println("Es gibt noch keinen Highscore. Willkommen zurück im Hauptmenü:\n");
+		showMenu();
 		// TODO Datenbank implementieren!
 	}
 	

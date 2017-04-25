@@ -243,8 +243,8 @@ public class Schiffe extends Game {
 
 				reduceShipCount(choice);
 				System.out.println("Set the X-Coordinate of the first Part of the Ship!\n");
-				setShipParts(choice);
-			} else {
+				setShipParts(choice+1); //choice + 1, weil dieser übergebene Parameter die Länge des Schiffes sein soll,
+			} else {                    //mit der in der Methode gearbeitet wird. Diese ist bei Small Ship z.B. 1+1=2 - Clemens F.
 				System.out.println("Invalid Input: We will start over again.\n\n");
 				setShip();
 			}
