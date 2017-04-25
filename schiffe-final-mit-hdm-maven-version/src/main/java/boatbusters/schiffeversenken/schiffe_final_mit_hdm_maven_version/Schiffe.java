@@ -232,6 +232,10 @@ public class Schiffe extends Game {
 				Brett.brett[i][staticInt] = 1;
 			}
 		}
+		System.out.println("You successfully put your ship. Choose what to do next:\n");
+		//Scanner scan2 = new Scanner(System.in);
+		Game.showMenu();
+		
 
 	}
 	
@@ -298,22 +302,26 @@ public class Schiffe extends Game {
 					//checkt eingabe, freiheit des endfelds, freiheit der linie und länge des schiffs.
 					//setzt erst dann die koordinaten auf 1
 					if (checkNumber(ycoord) && checkFree(x, y) && checkIfLineIsFreeAndLengthCorrect(xfirst, yfirst, x, y, i)) {
-						scan.close();
+						//scan.close();
 						setShipOnBoard(xfirst, yfirst, x, y);
 					} else {
-						System.out.println("Invalid Input, we will start over again.\n");
+						System.out.println("Invalid Input, we will start over again.\n"
+								+ "Set the X-Coordinate of the first Part of the Ship!\n");
 						setShipParts(i);
 					}
 				} else {
-					System.out.println("Invalid Input, we will start over again.\n");
+					System.out.println("Invalid Input, we will start over again.\n"
+							+ "Set the X-Coordinate of the first Part of the Ship!\n");
 					setShipParts(i);
 				}
 			} else {
-				System.out.println("Invalid Input, we will start over again.\n");
+				System.out.println("Invalid Input, we will start over again.\n"
+						+ "Set the X-Coordinate of the first Part of the Ship!\n");
 				setShipParts(i);
 			}
 		} else {
-			System.out.println("Invalid Input, we will start over again.\n");
+			System.out.println("Invalid Input, we will start over again.\n"
+					+ "Set the X-Coordinate of the first Part of the Ship!\n");
 			setShipParts(i);
 		}
 	}
