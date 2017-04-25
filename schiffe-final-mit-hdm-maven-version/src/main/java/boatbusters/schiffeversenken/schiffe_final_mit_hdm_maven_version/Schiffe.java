@@ -148,6 +148,11 @@ public class Schiffe extends Game {
 				changingStart = yfirst;
 				changingEnd = ylast;
 			}
+			
+			// checkt länge
+			if (!(changingEnd - changingStart + 1 == length)) {
+				isFree = false;
+			} 
 
 			// das eigentliche abchecken findet hier statt
 			for (int i = changingStart; i <= changingEnd; i++) {
@@ -155,7 +160,7 @@ public class Schiffe extends Game {
 					isFree = false;
 				}
 			}
-		} else { // wenn Y statisch ist
+		} else if (yfirst == ylast){ // wenn Y statisch ist
 			staticInt = yfirst;
 			if (xfirst > xlast) { // checkt, welcher wert größer ist, damit die for-Schleife funktioniert
 				changingStart = xlast;
@@ -164,6 +169,11 @@ public class Schiffe extends Game {
 				changingStart = xfirst;
 				changingEnd = xlast;
 			}
+			
+			// checkt länge
+			if (!(changingEnd - changingStart + 1 == length)) {
+				isFree = false;
+			} 
 
 			// das eigentliche abchecken findet hier statt
 			for (int i = changingStart; i <= changingEnd; i++) {
@@ -171,12 +181,13 @@ public class Schiffe extends Game {
 					isFree = false;
 				}
 			}
+		
+		} else { 
+				System.out.println("Die zwei Punkte können keinen Start- und Endpunkt einer geraden Strecke bilden, "
+					+ "sie liegen diagonal zueinander.. Starten Sie das Schiffesetzen bitte neu:\n");
+		        setShip();
 		}
 		
-		// checkt länge
-		if (!(changingEnd - changingStart == length)) {
-			isFree = false;
-		} 
 		
 		return isFree;
 	}
@@ -206,7 +217,7 @@ public class Schiffe extends Game {
 			for (int i = changingStart; i <= changingEnd; i++) {
 				Brett.brett[staticInt][i] = 1;
 			}
-		} else { // wenn Y statisch ist
+		} else if (yfirst == ylast){ // wenn Y statisch ist
 			staticInt = yfirst;
 			if (xfirst > xlast) { // checkt, welcher wert größer ist, damit die for-Schleife funktioniert
 				changingStart = xlast;
@@ -221,6 +232,7 @@ public class Schiffe extends Game {
 				Brett.brett[i][staticInt] = 1;
 			}
 		}
+
 	}
 	
 	public static void setShip () {
