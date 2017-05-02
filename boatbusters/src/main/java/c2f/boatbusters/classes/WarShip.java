@@ -1,18 +1,19 @@
 package c2f.boatbusters.classes;
 
-import c2f.boatbusters.abstractClasses.Ship;
+import c2f.boatbusters.abstractClasses.*;
 import c2f.boatbusters.interfaces.WarShipInterface;
+import c2f.boatbusters.classes.*;
+import c2f.boatbusters.factories.*;
 import java.util.Scanner;
 
 public class WarShip extends Ship implements WarShipInterface {
 
 	static Scanner scan = new Scanner (System.in);
-	
+
 	private int shipSize;
-	
 
 	public WarShip (int i) {
-		
+
 		if (i == getShortShipLength()) {
 			this.shipSize = i;
 		} else if (i == getMiddleShipLength()) {
@@ -24,27 +25,25 @@ public class WarShip extends Ship implements WarShipInterface {
 		}
 	}
 
-	
+
 	// CHECKER
 	//-------------------------------------------------------
 
 	//checkt, ob in der X-Koordinate überhaupt was frei ist
-	public boolean checkXcoord (int i) {
+	public boolean checkXcoord (int i, Board board[][]) {
 		//fährt jedes Feld in der X-koordinate ab und gibt true aus, falls eines 0 ist
-		for (int a = 1; a <= Game.fieldSizeX; a++) {
-			if (Brett.brett [i][a] == 0) {
+		for (int a = 1; a <= Board.fieldSizeX; a++) {
+			if (board [i][a] == null) {
 				return true;
-			} 
+			}
 		}
-		//sonst halt false
 		return false;
 	}
 
 	public boolean checkNumber (String s) {
 		int i = Integer.parseInt(s);
 
-		//eingabe muss ja zwischen 1 und 10 sein
-		if (i > 0 && i <= Game.fieldSizeY) {
+		if (i > 0 && i <= Board.fieldSizeY) {
 			return true;
 		} else {
 			return false;
@@ -52,8 +51,8 @@ public class WarShip extends Ship implements WarShipInterface {
 	}
 
 	//checkt, ob die Position frei ist
-	public boolean checkFree (int x, int y) {
-		if (Brett.brett [x][y] == 0) {
+	public boolean checkFree (int x, int y, Board board[][]) {
+		if (board [x][y] == null) {
 			return true;
 		} else {
 			return false;
@@ -70,49 +69,41 @@ public class WarShip extends Ship implements WarShipInterface {
 	}
 
 	// checkt, ob noch ein schiff diesen Typs übrig ist
-	public boolean checkIfShipAvailable (int i) {
+	public boolean checkIfShipAvailable (int i, Player player) {
 		if (i == 1) {
-			return (countSmall > 0);
+			return (player.getCountSmall() > 0);
 		} else if (i == 2) {
-			return (countMiddle > 0);
+			return (player.getCountMiddle() > 0);
 		} else if (i == 3) {
-			return (countBig > 0);
-		} else if (i == 4) {
-			return (countDestroyer > 0);
+			return (player.getCountBig() > 0);
 		} else {
-			System.out.println("Error: Zahl nicht zwischen 1 und 4! \n");
+			//  TODO error log
 			return false;
 		}
 	}
 
-	//checkt, ob überhaupt noch ein schiff übrig ist
-	public boolean checkIfAnyShipLeft () {
-		return (shipsCount > 0);
-	}
-
 	//wenn man ein schiff setzt, wird die anzahl der verfügbaren schiffe diesen typs um 1 verringert
-	public void reduceShipCount (int i) {
+	public void reduceShipCount (int i, Player player) {
 		switch (i) {
-		case 1: countSmall -= 1;
+		case 1: player.decreaseCountSmall();
 		break;
-		case 2: countMiddle -= 1;
+		case 2: player.decreaseCountMiddle();
 		break;
-		case 3: countMiddle -= 1;
+		case 3: player.decreaseCountBig();
 		break;
-		case 4: countDestroyer -= 1;
-		break;
+
 		default:
-			System.out.println("Error: Zahl nicht zwischen 1 und 4!");
+			// TODO error log ("Error: Zahl nicht zwischen 1 und 4!");
 		}
 	}
 
-	public boolean checkIfInLine (int x, int y, int checkThis) {
-		return (x == checkThis || y == checkThis);
+	public boolean checkIfInLine (int x1, int y1, int x2, int y2) {
+		return (x1 == x2 && y1 != y2 || y1 == y2 && x1 != x2);
 	}
 
 
 	// checkt, ob die Linie frei ist und ob die Distanz zwischen den beiden Punkte mit der Schifflänge übereinstimmen
-	public boolean checkIfLineIsFreeAndLengthCorrect (int xfirst, int yfirst, int xlast, int ylast, int length) {
+	public boolean checkIfLineIsFreeAndLengthCorrect (int xfirst, int yfirst, int xlast, int ylast, int length, Board board[][]) {
 		int staticInt, changingStart, changingEnd;
 		// hier wird festgelegt, welche Koordinate gleich bleibt und welche sich ändert,
 		// damit anhand der sich ändernden koordinate die angepeilte linie auf dem Feld auf ihre Leere gecheckt werden kann.
@@ -131,7 +122,7 @@ public class WarShip extends Ship implements WarShipInterface {
 
 			// das eigentliche abchecken findet hier statt
 			for (int i = changingStart; i <= changingEnd; i++) {
-				if (Brett.brett[staticInt][i] != 0){
+				if (board[staticInt][i] != null){
 					isFree = false;
 				}
 			}
@@ -147,7 +138,7 @@ public class WarShip extends Ship implements WarShipInterface {
 
 			// das eigentliche abchecken findet hier statt
 			for (int i = changingStart; i <= changingEnd; i++) {
-				if (Brett.brett[i][staticInt] != 0){
+				if (board[i][staticInt] != null){
 					isFree = false;
 				}
 			}
@@ -185,8 +176,10 @@ public class WarShip extends Ship implements WarShipInterface {
 	// SHIP SETTER 2
 	//--------------------------------------------------------------
 
-	public void setShipOnBoard(int xfirst, int yfirst, int xlast, int ylast) {
+	public void setShipOnBoard(int xfirst, int yfirst, int xlast, int ylast, Board board[][], int choice) {
 		int staticInt, changingStart, changingEnd;
+
+		ShipFactory fact = new ShipFactory();
 
 		if (xfirst == xlast) { // wenn X statisch ist
 			staticInt = xfirst;
@@ -198,9 +191,9 @@ public class WarShip extends Ship implements WarShipInterface {
 				changingEnd = ylast;
 			}
 
-			// hier wird der Array auf 1 gesetzt
+			// referenz wird gesetzt
 			for (int i = changingStart; i <= changingEnd; i++) {
-				Brett.brett[staticInt][i] = 1;
+				WarShipInterface ship = ShipFactory.getType(choice);
 			}
 		} else { // wenn Y statisch ist
 			staticInt = yfirst;
@@ -212,161 +205,143 @@ public class WarShip extends Ship implements WarShipInterface {
 				changingEnd = xlast;
 			}
 
-			// hier wird der Array auf 1 gesetzt
+			// referenz wird gesetzt
 			for (int i = changingStart; i <= changingEnd; i++) {
-				Brett.brett[i][staticInt] = 1;
+				WarShipInterface ship = ShipFactory.getType(choice);
 			}
 		}
 	}
 
-	public void setShip () {
-		if (checkIfAnyShipLeft()) {
-			System.out.println("What kind of Ship do you want to put? Type: \n"
-					+ "1 for a small Ship (" + countSmall + " left to put) \n"
-					+ "2 for a middle Ship (" + countMiddle + " left to put) \n"
-					+ "3 for a big Ship (" + countBig + " left to put) \n"
-					+ "4 for your Destroyer (" + countDestroyer + " left to put) \n");
+	public void setShip (Player player, Board board[][]) {
+		if (player.areShipsLeftToPut()) {
 
-			//wahl des benutzers
+			//TODO sysout ERSETZEN!
+
+			System.out.println("What kind of Ship do you want to put? Type: \n"
+					+ "1 for a small Ship (" + player.getCountSmall() + " left to put) \n"
+					+ "2 for a middle Ship (" + player.getCountMiddle() + " left to put) \n"
+					+ "3 for a big Ship (" + player.getCountBig() + " left to put) \n");
+
 			String wahl = scan.next();
 
 			if (checkIfValidInput(wahl)) {
 				int choice = Integer.parseInt(scan.next());
 
-				if (checkChoiceNr(choice) && checkIfShipAvailable(choice)) {
+				if (checkChoiceNr(choice) && checkIfShipAvailable(choice, player)) {
 					// Anzahl der verfügbaren schiffe des typs verringern und ersten Teil des Schiffs setzen!
-					setShipParts(choice);
+					setShipParts(choice, board, player);
 				} else {
-					System.out.println("Invalid Input: We will start over again.\n\n");
-					setShip();
+					// TODO log System.out.println("Invalid Input: We will start over again.\n\n");
+					setShip(player, board);
 				}
 			} else {
-				System.out.println("Invalid Input: We will start over again.\n\n");
-				setShip();
+				// TODO log System.out.println("Invalid Input: We will start over again.\n\n");
+				setShip(player, board);
 			}
 		} else {
-			System.out.println("All ships are put in the game. LET'S GO MARIO! \n");
+			// TODO log System.out.println("All ships are put in the game. LET'S GO MARIO! \n");
 
 			// wenn es keine schiffe mehr zu setzen gibt, wird abgebrochen
-			shipsLeftToPut = false;
 		}
 	}
 
-	public void setShipParts(int i) {
+	public void setShipParts(int choice, Board board[][], Player player) {
 
 		int xfirst, yfirst;
 
-		System.out.println("You can always start over again with putting the ship in the game by entering 'b'! \n"
-				+ "Set the X-Coordinate of the first Part of the Ship!\n");
+		// TODO log System.out.println("You can always start over again with putting the ship in the game by entering 'b'! \n"
+		//		+ "Set the X-Coordinate of the first Part of the Ship!\n");
 		String xcoord = scan.next();
 		int x = Integer.parseInt(xcoord);
 
-		if (checkNumber(xcoord) && checkXcoord(x)) {
-			System.out.println("Now type in the Y-Coordinate and press Enter!\n");
+		if (checkNumber(xcoord) && checkXcoord(x, board)) {
+			// TODO log System.out.println("Now type in the Y-Coordinate and press Enter!\n");
 			String ycoord = scan.next();
 			int y = Integer.parseInt(ycoord);
 
-			if (checkNumber(ycoord) && checkFree(x, y)) {
+			if (checkNumber(ycoord) && checkFree(x, y, board)) {
 				xfirst = x;
 				yfirst = y;
-				System.out.println("Now type in the X-Coordinate of the last part of the Ship and press Enter!\n");
+				// TODO log System.out.println("Now type in the X-Coordinate of the last part of the Ship and press Enter!\n");
 				xcoord = scan.next();
 				x = Integer.parseInt(xcoord);
 
 				// checkt wieder, ob alles passt UND ob die eingegebene koordinate mit einer Koordinate des 
 				// ersten Punkts übereinstimmt (muss sie schließlich) 
-				if (checkNumber(xcoord) && checkXcoord(x) && checkIfInLine(xfirst, yfirst, x)) {
-					System.out.println("Now type in the Y-Coordinate of the last part of the Ship!\n");
+				if (checkNumber(xcoord) && checkXcoord(x, board)) {
+					// TODO log System.out.println("Now type in the Y-Coordinate of the last part of the Ship!\n");
 					ycoord = scan.next();
 					y = Integer.parseInt(ycoord);
 
 					//checkt eingabe, freiheit des endfelds, freiheit der linie und länge des schiffs.
 					//setzt erst dann die koordinaten auf 1
-					if (checkNumber(ycoord) && checkFree(x, y) && checkIfLineIsFreeAndLengthCorrect(xfirst, yfirst, x, y, i)) {
+					if (checkNumber(ycoord) && checkFree(x, y, board) && checkIfLineIsFreeAndLengthCorrect(xfirst, yfirst, x, y, choice, board)) {
 						// scan.close();
-						setShipOnBoard(xfirst, yfirst, x, y);
-						reduceShipCount(i);
+						setShipOnBoard(xfirst, yfirst, x, y, board, choice);
+						reduceShipCount(choice, player);
 					} else if (ycoord.equals("m")) {
-						Game.showMenu();
+						Game game = new Game(0);
+						game.showMenu();
 					} else if (ycoord.equals("b")) {
-						setShipParts(i);
+						setShipParts(choice, board, player);
 					} else {
-						System.out.println("Invalid Input, we will start over again.\n");
-						setShipParts(i);
+						// TODO log System.out.println("Invalid Input, we will start over again.\n");
+						setShipParts(choice, board, player);
 					}
 				} else if (xcoord.equals("m")) {
-					Game.showMenu();
+					Game game = new Game(0);
+					game.showMenu();
 				} else if (xcoord.equals("b")) {
-					setShipParts(i);
+					setShipParts(choice, board, player);
 				} else {
-					System.out.println("Invalid Input, we will start over again.\n");
-					setShipParts(i);
+					// TODO log System.out.println("Invalid Input, we will start over again.\n");
+					setShipParts(choice, board, player);
 				}
 			} else if (ycoord.equals("m")) {
-				Game.showMenu();
+				Game game = new Game(0);
+				game.showMenu();
 			} else if (ycoord.equals("b")) {
-				setShipParts(i);
+				setShipParts(choice, board, player);
 			} else {
-				System.out.println("Invalid Input, we will start over again.\n");
-				setShipParts(i);
+				// TODO log System.out.println("Invalid Input, we will start over again.\n");
+				setShipParts(choice, board, player);
 			}
 		} else if (xcoord.equals("m")) {
-			Game.showMenu();
+			Game game = new Game(0);
+			game.showMenu();
 		} else if (xcoord.equals("b")) {
-			setShipParts(i);
+			setShipParts(choice, board, player);
 		} else {
-			System.out.println("Invalid Input, we will start over again.\n");
-			setShipParts(i);
+			// TODO log System.out.println("Invalid Input, we will start over again.\n");
+			setShipParts(choice, board, player);
 		}
 	}
 
-	public void fire(int x, int y) {
+	public void fire(int x, int y, Board board[][], Player player) {
 		// TODO wenn man nicht getroffen hat: Kreuz ins Feld zeichnen
-
-		//wenn man getroffen hat bzw nicht 
-		if (!checkFree(x, y)) {
-			System.out.println("HIT! \n");
-
-			if (round % 2 == 0) {
-				scorePlayer1 -= 1;
-				destroy(x, y);
-
-			} else {
-				scorePlayer2 -= 1;
-				destroy(x, y);
-			}
+		if (!checkFree(x, y, board)) {
+			// TODO log System.out.println("HIT! \n");
+			player.increaseScore();
+			destroy(x, y, board);
 		} else {
-			System.out.println("Missed! \n");
+			// TODO log System.out.println("Missed! \n");
 			// Feld kennzeichnen!
 		}
 	}
 
 	// Alle Felder 0 setzen (falls wir das brauchen)
-	public void setShipsBack () {
-		for (int i = 1; i <= fieldSizeX; i++) {
-			for (int x = 1; x <= fieldSizeY; x++) {
-				Brett.brett[i][x] = 0;
+	public void setShipsBack (Board board1[][], Board board2[][]) {
+		for (int i = 1; i <= Board.fieldSizeX; i++) {
+			for (int x = 1; x <= Board.fieldSizeY; x++) {
+				board1[i][x] = null;
+				board2[i][x] = null;
 			}
 		}
 	}
 
-	public void destroy(int x, int y) {
-		
+	public void destroy(int x, int y, Board board[][]) {
+		board[x][y] = null;
 	}
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-}

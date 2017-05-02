@@ -3,7 +3,7 @@ package c2f.boatbusters.classes;
 import java.util.Scanner;
 
 public class Game {
-
+	
 	static Scanner scan = new Scanner(System.in);
 
 	private int round;
@@ -75,7 +75,7 @@ public class Game {
 		 */
 	}
 
-	void showMenu() {
+	public void showMenu() {
 		System.out.println("Hauptmenu:\n\n Optionen:\n 1. Spiel Starten \n 2. Highscore anzeigen\n 3. Beenden\n\n"
 				+ "You can always go back to this menu by entering 'm'!");
 		int i = Integer.parseInt(scan.next());

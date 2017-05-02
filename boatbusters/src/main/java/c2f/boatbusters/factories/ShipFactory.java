@@ -6,19 +6,17 @@ import c2f.boatbusters.classes.*;
 
 public class ShipFactory {
 
-	public WarShipInterface getType (String type){
-		if(type == null){
-			return null;
-		}	
-
-		if (type.equalsIgnoreCase("SMALL")){
+	public static WarShipInterface getType (int type){
+		
+		if (type == 1){
 			return new WarShip(2);
-		} else if(type.equalsIgnoreCase("MIDDLE")){
+		} else if(type == 2){
 			return new WarShip(3);
-		} else if(type.equalsIgnoreCase("BIG")){
+		} else if(type == 3){
 			return new WarShip(4);
+		} else {
+			// TODO error log
+			return null;
 		}
-
-		return null;
 	}
 }
