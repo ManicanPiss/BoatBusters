@@ -29,21 +29,43 @@ public class Game {
 		if (round % 2 == 0) {
 			System.out.println("Type in the field you want to shoot at: \n"
 					+ "X-Coordinate: \n");
+			try {
 			int x = Integer.parseInt(scan.next());
-
+			}
+			catch (NumberFormatException e){
+				  System.err.printf( "Invalid Entry, you need to type in a number! Try to type in the X-Coordinate "
+				  		+ "again!"); startFiring(); //Problem, wenn Invalid entry (Buchstaben, die nicht zu Zahl konvertiert
+				  		                            // werden können, und Methode neu gestartet werden muss, wird Round
+				  		                            // erneut increased..
+			}
 			System.out.println("Y-Coordinate: \n");
+			try {
 			int y = Integer.parseInt(scan.next());
-			scan.close();
+			} catch(NumberFormatException e){
+				System.err.printf( "Invalid Entry, you need to type in a number! Try to type in the X-Coordinate "
+				  		+ "again!"); startFiring();
+			}
+			//scan.close(); Scanner schließen fliegt uns um die Ohren
 
 			// Schiffe.fire(x, y);
 		} else {
 			System.out.println("Type in the field you want to shoot at: \n"
 					+ "X-Coordinate: \n");
+			try {
 			int x = Integer.parseInt(scan.next());
-
+			}
+			catch (NumberFormatException e){
+				  System.err.printf( "Invalid Entry, you need to type in a number! Try to type in the X-Coordinate "
+				  		+ "again!"); startFiring(); 
+			}
 			System.out.println("Y-Coordinate: \n");
+			try {
 			int y = Integer.parseInt(scan.next());
-			scan.close();
+			} catch(NumberFormatException e){
+				System.err.printf( "Invalid Entry, you need to type in a number! Try to type in the X-Coordinate "
+				  		+ "again!"); startFiring();
+			}
+			//scan.close(); Scanner schließen fliegt uns um die Ohren
 
 			// Schiffe.fire(x, y);
 		}
