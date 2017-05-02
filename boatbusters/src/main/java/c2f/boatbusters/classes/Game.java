@@ -1,9 +1,10 @@
 package c2f.boatbusters.classes;
 
+import c2f.boatbusters.factories.*;
 import java.util.Scanner;
 
 public class Game {
-	
+
 	static Scanner scan = new Scanner(System.in);
 
 	private int round;
@@ -50,7 +51,15 @@ public class Game {
 	}
 
 	public void startGame () {
+
+		PlayerFactory factP = new PlayerFactory();
 		
+		Player player1 = fact.createPlayer();
+		Player player2 = fact.createPlayer();
+		
+		BoardFactory factB = new BoardFactory();
+		
+
 		/*
 		//Brett [][] boardPlayer1 = createBoard(fieldSizeX, fieldSizeY);
 		//Brett [][] boardPlayer2 = createBoard(fieldSizeX, fieldSizeY);
