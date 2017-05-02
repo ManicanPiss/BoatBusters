@@ -4,12 +4,12 @@ import java.util.Scanner;
 
 public class Game {
 
-	Scanner scan = new Scanner(System.in);
+	static Scanner scan = new Scanner(System.in);
 
 	private int round;
 
-	public Game () {
-		this.round = 0;
+	public Game (int i) {
+		this.round = i;
 	}
 
 	public int getRound() {
@@ -20,9 +20,9 @@ public class Game {
 		round += 1;
 	}
 
-	public static void startFiring() {
+	public void startFiring() {
 
-		game.increaseRound();
+		increaseRound();
 
 		Scanner scan = new Scanner (System.in);
 
@@ -35,7 +35,7 @@ public class Game {
 			int y = Integer.parseInt(scan.next());
 			scan.close();
 
-			Schiffe.fire(x, y);
+			// Schiffe.fire(x, y);
 		} else {
 			System.out.println("Type in the field you want to shoot at: \n"
 					+ "X-Coordinate: \n");
@@ -45,13 +45,11 @@ public class Game {
 			int y = Integer.parseInt(scan.next());
 			scan.close();
 
-			Schiffe.fire(x, y);
+			// Schiffe.fire(x, y);
 		}
 	}
 
-	public static void startGame () {
-
-		Game.increaseRound();
+	public void startGame () {
 		
 		/*
 		//Brett [][] boardPlayer1 = createBoard(fieldSizeX, fieldSizeY);
@@ -93,7 +91,7 @@ public class Game {
 		} 
 	}
 
-	public static void quit() {
+	public void quit() {
 		System.exit(0);
 	}
 }
