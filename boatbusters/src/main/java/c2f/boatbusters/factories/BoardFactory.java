@@ -5,14 +5,15 @@ import c2f.boatbusters.classes.*;
 
 public class BoardFactory {
 
-	public void createBoard(int i) {
+	public Board[][] createBoard(int i) {
 		if (i == 1) {
 			Board board1[][] = new Board[Board.fieldSizeX][Board.fieldSizeY];
-		} else if (i == 2) {
+			return board1;
+		}else if (i == 2) {
 			Board board2[][] = new Board[Board.fieldSizeX][Board.fieldSizeY];
-		} else {
-			// TODO error log here
-		
+			return board2;
 		}
+
+		return null;
 	}
 }

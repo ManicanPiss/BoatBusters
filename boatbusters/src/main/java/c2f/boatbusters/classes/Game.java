@@ -54,10 +54,18 @@ public class Game {
 
 		PlayerFactory factP = new PlayerFactory();
 		
-		Player player1 = fact.createPlayer();
-		Player player2 = fact.createPlayer();
+		Player player1 = factP.createPlayer();
+		Player player2 = factP.createPlayer();
 		
 		BoardFactory factB = new BoardFactory();
+		
+		Board board1[][] = factB.createBoard(1);
+		Board board2[][] = factB.createBoard(2);
+		
+		Board ship = new Board();
+		WarShip ship2 = new WarShip(1);
+		
+		
 		
 
 		/*
