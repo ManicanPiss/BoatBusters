@@ -25,50 +25,46 @@ public class Game {
 		increaseRound();
 
 		Scanner scan = new Scanner (System.in);
-
+        try{
 		if (round % 2 == 0) {
 			System.out.println("Type in the field you want to shoot at: \n"
 					+ "X-Coordinate: \n");
-			try {
+
 			int x = Integer.parseInt(scan.next());
-			}
-			catch (NumberFormatException e){
-				  System.err.printf( "Invalid Entry, you need to type in a number! Try to type in the X-Coordinate "
-				  		+ "again!"); startFiring(); //Problem, wenn Invalid entry (Buchstaben, die nicht zu Zahl konvertiert
-				  		                            // werden können, und Methode neu gestartet werden muss, wird Round
-				  		                            // erneut increased..
-			}
+			
+
 			System.out.println("Y-Coordinate: \n");
-			try {
+
 			int y = Integer.parseInt(scan.next());
-			} catch(NumberFormatException e){
-				System.err.printf( "Invalid Entry, you need to type in a number! Try to type in the X-Coordinate "
-				  		+ "again!"); startFiring();
-			}
+
+			
 			//scan.close(); Scanner schließen fliegt uns um die Ohren
 
 			// Schiffe.fire(x, y);
-		} else {
+			} else {
 			System.out.println("Type in the field you want to shoot at: \n"
 					+ "X-Coordinate: \n");
-			try {
+
 			int x = Integer.parseInt(scan.next());
-			}
-			catch (NumberFormatException e){
-				  System.err.printf( "Invalid Entry, you need to type in a number! Try to type in the X-Coordinate "
-				  		+ "again!"); startFiring(); 
-			}
+			
+
 			System.out.println("Y-Coordinate: \n");
-			try {
+
 			int y = Integer.parseInt(scan.next());
-			} catch(NumberFormatException e){
-				System.err.printf( "Invalid Entry, you need to type in a number! Try to type in the X-Coordinate "
-				  		+ "again!"); startFiring();
 			}
+			
+            } catch (NumberFormatException e){
+				  System.err.printf("Type in the field you want to shoot at: \n"
+							+ "X-Coordinate: \n"); startFiring(); //Problem, wenn Invalid entry (z.B.Buchstaben,
+							                        // die nicht zu Zahl konvertiert werden können), und Methode also
+				  		                            // neu gestartet werden muss, wird Round erneut increased..
+				  		                            
+			}
+			
 			//scan.close(); Scanner schließen fliegt uns um die Ohren
 
 			// Schiffe.fire(x, y);
-		}
+		
 	}
 
 	public void startGame () {
