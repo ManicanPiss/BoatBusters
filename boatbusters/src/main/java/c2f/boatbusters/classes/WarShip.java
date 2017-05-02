@@ -17,6 +17,8 @@ public class WarShip extends Ship implements WarShipInterface {
 			this.shipSize = i;
 		} else if (i == getMiddleShipLength()) {
 			this.shipSize = i;
+		} else if (i == getBigShipLength()) {
+			this.shipSize = i;
 		} else {
 			// error log, groesse falsch
 		}
