@@ -77,8 +77,8 @@ public class Game {
 		
 		BoardFactory factB = new BoardFactory();
 		
-		Board board1[][] = factB.createBoard(1);
-		Board board2[][] = factB.createBoard(2);
+		WarShip board1[][] = factB.createBoard(1);
+		WarShip board2[][] = factB.createBoard(2);
 		
 		Board ship = new Board();
 		WarShip ship2 = new WarShip(1);
