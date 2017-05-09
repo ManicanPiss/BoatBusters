@@ -10,19 +10,19 @@ public class Main {
 	public static void main (String [] args) {
 		
 		
-		File dataFile = new File("daten.csv"); // Eingelesene Datei
-		try (Scanner reader = new Scanner(dataFile).useDelimiter("\n")){ 
+		//File dataFile = new File("daten.csv"); // Eingelesene Datei
+		//try (Scanner reader = new Scanner(dataFile).useDelimiter("\n")){ 
 	
-			while (reader.hasNext()) { // Einlesen der Personen
-				String zwischenspeicher; // Erstellt Array  (Zwischenspeicher)
-				zwischenspeicher = reader.next();
+		//	while (reader.hasNext()) { // Einlesen der Personen
+		//		String zwischenspeicher; // Erstellt Array  (Zwischenspeicher)
+		//		zwischenspeicher = reader.next();
 				// Erstelle String und füge sie der HashList hinzu
-				Highscore.bestenliste.add(zwischenspeicher); 
+		//		Highscore.getBestenliste().add(zwischenspeicher); 
 			
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		//	}
+		//} catch (FileNotFoundException e) {
+		//	e.printStackTrace();
+		//}
 		
 		
 		
