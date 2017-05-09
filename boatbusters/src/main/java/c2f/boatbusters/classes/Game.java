@@ -1,6 +1,9 @@
 package c2f.boatbusters.classes;
 
 import c2f.boatbusters.factories.*;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 public class Game {
@@ -72,8 +75,17 @@ public class Game {
 
 		PlayerFactory factP = new PlayerFactory();
 		
-		Player player1 = factP.createPlayer();
-		Player player2 = factP.createPlayer();
+		System.out.println("Please type in the name of player 1: \n");
+		String name1 = scan.next();
+		System.out.println("And now please type in the name of player 2: \n");
+		String name2 = scan.next();
+		
+		Player player1 = factP.createPlayer(name1);
+		Player player2 = factP.createPlayer(name2);
+		
+		
+		Highscore.putPlayersInHighscoreList(name1, name2); //Siehe Klasse Highscore
+
 		
 		BoardFactory factB = new BoardFactory();
 		

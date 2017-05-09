@@ -9,6 +9,15 @@ public class Player {
 	private int countBig = 2;
 	private int shipsCount = countSmall + countMiddle + countBig;
 	private boolean shipsLeftToPut = (shipsCount > 0);
+	private String name;
+	
+	public Player(String name) {
+		this.name = name;
+	}
+	
+	public String getName(){
+		return name;
+	}
 
 	public int getScore() {
 		return score;

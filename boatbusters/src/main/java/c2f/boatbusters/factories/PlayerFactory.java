@@ -4,7 +4,8 @@ import c2f.boatbusters.classes.Player;
 
 public class PlayerFactory {
 
-	public Player createPlayer() {
-			return new Player();
+
+	public Player createPlayer(String name) {
+			return new Player(name);
 	}
 }
