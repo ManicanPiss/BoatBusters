@@ -1,13 +1,19 @@
 package c2f.boatbusters.factories;
 
-//import c2f.boatbusters.interfaces.WarShipInterface;
+import c2f.boatbusters.interfaces.WarShipInterface;
 import c2f.boatbusters.classes.*;
 
 
 public class ShipFactory {
 
-	public static WarShip getType (int type){
-		
+	//	public WarShip createShip() {
+	//		return new WarShip();
+	//	}
+
+	
+	
+	public static WarShipInterface getType (int type){
+
 		if (type == 1){
 			return new WarShip(2);
 		} else if(type == 2){
