@@ -1,9 +1,15 @@
 package c2f.boatbusters.classes;
 
-import c2f.boatbusters.factories.*;
+import c2f.boatbusters.factories.*; 
 // import c2f.boatbusters.interfaces.WarShipInterface;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.Scanner;
+
+
 
 public class Game {
 
@@ -82,9 +88,25 @@ public class Game {
 		//Erstellung der Factories um Spieler und Bretter zu erstellen
 
 		PlayerFactory pf = new PlayerFactory();
-
-		Player player1 = pf.createPlayer();
-		Player player2 = pf.createPlayer();
+		
+		//Abfrage der Namen der Spieler
+		System.out.println("Player 1, please type in your name: ");
+		String namePlayer1 = scan.next();
+		System.out.println("Now type in your number of wins: ");
+		String numberOfWinsPlayer1 = scan.next();
+		System.out.println("Player 2, please type in your name: ");
+		String namePlayer2 = scan.next();
+		System.out.println("Now type in your number of wins: ");
+		String numberOfWinsPlayer2 = scan.next();
+		
+		
+		Player player1 = pf.createPlayer(namePlayer1, numberOfWinsPlayer1);
+		Player player2 = pf.createPlayer(namePlayer2, numberOfWinsPlayer2);
+		
+		Highscore.bestenliste.add(player1);
+		Highscore.bestenliste.add(player2);
+		
+		Highscore.sortArrayList();
 
 		BoardFactory bf = new BoardFactory();
 
@@ -154,7 +176,9 @@ public class Game {
 	public static void showHighscore (Game game) {
 		// TODO Datenbank implementieren!
 		System.out.println("Hallo! Ich werde mal eine Datenbank.\n");
-
+        
+		Highscore.printBestenliste();
+		
 		Scanner scan = new Scanner(System.in);
 		
 		String str = scan.next();
@@ -170,6 +194,16 @@ public class Game {
 	}
 
 	public void quit() {
+		try {
+			FileWriter fWriter = new FileWriter("bestenliste.csv");
+			BufferedWriter writer = new BufferedWriter(fWriter);
+			for (int i = 0; i < Highscore.bestenliste.size(); i++) {
+				writer.write(Highscore.bestenliste.get(i).file()); //1 Person -> 1 Zeile
+			}
+			writer.close();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 		System.exit(0);
 	}
 	

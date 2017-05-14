@@ -397,6 +397,57 @@ public class Player {
 		return new WarShip(i);
 	}
 
+	//Sachen für Bestenliste/Highschore: Anfang:
+	
+	private Object name, numberOfWins;
+	//Konstruktor: Spieler erhält vor dem Spiel einen Namen, sowie wenn er das erste Mal spielt, numberOfWins = 0
+	public Player (Object name, Object numberOfWins){
+		this.name = name;
+		this.numberOfWins = numberOfWins;		
+	}
+	
+	public Object getName(){
+	    return name;
+	}
+	
+	public Object numberOfWins(){
+		return numberOfWins;
+	}
+	
+	//Ist in Einklang mit der printBestenliste Mehtode, es entsteht eine Tabelle im richtigen Format abhängig von der 
+	//Länge des Spielernamens
+	public String toString(){
+		if( name.toString().length() == 1){ return name + "                 |   " + numberOfWins;}
+		else if( name.toString().length() == 2){ return name + "                |   " + numberOfWins;}
+		else if( name.toString().length() == 3){ return name + "               |   " + numberOfWins;}
+		else if( name.toString().length() == 4){ return name + "              |   " + numberOfWins;}
+		else if( name.toString().length() == 5){ return name + "             |   " + numberOfWins;}
+		else if( name.toString().length() == 6){ return name + "            |   " + numberOfWins;}
+		else if( name.toString().length() == 7){ return name + "           |   " + numberOfWins;}
+		else if( name.toString().length() == 8){ return name + "          |   " + numberOfWins;}
+		else if( name.toString().length() == 9){ return name + "         |   " + numberOfWins;}
+		else if( name.toString().length() == 10){ return name + "        |   " + numberOfWins;}
+		else if( name.toString().length() == 11){ return name + "       |   " + numberOfWins;}
+		else if( name.toString().length() == 12){ return name + "      |   " + numberOfWins;}
+		else if( name.toString().length() == 13){ return name + "     |   " + numberOfWins;}
+		else if( name.toString().length() == 14){ return name + "    |   " + numberOfWins;}
+		else if( name.toString().length() == 15){ return name + "   |   " + numberOfWins;}
+		else if( name.toString().length() == 16){ return name + "  |   " + numberOfWins;}
+		else if( name.toString().length() == 17){ return name + " |   " + numberOfWins;}
+		else if( name.toString().length() == 18){ return name + "|   " + numberOfWins;}
+		else { return name + "      |   " + numberOfWins;}
+	}
+
+	/**
+	 * Formatierung zum Abspeichern in .csv Datei
+	 * @return Ein Eintrag -> Eine Zeile in Datei
+	 */
+	String file(){
+		return name + ";" + numberOfWins + ";\n";
+	}
+
+	//Sachen für Bestenliste/ Highscore: Ende
+	
 } 
 
 
