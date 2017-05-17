@@ -206,7 +206,7 @@ public class Player {
 					isFree = false;
 				}
 			}
-		} else { // wenn Y statisch ist
+		} else if (yfirst == ylast) { // wenn Y statisch ist
 			staticInt = yfirst;
 			if (xfirst > xlast) { // checkt, welcher wert größer ist, damit die for-Schleife funktioniert
 				changingStart = xlast;
@@ -222,6 +222,9 @@ public class Player {
 					isFree = false;
 				}
 			}
+		} else {
+			isFree = false;
+			return isFree;
 		}
 
 		// checkt länge
