@@ -71,7 +71,6 @@ public class Game {
 				int y = Integer.parseInt(input);
 				increaseRound();
 				shooter.fire(x, y, board, player, shooter, game);
-				scan.close();
 			} else {
 				System.out.println("invalid input."); // TODO LOG!
 				startFiring(player, board, shooter, game);
