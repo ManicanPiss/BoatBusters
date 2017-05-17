@@ -44,7 +44,7 @@ public class Player {
 		return countMiddle;
 	}
 	public void decreaseCountMiddle() {
-		countSmall -= 1;
+		countMiddle -= 1;
 	}
 
 	//-------------------------------
@@ -53,7 +53,7 @@ public class Player {
 		return countBig;
 	}
 	public void decreaseCountBig() {
-		countSmall -= 1;
+		countBig -= 1;
 	}
 
 	//-------------------------------
