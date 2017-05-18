@@ -16,6 +16,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -56,10 +57,12 @@ public class Main extends Application{
 			VBox root = new VBox();
 			root.setAlignment(Pos.CENTER);
 			
-			
-			Scene scene = new Scene(root, 300, 200, Color.DARKGRAY);
+			Scene scene = new Scene(root, 300, 200);
 			
 			Button btn1 = new Button("Spiel Starten");
+			Button btn2 = new Button("Highscore");
+			Button btn3 = new Button("Beenden");
+			
 			root.getChildren().add(btn1);
 			btn1.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -71,28 +74,14 @@ public class Main extends Application{
 				}
 			});
 			
-			Button btn2 = new Button("Highscore");
+			
 			root.getChildren().add(btn2);
-			btn2.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("open highscore");
-					
-				}
-			});
+			btn2.setOnAction(event -> btn2.setText("du bist letzter"));
 			
-			Button btn3 = new Button("Beenden");
+			
 			root.getChildren().add(btn3);
-			
-			btn3.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("Beenden");
-					
-				}
-			});
+			btn3.setOnAction(
+					event -> btn3.setText("hahaha vergiss es"));
 			
 			window.setTitle("Boatbusters");
 			window.setScene(scene);
