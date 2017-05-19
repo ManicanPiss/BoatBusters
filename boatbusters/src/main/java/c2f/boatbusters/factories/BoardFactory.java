@@ -1,5 +1,6 @@
 package c2f.boatbusters.factories;
 
+import c2f.boatbusters.abstractClasses.Board;
 import c2f.boatbusters.classes.*;
 
 

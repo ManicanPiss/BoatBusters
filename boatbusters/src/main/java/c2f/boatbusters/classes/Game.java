@@ -1,5 +1,6 @@
 package c2f.boatbusters.classes;
 
+import c2f.boatbusters.abstractClasses.Board;
 import c2f.boatbusters.factories.*; 
 // import c2f.boatbusters.interfaces.WarShipInterface;
 
@@ -9,13 +10,11 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.Scanner;
 
-
-
 public class Game {
 
 	private int round = 1;
 
-	public Game (int i) {
+	protected Game (int i) {
 		this.round = i;
 	}
 
@@ -23,11 +22,11 @@ public class Game {
 		return round;
 	}
 
-	public void increaseRound() {
+	private void increaseRound() {
 		round += 1;
 	}
 
-	public boolean checkNumber (String s) {
+	private boolean checkNumber (String s) {
 
 		int i = 0;
 
@@ -44,12 +43,12 @@ public class Game {
 		}
 	}
 
-	public void startFiring(Player player, WarShip[][] board, WarShip shooter, Game game) {
+	protected void startFiring(Player player, WarShip[][] board, WarShip shooter, Game game) {
 
-		System.out.println("Type in the field you want to shoot at: \n"
-				+ "X-Coordinate: \n");
+		System.out.println("Type in the field you want to shoot at: \n" + "X-Coordinate: \n");
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
-		
+
 		String input = scan.next();
 
 		//Wenn der Spieler abbrechen moechte
@@ -62,7 +61,6 @@ public class Game {
 			System.out.println("Now the Y-Coordinate: \n");
 			input = scan.next();
 
-			//Wenn der Spieler abbrechen moechte
 			if (input.equals("m")) {
 				game.showMenu(game);
 			}
@@ -81,13 +79,11 @@ public class Game {
 		}
 	}
 
-	public void startGame (Game game, Scanner scan) {
-
+	private void startGame (Game game, Scanner scan) {
 
 		//Erstellung der Factories um Spieler und Bretter zu erstellen
-
 		PlayerFactory pf = new PlayerFactory();
-		
+
 		//Abfrage der Namen der Spieler
 		System.out.println("Player 1, please type in your name: ");
 		String namePlayer1 = scan.next();
@@ -97,14 +93,14 @@ public class Game {
 		String namePlayer2 = scan.next();
 		System.out.println("Now type in your number of wins: ");
 		String numberOfWinsPlayer2 = scan.next();
-		
-		
+
+
 		Player player1 = pf.createPlayer(namePlayer1, numberOfWinsPlayer1);
 		Player player2 = pf.createPlayer(namePlayer2, numberOfWinsPlayer2);
-		
+
 		Highscore.bestenliste.add(player1);
 		Highscore.bestenliste.add(player2);
-		
+
 		Highscore.sortArrayList();
 
 		BoardFactory bf = new BoardFactory();
@@ -112,27 +108,17 @@ public class Game {
 		WarShip board1[][] = bf.createBoard(1);
 		WarShip board2[][] = bf.createBoard(2);
 
-		// ShipFactory sf = new ShipFactory();
-
-		//"Shooter" werden benoetigt, um auf die methoden der WarShipKlasse zugreifen zu koennen, ohne sie static zu machen
+		// "Shooter" werden benoetigt, um auf die Methoden der WarShipKlasse zugreifen zu koennen, ohne diese static zu machen
 
 		WarShip shooterPlayer1 = new WarShip(1);
 		WarShip shooterPlayer2 = new WarShip(1);
 
-
-		PlayerFactory factP = new PlayerFactory();
-		
-		
-		
-
-		// 
 		setShipsBack (board1, board2);
-		
+
 		player1.setShip(player1, board1, game, scan);
 		startFiring(player2, board1, shooterPlayer2, game);
-		
-		//Setzen der Schiffe solange noch Schiffe zu setzen sind, Spieler fuer Spieler
-		
+
+		// Setzen der Schiffe solange noch Schiffe zu setzen sind, Spieler fuer Spieler
 		while (player1.areShipsLeftToPut()) {
 			player1.setShip(player1, board1, game, scan);
 		}
@@ -143,26 +129,26 @@ public class Game {
 
 		System.out.println("Let's bust some boats! \n"); //TODO log
 
-		//Solange kein Spieler gewonnen hat, wird weiter gespielt
-
+		//Solange kein Spieler gewonnen hat, wird weiter gespielt; Runden werden innerhalb der startFiring() Methode gezaehlt
 		while (player1.getScore() < Player.maxScore && player2.getScore() < Player.maxScore) {
 			startFiring(player1, board2, shooterPlayer1, game);
 			startFiring(player2, board1, shooterPlayer2, game);
 		}
 	}
 
-	public void showMenu(Game game) {
+	protected void showMenu(Game game) {
 		System.out.println("Hauptmenu:\n\n Optionen:\n 1. Spiel Starten \n 2. Highscore anzeigen\n 3. Beenden\n\n"
 				+ "You can always go back to this menu by entering 'm'!");
 
 		Scanner scan = new Scanner(System.in);
-		
+
 		String str = scan.next();
 
 		switch (str) {
 		case "1": startGame(game, scan);
 		case "2": showHighscore(game);
-		case "3": quit();
+		case "3": scan.close();
+			quit();
 		case "m": showMenu(game);
 
 		default :
@@ -171,28 +157,27 @@ public class Game {
 		}
 	} 
 
-
-	public static void showHighscore (Game game) {
+	private static void showHighscore (Game game) {
 		// TODO Datenbank implementieren!
 		System.out.println("Hallo! Ich werde mal eine Datenbank.\n");
-        
+
 		Highscore.printBestenliste();
-		
+
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
-		
+
 		String str = scan.next();
 
-		//Wenn der Spieler abbrechen moechte
+		// Wenn der Spieler ins Menu zurueck moechte
 		if (str.equals("m")) {
 			game.showMenu(game);
 		}
 
 		// TODO log System.out.println("You can always start over again with putting the ship in the game by entering 'b'! \n"
 		//		+ "Set the X-Coordinate of the first Part of the Ship!\n");
-
 	}
 
-	public void quit() {
+	private void quit() {
 		try {
 			FileWriter fWriter = new FileWriter("bestenliste.csv");
 			BufferedWriter writer = new BufferedWriter(fWriter);
@@ -205,9 +190,8 @@ public class Game {
 		}
 		System.exit(0);
 	}
-	
-	
-	public void setShipsBack (WarShip board1[][], WarShip board2[][]) {
+
+	private void setShipsBack (WarShip board1[][], WarShip board2[][]) {
 		for (int i = 0; i < Board.fieldSizeX; i++) {
 			for (int x = 0; x < Board.fieldSizeY; x++) {
 				board1[i][x] = null;

@@ -6,23 +6,14 @@ import c2f.boatbusters.classes.*;
 
 public class ShipFactory {
 
-	//	public WarShip createShip() {
-	//		return new WarShip();
-	//	}
-
+	public WarShipInterface getType (int type){
+		switch (type) {
+		case 1 : return new WarShip(2);
+		case 2 : return new WarShip(3);
+		case 3 : return new WarShip(4);
 	
-	
-	public static WarShipInterface getType (int type){
-
-		if (type == 1){
-			return new WarShip(2);
-		} else if(type == 2){
-			return new WarShip(3);
-		} else if(type == 3){
-			return new WarShip(4);
-		} else {
-			// TODO error log
-			return null;
+		default: System.out.println("ERROR: Can not create a ship of this type!"); // TODO: log
+		return null;
 		}
 	}
 }
