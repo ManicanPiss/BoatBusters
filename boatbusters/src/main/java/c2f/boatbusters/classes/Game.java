@@ -1,8 +1,16 @@
 package c2f.boatbusters.classes;
 
 import c2f.boatbusters.abstractClasses.Board;
-import c2f.boatbusters.factories.*; 
+import c2f.boatbusters.factories.*;
+import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 // import c2f.boatbusters.interfaces.WarShipInterface;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -61,9 +69,9 @@ public class Game {
 			System.out.println("Now the Y-Coordinate: \n");
 			input = scan.next();
 
-			if (input.equals("m")) {
-				game.showMenu(game);
-			}
+//			if (input.equals("m")) {
+//				game.showMenu(game);
+//			}
 
 			if (checkNumber(input)) {
 				int y = Integer.parseInt(input);
@@ -79,8 +87,16 @@ public class Game {
 		}
 	}
 
-	private void startGame (Game game, Scanner scan) {
+	public void startGame (Game game, Scanner scan) {
 
+		
+		
+		
+		
+		
+		
+		
+		
 		//Erstellung der Factories um Spieler und Bretter zu erstellen
 		PlayerFactory pf = new PlayerFactory();
 
@@ -118,7 +134,7 @@ public class Game {
 		player1.setShip(player1, board1, game, scan);
 		startFiring(player2, board1, shooterPlayer2, game);
 
-		// Setzen der Schiffe solange noch Schiffe zu setzen sind, Spieler fuer Spieler
+//		 Setzen der Schiffe solange noch Schiffe zu setzen sind, Spieler fuer Spieler
 		while (player1.areShipsLeftToPut()) {
 			player1.setShip(player1, board1, game, scan);
 		}
@@ -169,15 +185,15 @@ public class Game {
 		String str = scan.next();
 
 		// Wenn der Spieler ins Menu zurueck moechte
-		if (str.equals("m")) {
-			game.showMenu(game);
-		}
+//		if (str.equals("m")) {
+//			game.showMenu(game);
+//		}
 
 		// TODO log System.out.println("You can always start over again with putting the ship in the game by entering 'b'! \n"
 		//		+ "Set the X-Coordinate of the first Part of the Ship!\n");
 	}
 
-	private void quit() {
+	public void quit() {
 		try {
 			FileWriter fWriter = new FileWriter("bestenliste.csv");
 			BufferedWriter writer = new BufferedWriter(fWriter);
@@ -199,4 +215,5 @@ public class Game {
 			}
 		}
 	}
+	
 }

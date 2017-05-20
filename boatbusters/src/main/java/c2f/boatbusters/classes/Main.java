@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -21,37 +22,40 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class Main extends Application{
 	
 	private GameMenu gameMenu;
 	
 	@Override
-	
-		public void start(Stage window) throws Exception {
+	public void start(Stage primaryStage) throws Exception {
 			
 		Pane root = new Pane();
-		root.setPrefSize(800,600);
+		root.setPrefSize(1280,720);
 		
 		InputStream is = Files.newInputStream(Paths.get("src/main/resources/ShipBg.jpg"));
 		Image img = new Image(is);
 		is.close();
 		
 		ImageView imgView = new ImageView(img);
-		imgView.setFitWidth(800);
-		imgView.setFitHeight(640);
+		imgView.setFitWidth(1300);
+		imgView.setFitHeight(760);
 		
 		gameMenu = new GameMenu();
 		
 		root.getChildren().addAll(imgView, gameMenu);
 		
-		Scene scene = new Scene(root);
+		Scene sceneMain = new Scene(root);
 		
-		window.setTitle("Boatbusters");
-		window.setScene(scene);
-		window.show();	
+		
+		primaryStage.setTitle("Boatbusters");
+	//	primaryStage.setResizable(false);
+		primaryStage.setScene(sceneMain);
+		primaryStage.show();	
 
 	}
+	
 	
 	private static class MenuButton extends StackPane{
 		private Text text;
@@ -61,8 +65,8 @@ public class Main extends Application{
 			text.setFont(text.getFont());
 			text.setFill(Color.WHITE);
 			
-			Rectangle bg = new Rectangle(250,30);		//Hintergrund Buttons
-			bg.setOpacity(0.6);							//sichtbarkeit
+			Rectangle bg = new Rectangle(250,30);		
+			bg.setOpacity(0.5);							
 			bg.setFill(Color.BLACK);
 			
 			
@@ -90,18 +94,23 @@ public class Main extends Application{
 	
 	private class GameMenu extends Parent{
 		public GameMenu(){
+			
+			Game game = new Game(0);
+			
 			VBox menu0 = new VBox(10);
-			VBox menu1 = new VBox(10); //sub menu
+//			VBox menu1 = new VBox(10); //sub menu
 			
-			menu0.setTranslateX(100);
-			menu0.setTranslateY(200);
+			menu0.setTranslateX(200);
+			menu0.setTranslateY(300);
 			
-			menu1.setTranslateX(100);
-			menu1.setTranslateY(200);
+//			menu1.setTranslateX(100);
+//			menu1.setTranslateY(200);
 			
 			MenuButton btnStart = new MenuButton("START GAME");
 			btnStart.setOnMouseClicked(event ->{
-				System.out.println("Start Game..");
+				
+				
+				
 			});
 			MenuButton btnScore = new MenuButton("HIGHSCORE");
 			btnScore.setOnMouseClicked(event ->{
@@ -110,14 +119,14 @@ public class Main extends Application{
 			
 			MenuButton btnExit = new MenuButton("Exit");
 			btnExit.setOnMouseClicked(event ->{
-				System.exit(0);
+				game.quit();
 			});
 			
 			menu0.getChildren().addAll(btnStart, btnScore, btnExit);
 			
-			Rectangle bg = new Rectangle(800,600);
+			Rectangle bg = new Rectangle(1280,720);
 			bg.setFill(Color.GREY);
-			bg.setOpacity(0.4);
+			bg.setOpacity(0.3);
 			
 			getChildren().addAll(bg, menu0);
 		}
@@ -125,13 +134,15 @@ public class Main extends Application{
 	
 	
 	
-public static void main (String [] args) {
-	launch(args);
 	
-	File dataFile = new File("bestenliste.csv"); // Eingelesene Datei
-	try (Scanner reader = new Scanner(dataFile).useDelimiter("\n")){ 
+	
+	public static void main (String [] args) {
+		launch(args);
+	
+		File dataFile = new File("bestenliste.csv"); // Eingelesene Datei
+		try (Scanner reader = new Scanner(dataFile).useDelimiter("\n")){ 
 
-		while (reader.hasNext()) { // Einlesen der schon gespeicherten Spieler
+			while (reader.hasNext()) { // Einlesen der schon gespeicherten Spieler
 			String[] dataArray = new String[2]; // Erstellt Array  (Zwischenspeicher)
 			dataArray = reader.next().split(";", -1); // Teilen am ';'
 			// Erstelle Spieler und füge sie der Liste hinzu
@@ -142,8 +153,7 @@ public static void main (String [] args) {
 	}
 	
 	
-	Game game = new Game(0);
-	game.showMenu(game);
+	
 	
 }
 }
