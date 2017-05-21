@@ -18,6 +18,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.util.Loader;
+
 public class Game {
 
 	private int round = 1;
@@ -40,8 +43,8 @@ public class Game {
 
 		try {
 			i = Integer.parseInt(s);
-		} catch (Exception e) {
-			System.out.println("Invalid Input.\n"); //TODO log, nicht zu parsen
+		} catch (NumberFormatException e) {
+			Main.getLogger().error("Invalid Input. Please type in a number.\n", e); //TODO log, nicht zu parsen
 		}
 
 		if (i > 0 && i <= Board.fieldSizeY) {
@@ -53,7 +56,7 @@ public class Game {
 
 	protected void startFiring(Player player, WarShip[][] board, WarShip shooter, Game game) {
 
-		System.out.println("Type in the field you want to shoot at: \n" + "X-Coordinate: \n");
+		Main.getLogger().info("Type in the field you want to shoot at: \n" + "X-Coordinate: \n");
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 
@@ -66,7 +69,7 @@ public class Game {
 
 		if (checkNumber(input)) {
 			int x = Integer.parseInt(input);
-			System.out.println("Now the Y-Coordinate: \n");
+			Main.getLogger().info("Now the Y-Coordinate: \n");
 			input = scan.next();
 
 //			if (input.equals("m")) {
@@ -78,46 +81,44 @@ public class Game {
 				increaseRound();
 				shooter.fire(x, y, board, player, shooter, game);
 			} else {
-				System.out.println("invalid input."); // TODO LOG!
+				Main.getLogger().info("invalid input."); // TODO LOG!
 				startFiring(player, board, shooter, game);
 			}
 		} else {
-			System.out.println("invalid input."); // TODO LOG!
+			Main.getLogger().info("invalid input."); // TODO LOG!
 			startFiring(player, board, shooter, game);
 		}
 	}
 
 	public void startGame (Game game, Scanner scan) {
 
-		
-		
-		
-		
-		
-		
-		
-		
+
 		//Erstellung der Factories um Spieler und Bretter zu erstellen
 		PlayerFactory pf = new PlayerFactory();
 
+
 		//Abfrage der Namen der Spieler
-		System.out.println("Player 1, please type in your name: ");
+		Main.getLogger().info("Player 1, please type in your name: ");
 		String namePlayer1 = scan.next();
-		System.out.println("Now type in your number of wins: ");
+		Main.getLogger().info("Now type in your number of wins: ");
 		String numberOfWinsPlayer1 = scan.next();
-		System.out.println("Player 2, please type in your name: ");
+		Main.getLogger().info("Player 2, please type in your name: ");
 		String namePlayer2 = scan.next();
-		System.out.println("Now type in your number of wins: ");
+		Main.getLogger().info("Now type in your number of wins: ");
 		String numberOfWinsPlayer2 = scan.next();
+		
 
 
 		Player player1 = pf.createPlayer(namePlayer1, numberOfWinsPlayer1);
 		Player player2 = pf.createPlayer(namePlayer2, numberOfWinsPlayer2);
+		
 
 		Highscore.bestenliste.add(player1);
 		Highscore.bestenliste.add(player2);
+		
 
 		Highscore.sortArrayList();
+		
 
 		BoardFactory bf = new BoardFactory();
 
@@ -130,7 +131,7 @@ public class Game {
 		WarShip shooterPlayer2 = new WarShip(1);
 
 		setShipsBack (board1, board2);
-
+		
 		player1.setShip(player1, board1, game, scan);
 		startFiring(player2, board1, shooterPlayer2, game);
 
@@ -143,7 +144,7 @@ public class Game {
 			player2.setShip(player2, board2, game, scan);
 		}
 
-		System.out.println("Let's bust some boats! \n"); //TODO log
+		Main.getLogger().info("Let's bust some boats! \n"); //TODO log
 
 		//Solange kein Spieler gewonnen hat, wird weiter gespielt; Runden werden innerhalb der startFiring() Methode gezaehlt
 		while (player1.getScore() < Player.maxScore && player2.getScore() < Player.maxScore) {
@@ -153,7 +154,7 @@ public class Game {
 	}
 
 	protected void showMenu(Game game) {
-		System.out.println("Hauptmenu:\n\n Optionen:\n 1. Spiel Starten \n 2. Highscore anzeigen\n 3. Beenden\n\n"
+		Main.getLogger().info("Hauptmenu:\n\n Optionen:\n 1. Spiel Starten \n 2. Highscore anzeigen\n 3. Beenden\n\n"
 				+ "You can always go back to this menu by entering 'm'!");
 
 		Scanner scan = new Scanner(System.in);
@@ -168,14 +169,14 @@ public class Game {
 		case "m": showMenu(game);
 
 		default :
-			System.out.println("Invalid input! Back to Main Menu"); //TODO log
+			Main.getLogger().info("Invalid input! Back to Main Menu"); //TODO log
 			showMenu(game);
 		}
 	} 
 
 	private static void showHighscore (Game game) {
 		// TODO Datenbank implementieren!
-		System.out.println("Hallo! Ich werde mal eine Datenbank.\n");
+		Main.getLogger().info("Hallo! Ich werde mal eine Datenbank.\n");
 
 		Highscore.printBestenliste();
 

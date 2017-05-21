@@ -6,6 +6,8 @@ import c2f.boatbusters.classes.*;
 import c2f.boatbusters.factories.*;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.core.Logger;
+
 public class WarShip extends Ship implements WarShipInterface {
 
 	private int shipSize;
@@ -38,13 +40,13 @@ public class WarShip extends Ship implements WarShipInterface {
 		// TODO wenn man nicht getroffen hat: Kreuz ins Feld zeichnen
 		if (!Player.checkFree(x, y, board)) {
 			// TODO log System.out.println("HIT! \n");
-			System.out.println("HIT! \n");
+			Main.getLogger().info("HIT! \n");
 			player.increaseScore();
 			destroy(x, y, board);
 			game.startFiring(player, board, shooter, game);
 		} else {
 			// TODO log System.out.println("Missed! \n");
-			System.out.println("Missed! \n");
+			Main.getLogger().info("Missed! \n");
 			// Feld kennzeichnen!
 		}
 	}

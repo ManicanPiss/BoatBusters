@@ -1,6 +1,9 @@
 package c2f.boatbusters.classes;
 
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -24,8 +27,14 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+
+
 public class Main extends Application{
 	
+	static final Scanner scan = new Scanner(System.in);
+	
+	private final static Logger logger = LogManager.getRootLogger();
+
 	private GameMenu gameMenu;
 	
 	@Override
@@ -108,13 +117,13 @@ public class Main extends Application{
 			
 			MenuButton btnStart = new MenuButton("START GAME");
 			btnStart.setOnMouseClicked(event ->{
-				
+				game.startGame(game, scan);
 				
 				
 			});
 			MenuButton btnScore = new MenuButton("HIGHSCORE");
 			btnScore.setOnMouseClicked(event ->{
-				System.out.println("Open Highscore");
+				Highscore.printBestenliste();
 			});
 			
 			MenuButton btnExit = new MenuButton("Exit");
@@ -133,12 +142,15 @@ public class Main extends Application{
 	}
 	
 	
+
 	
-	
-	
+	@SuppressWarnings("restriction")
 	public static void main (String [] args) {
-		launch(args);
-	
+		
+
+		
+		logger.trace("Configuration File Defined To Be :: " + System.getProperty("log4j.configurationFile"));
+		
 		File dataFile = new File("bestenliste.csv"); // Eingelesene Datei
 		try (Scanner reader = new Scanner(dataFile).useDelimiter("\n")){ 
 
@@ -151,9 +163,18 @@ public class Main extends Application{
 	} catch (FileNotFoundException e) {
 		e.printStackTrace();
 	}
+		Highscore.sortArrayList();
+		
+		launch(args);
+	
+  }
 	
 	
-	
-	
+	public static Logger getLogger(){
+		return logger;
+	}
 }
-}
+
+
+
+

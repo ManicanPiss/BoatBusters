@@ -2,6 +2,7 @@ package c2f.boatbusters.classes;
 
 import java.util.Scanner;
 
+
 import c2f.boatbusters.abstractClasses.Board;
 import c2f.boatbusters.factories.ShipFactory;
 
@@ -211,7 +212,7 @@ public class Player {
 		int xfirst, yfirst, xlast, ylast;
 
 		// TODO log System.out.println("type in the x coordinate of the first part!");
-		System.out.println("Type in the x coordinate of the first part!");
+		Main.getLogger().info("Type in the x coordinate of the first part!");
 		String input = scan.next();
 
 		// "m" -> ins Menu, "b" -> Abbrechen, Schiffsteile neu setzen
@@ -225,7 +226,7 @@ public class Player {
 		if (checkNumber(input) && checkXcoord(Integer.parseInt(input), board)) {
 			xfirst = Integer.parseInt(input);
 			// TODO log System.out.println("Now type in the Y-Coordinate and press Enter!\n");
-			System.out.println("Now type in the Y-Coordinate and press Enter!\n");
+			Main.getLogger().info("Now type in the Y-Coordinate and press Enter!\n");
 			input = scan.next();
 
 			// Selber Ablauf fuer die folgenden Koordinaten-Eingaben
@@ -239,7 +240,7 @@ public class Player {
 			if (checkNumber(input) && checkFree(xfirst, Integer.parseInt(input), board)) {
 				yfirst = Integer.parseInt(input);
 				// TODO log System.out.println("Now type in the X-Coordinate of the last part of the Ship and press Enter!\n");
-				System.out.println("Now type in the X-Coordinate of the last part of the Ship and press Enter!\n");
+				Main.getLogger().info("Now type in the X-Coordinate of the last part of the Ship and press Enter!\n");
 				input = scan.next();
 
 				if (input.equals("m")) {
@@ -251,7 +252,7 @@ public class Player {
 				if (checkNumber(input) && checkXcoord(xfirst, board)) {
 					xlast = Integer.parseInt(input);
 					// TODO log System.out.println("Now type in the Y-Coordinate of the last part of the Ship!\n");
-					System.out.println("Now type in the Y-Coordinate of the last part of the Ship!\n");
+					Main.getLogger().info("Now type in the Y-Coordinate of the last part of the Ship!\n");
 					input = scan.next();
 
 					if (input.equals("m")) {
@@ -328,7 +329,7 @@ public class Player {
 
 		// TODO sysout ERSETZEN!
 		// Welcher Schiffstyp? Zeigt Anzahl der noch vefuegbaren Schiffe jeden Typs an
-		System.out.println("What kind of Ship do you want to put? Type: \n"
+		Main.getLogger().info("What kind of Ship do you want to put? Type: \n"
 				+ "1 for a small Ship (" + player.getCountSmall() + " left to put) \n"
 				+ "2 for a middle Ship (" + player.getCountMiddle() + " left to put) \n"
 				+ "3 for a big Ship (" + player.getCountBig() + " left to put) \n");

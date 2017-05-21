@@ -2,6 +2,8 @@ package c2f.boatbusters.classes;
 
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.core.Logger;
+
 
 //import java.util.Collection;
 //import java.util.HashSet;
@@ -12,9 +14,9 @@ public class Highscore {
 	static final ArrayList<Player> bestenliste = new ArrayList <>();
 	
 	public static void printBestenliste (){
-		System.out.println("Player            | NumberOfWins\n------------------+---------------");
+		Main.getLogger().info("Player            | NumberOfWins\n------------------+---------------");
 		for (int i = 0; i < bestenliste.size(); i++){
-			System.out.println(bestenliste.get(i));
+			Main.getLogger().info(bestenliste.get(i));
 	
 		}
 	}
