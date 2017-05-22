@@ -33,9 +33,11 @@ public class Highscore {
     return indexOfPlayerWithMostWins;
 }
     
-    public static String toString2(Object numberOfWins){
-    	return (String) numberOfWins;
-    }
+    
+    
+  //  public static String toString2(Object numberOfWins){
+  //	return (String) numberOfWins;
+  //}
     
     
     public static void sortArrayList(){
@@ -44,7 +46,7 @@ public class Highscore {
     for (int i = 0; i < bestenliste.size()-1; i++){
     
     if((Integer.parseInt((String) bestenliste.get(i).numberOfWins()) - (Integer.parseInt((String) bestenliste.get(i+1).numberOfWins())) < 0)){
-        Player o = bestenliste.get(i);
+       Player o = bestenliste.get(i);
  	   bestenliste.set(i, bestenliste.get(i+1));
  	   bestenliste.set(i+1, o);
       }

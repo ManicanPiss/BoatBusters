@@ -175,15 +175,13 @@ public class Game {
 	} 
 
 	private static void showHighscore (Game game) {
-		// TODO Datenbank implementieren!
-		Main.getLogger().info("Hallo! Ich werde mal eine Datenbank.\n");
 
 		Highscore.printBestenliste();
 
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
-
 		String str = scan.next();
+		
 
 		// Wenn der Spieler ins Menu zurueck moechte
 //		if (str.equals("m")) {
