@@ -1,3 +1,13 @@
-JavaFX Application Thread INFO   - Player 1, please type in your name: 
-JavaFX Application Thread INFO   - Now type in your number of wins: 
-JavaFX Application Thread INFO   - Player 2, please type in your name: 
+JavaFX Application Thread INFO   - Player            | NumberOfWins
+------------------+---------------
+JavaFX Application Thread INFO   - fritz             |   100
+JavaFX Application Thread INFO   - petra             |   97
+JavaFX Application Thread INFO   - karl              |   33
+JavaFX Application Thread INFO   - hans              |   26
+JavaFX Application Thread INFO   - Michele           |   22
+JavaFX Application Thread INFO   - Manuel            |   10
+JavaFX Application Thread INFO   - Gertrud           |   8
+JavaFX Application Thread INFO   - Peter             |   3
+JavaFX Application Thread INFO   - fritz             |   0
+JavaFX Application Thread INFO   - Erik              |   0
+JavaFX Application Thread INFO   - Fabian            |   0

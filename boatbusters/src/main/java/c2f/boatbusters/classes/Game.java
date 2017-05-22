@@ -100,21 +100,21 @@ public class Game {
 		//Abfrage der Namen der Spieler
 		Main.getLogger().info("Player 1, please type in your name: ");
 		String namePlayer1 = scan.next();
-		Main.getLogger().info("Now type in your number of wins: ");
-		String numberOfWinsPlayer1 = scan.next();
+		
 		Main.getLogger().info("Player 2, please type in your name: ");
 		String namePlayer2 = scan.next();
-		Main.getLogger().info("Now type in your number of wins: ");
-		String numberOfWinsPlayer2 = scan.next();
+
+		
+		Player player1 = pf.createPlayer(namePlayer1, Highscore.checkIfArrayListContainsName(namePlayer1));
+		Player player2 = pf.createPlayer(namePlayer2, Highscore.checkIfArrayListContainsName(namePlayer2));
 		
 
-
-		Player player1 = pf.createPlayer(namePlayer1, numberOfWinsPlayer1);
-		Player player2 = pf.createPlayer(namePlayer2, numberOfWinsPlayer2);
-		
-
+        if (Highscore.checkIfArrayListContainsName(namePlayer1).equals("0")){
 		Highscore.bestenliste.add(player1);
+		}
+        if (Highscore.checkIfArrayListContainsName(namePlayer2).equals("0")){
 		Highscore.bestenliste.add(player2);
+        }
 		
 
 		Highscore.sortArrayList();
