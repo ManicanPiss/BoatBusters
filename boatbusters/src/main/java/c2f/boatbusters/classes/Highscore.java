@@ -35,9 +35,6 @@ public class Highscore {
     
     
     
-  //  public static String toString2(Object numberOfWins){
-  //	return (String) numberOfWins;
-  //}
     
     
     public static void sortArrayList(){
