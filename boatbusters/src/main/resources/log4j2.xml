@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Appenders>
-        <File name="A1" fileName="A1.log" append="false">
+        <File name="A1" fileName="A1.log"
+                    append="false">
             <PatternLayout pattern="%t %-5p %c{2} - %m%n"/>
         </File>
         <Console name="STDOUT" target="SYSTEM_OUT">
@@ -16,6 +17,7 @@
         </Logger>
         <Root level="info">
             <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="A1"/>
         </Root>
     </Loggers>
 </Configuration>
