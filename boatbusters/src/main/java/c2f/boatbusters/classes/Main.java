@@ -208,7 +208,7 @@ public class Main extends Application{
 			});
 			
 			menu0.getChildren().addAll(btnStart, btnScore, btnExit);
-			menu1.getChildren().addAll(btnBack, loginText, textfieldLogin);
+			menu1.getChildren().addAll(loginText, textfieldLogin, btnBack);
 			
 			Rectangle bg = new Rectangle(1280,720);
 			bg.setFill(Color.GREY);
