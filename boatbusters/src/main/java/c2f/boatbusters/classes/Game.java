@@ -2,6 +2,7 @@ package c2f.boatbusters.classes;
 
 import c2f.boatbusters.abstractClasses.Board;
 import c2f.boatbusters.factories.*;
+import c2f.boatbusters.interfaces.IPlayer;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

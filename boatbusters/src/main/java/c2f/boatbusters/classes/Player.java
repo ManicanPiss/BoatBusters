@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import c2f.boatbusters.abstractClasses.Board;
 import c2f.boatbusters.factories.ShipFactory;
+import c2f.boatbusters.interfaces.IPlayer;
 
 public class Player implements IPlayer {
 

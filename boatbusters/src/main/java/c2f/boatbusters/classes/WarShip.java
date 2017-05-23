@@ -1,6 +1,7 @@
 package c2f.boatbusters.classes;
 
 import c2f.boatbusters.abstractClasses.*;
+import c2f.boatbusters.interfaces.IPlayer;
 import c2f.boatbusters.interfaces.WarShipInterface;
 import c2f.boatbusters.classes.*;
 import c2f.boatbusters.factories.*;
