@@ -11,10 +11,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -23,9 +27,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.Window;
+import javafx.util.Duration;
+import javafx.scene.input.KeyCode;
 
 
 
@@ -55,12 +62,33 @@ public class Main extends Application{
 		
 		root.getChildren().addAll(imgView, gameMenu);
 		
-		Scene sceneMain = new Scene(root);
+		Scene scene = new Scene(root);
 		
+		scene.setOnKeyPressed(event ->{
+			
+		
+		if(event.getCode() == KeyCode.Q){
+			if(!gameMenu.isVisible()){
+				FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
+				ft.setFromValue(0);
+				ft.setToValue(1);
+				
+				gameMenu.setVisible(true);
+				ft.play();
+			}
+			else{
+				FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
+				ft.setFromValue(1);
+				ft.setToValue(0);
+				ft.setOnFinished(evt -> gameMenu.setVisible(false));
+				ft.play();
+			}
+		}
+		});
 		
 		primaryStage.setTitle("Boatbusters");
 	//	primaryStage.setResizable(false);
-		primaryStage.setScene(sceneMain);
+		primaryStage.setScene(scene);
 		primaryStage.show();	
 
 	}
@@ -107,35 +135,84 @@ public class Main extends Application{
 			Game game = new Game(0);
 			
 			VBox menu0 = new VBox(10);
-//			VBox menu1 = new VBox(10); //sub menu
+			VBox menu1 = new VBox(10); //sub menu
 			
 			menu0.setTranslateX(200);
 			menu0.setTranslateY(300);
 			
-//			menu1.setTranslateX(100);
-//			menu1.setTranslateY(200);
+			menu1.setTranslateX(200);
+			menu1.setTranslateY(300);
+			
+			final int offset = 400;
+			
+			menu1.setTranslateX(offset);
+			
 			
 			MenuButton btnStart = new MenuButton("START GAME");
 			btnStart.setOnMouseClicked(event ->{
-				game.startGame(game, scan);
+//				game.startGame(game, scan);
 				
+				getChildren().add(menu1);
 				
-			});
-			MenuButton btnScore = new MenuButton("HIGHSCORE");
-			btnScore.setOnMouseClicked(event ->{
-				Highscore.printBestenliste();
+				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu0);
+				tt.setToX(menu0.getTranslateX() - offset);
+				
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu1);
+				tt1.setToX(menu0.getTranslateX());
+				
+				tt.play();
+				tt1.play();
+				
+				tt.setOnFinished(evt ->{
+					getChildren().remove(menu0);
+				});
 			});
 			
-			MenuButton btnExit = new MenuButton("Exit");
+			MenuButton btnScore = new MenuButton("HIGHSCORE");
+			btnScore.setOnMouseClicked(event ->{
+				
+			});
+			
+			MenuButton btnExit = new MenuButton("EXIT");
 			btnExit.setOnMouseClicked(event ->{
 				game.quit();
 			});
 			
+			Text loginText = new Text("Login");
+			loginText.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
+			loginText.setFill(Color.WHITE);
+			
+			TextField textfieldLogin = new TextField();
+			textfieldLogin.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+			
+			MenuButton btnBack = new MenuButton("BACK");
+			btnExit.setOnMouseClicked(event ->{
+				
+				game.quit();
+//				getChildren().add(menu0);
+//				
+//				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1);
+//				tt.setToX(menu1.getTranslateX() + offset);
+//				
+//				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+//				tt1.setToX(menu1.getTranslateX());
+//				
+//				tt.play();
+//				tt1.play();
+//				
+//				
+//				tt.setOnFinished(evt ->{
+//					getChildren().remove(menu1);
+//					
+//				});
+			});
+			
 			menu0.getChildren().addAll(btnStart, btnScore, btnExit);
+			menu1.getChildren().addAll(btnBack, loginText, textfieldLogin);
 			
 			Rectangle bg = new Rectangle(1280,720);
 			bg.setFill(Color.GREY);
-			bg.setOpacity(0.3);
+			bg.setOpacity(0.4);
 			
 			getChildren().addAll(bg, menu0);
 		}
