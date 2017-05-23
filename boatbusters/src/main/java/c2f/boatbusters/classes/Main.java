@@ -136,6 +136,7 @@ public class Main extends Application{
 			
 			VBox menu0 = new VBox(10);
 			VBox menu1 = new VBox(10); //sub menu
+			VBox menu2 = new VBox(10);
 			
 			menu0.setTranslateX(200);
 			menu0.setTranslateY(300);
@@ -143,9 +144,13 @@ public class Main extends Application{
 			menu1.setTranslateX(200);
 			menu1.setTranslateY(300);
 			
+			menu2.setTranslateX(200);
+			menu2.setTranslateY(300);
+			
 			final int offset = 400;
 			
 			menu1.setTranslateX(offset);
+			menu2.setTranslateX(offset);
 			
 			
 			MenuButton btnStart = new MenuButton("START GAME");
@@ -170,8 +175,25 @@ public class Main extends Application{
 			
 			MenuButton btnScore = new MenuButton("HIGHSCORE");
 			btnScore.setOnMouseClicked(event ->{
+				getChildren().add(menu2);
 				
+				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu0);
+				tt.setToX(menu0.getTranslateX() - offset);
+				
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu2);
+				tt1.setToX(menu0.getTranslateX());
+				
+				tt.play();
+				tt1.play();
+				
+				tt.setOnFinished(evt ->{
+					getChildren().remove(menu0);
+				});
+				
+				Highscore.printBestenliste();
 			});
+				
+			
 			
 			MenuButton btnExit = new MenuButton("EXIT");
 			btnExit.setOnMouseClicked(event ->{
@@ -186,8 +208,10 @@ public class Main extends Application{
 			textfieldLogin.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
 			textfieldLogin.setOnKeyPressed(event ->{				// LoginName wird mit Enter Bestätigt
 				if(event.getCode() == KeyCode.ENTER){
-					System.out.println(textfieldLogin.getText());
+					System.out.println(textfieldLogin.getText()); // vorrübergehend
+					
 					getChildren().add(menu0);
+					
 					TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1);
 					tt.setToX(menu1.getTranslateX() + offset);
 					
@@ -204,30 +228,54 @@ public class Main extends Application{
 					});
 				}
 			});
-			MenuButton btnBack = new MenuButton("BACK");
-			btnExit.setOnMouseClicked(event ->{
+			
+			Text highscoreText = new Text("Fabi is the best");
+			
+			MenuButton btnBack1 = new MenuButton("BACK");
+			btnBack1.setOnMouseClicked(event ->{
 				
-				game.quit();
-//				getChildren().add(menu0);
-//				
-//				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1);
-//				tt.setToX(menu1.getTranslateX() + offset);
-//				
-//				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
-//				tt1.setToX(menu1.getTranslateX());
-//				
-//				tt.play();
-//				tt1.play();
-//				
-//				
-//				tt.setOnFinished(evt ->{
-//					getChildren().remove(menu1);
-//					
-//				});
+				getChildren().add(menu0);
+				
+				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1);
+				tt.setToX(menu1.getTranslateX() + offset);
+				
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+				tt1.setToX(menu1.getTranslateX());
+				
+				tt.play();
+				tt1.play();
+				
+				
+				tt.setOnFinished(evt ->{
+					getChildren().remove(menu1);
+					
+				});
+			});
+			
+			MenuButton btnBack2 = new MenuButton("BACK");
+			btnBack2.setOnMouseClicked(event ->{
+				
+				getChildren().add(menu0);
+				
+				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu2);
+				tt.setToX(menu2.getTranslateX() + offset);
+				
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+				tt1.setToX(menu2.getTranslateX());
+				
+				tt.play();
+				tt1.play();
+				
+				
+				tt.setOnFinished(evt ->{
+					getChildren().remove(menu2);
+					
+				});
 			});
 			
 			menu0.getChildren().addAll(btnStart, btnScore, btnExit);
-			menu1.getChildren().addAll(loginText, textfieldLogin, btnBack);
+			menu1.getChildren().addAll(loginText, textfieldLogin, btnBack1);
+			menu2.getChildren().addAll(highscoreText, btnBack2);
 			
 			Rectangle bg = new Rectangle(1280,720);
 			bg.setFill(Color.GREY);
@@ -264,6 +312,7 @@ public class Main extends Application{
 		launch(args);
 	
   }
+
 	
 	
 	public static Logger getLogger(){
