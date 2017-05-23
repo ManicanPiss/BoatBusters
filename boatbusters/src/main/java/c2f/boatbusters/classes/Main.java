@@ -184,7 +184,26 @@ public class Main extends Application{
 			
 			TextField textfieldLogin = new TextField();
 			textfieldLogin.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
-			
+			textfieldLogin.setOnKeyPressed(event ->{				// LoginName wird mit Enter Bestätigt
+				if(event.getCode() == KeyCode.ENTER){
+					System.out.println(textfieldLogin.getText());
+					getChildren().add(menu0);
+					TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1);
+					tt.setToX(menu1.getTranslateX() + offset);
+					
+					TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+					tt1.setToX(menu1.getTranslateX());
+					
+					tt.play();
+					tt1.play();
+					
+					
+					tt.setOnFinished(evt ->{
+						getChildren().remove(menu1);
+						
+					});
+				}
+			});
 			MenuButton btnBack = new MenuButton("BACK");
 			btnExit.setOnMouseClicked(event ->{
 				
