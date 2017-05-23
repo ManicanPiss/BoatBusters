@@ -6,7 +6,7 @@ import java.util.Scanner;
 import c2f.boatbusters.abstractClasses.Board;
 import c2f.boatbusters.factories.ShipFactory;
 
-public class Player {
+public class Player implements IPlayer {
 
 	private int score = 0;
 	private int choice;
@@ -16,39 +16,75 @@ public class Player {
 	private int shipsCount = countSmall + countMiddle + countBig;
 	private boolean shipsLeftToPut = (shipsCount > 0);
 
-	public static final int smallCount = 4;
-	public static final int middleCount = 3;
-	public static final int bigCount = 2;
-
-	public static final int maxScore = 25;
+	
 
 	// GETTER AND SETTER
 
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#getScore()
+	 */
+	@Override
 	public int getScore() { return score; }
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#increaseScore()
+	 */
+	@Override
 	public void increaseScore() { score += 1; }
 
 	//-------------------------------
 
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#getCountSmall()
+	 */
+	@Override
 	public int getCountSmall() { return countSmall; }
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#decreaseCountSmall()
+	 */
+	@Override
 	public void decreaseCountSmall() { countSmall -= 1; }
 
 	//-------------------------------
 
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#getCountMiddle()
+	 */
+	@Override
 	public int getCountMiddle() { return countMiddle; }
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#decreaseCountMiddle()
+	 */
+	@Override
 	public void decreaseCountMiddle() { countMiddle -= 1; }
 
 	//-------------------------------
 
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#getCountBig()
+	 */
+	@Override
 	public int getCountBig() { return countBig; }
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#decreaseCountBig()
+	 */
+	@Override
 	public void decreaseCountBig() { countBig -= 1; }
 
 	//-------------------------------
 
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#getShipsCount()
+	 */
+	@Override
 	public int getShipsCount() { return shipsCount;}
 
 	//-------------------------------
 
 	// Aktualisiert den boolean jedes Mal aufs Neue
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#areShipsLeftToPut()
+	 */
+	@Override
 	public boolean areShipsLeftToPut() { 
 		shipsLeftToPut = (shipsCount > 0);
 		return shipsLeftToPut; 
@@ -56,7 +92,15 @@ public class Player {
 
 	//-------------------------------
 
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#getChoice()
+	 */
+	@Override
 	public int getChoice() { return choice; }
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#setChoice(int)
+	 */
+	@Override
 	public void setChoice(int choice) { this.choice = choice; }
 
 
@@ -64,11 +108,19 @@ public class Player {
 	//-------------------------------
 
 	// Checkt ob die Schiffswahlzahl passt (muss zwischen 1 und 3 sein) 
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#checkChoiceNr(int)
+	 */
+	@Override
 	public boolean checkChoiceNr (int choice) {
 		return (choice > 0 && choice < 4);
 	}
 
 	// schiffsauswahl korrekt?
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#checkIfValidInput(java.lang.String)
+	 */
+	@Override
 	public boolean checkIfValidInput(String str) {
 		switch (str) {
 		case "1": return true;
@@ -81,7 +133,11 @@ public class Player {
 	}
 
 	// noch ein schiff diesen Typs beim Spieler uebrig?
-	public boolean checkIfShipAvailable (int i, Player player) {
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#checkIfShipAvailable(int, c2f.boatbusters.classes.IPlayer)
+	 */
+	@Override
+	public boolean checkIfShipAvailable (int i, IPlayer player) {
 		if (i == 1) {
 			return (player.getCountSmall() > 0);
 		} else if (i == 2) {
@@ -95,6 +151,10 @@ public class Player {
 	}
 
 	// in der X-Koordinate ueberhaupt was frei?
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#checkXcoord(int, c2f.boatbusters.classes.WarShip[][])
+	 */
+	@Override
 	public boolean checkXcoord (int i, WarShip[][] board) {
 		//faehrt jedes Feld in der X-koordinate ab und gibt aus, ob etwas frei ist oder nicht
 		boolean free = false;
@@ -106,6 +166,10 @@ public class Player {
 		return free;
 	}
 
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#checkNumber(java.lang.String)
+	 */
+	@Override
 	public boolean checkNumber (String s) {
 		int i;
 		try {
@@ -117,6 +181,10 @@ public class Player {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#checkValidNumber(int)
+	 */
+	@Override
 	public boolean checkValidNumber (int i) {
 		if (i > 0 && i <= Board.fieldSizeY) {
 			return true;
@@ -131,7 +199,11 @@ public class Player {
 	}
 
 	// wenn man ein schiff setzt, wird die anzahl der verfuegbaren schiffe diesen typs um 1 verringert
-	public void reduceShipCount (int i, Player player) {
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#reduceShipCount(int, c2f.boatbusters.classes.IPlayer)
+	 */
+	@Override
+	public void reduceShipCount (int i, IPlayer player) {
 		switch (i) {
 		case 1: player.decreaseCountSmall();
 		break;
@@ -145,11 +217,19 @@ public class Player {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#checkIfInLine(int, int, int, int)
+	 */
+	@Override
 	public boolean checkIfInLine (int x1, int y1, int x2, int y2) {
 		return (x1 == x2 && y1 != y2 || y1 == y2 && x1 != x2);
 	}
 
 	// checkt, ob die Linie frei ist und ob die Distanz zwischen den beiden Punkte mit der Schifflänge übereinstimmen
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#checkIfLineIsFreeAndLengthCorrect(int, int, int, int, int, c2f.boatbusters.classes.WarShip[][])
+	 */
+	@Override
 	public boolean checkIfLineIsFreeAndLengthCorrect (int xfirst, int yfirst, int xlast, int ylast, int length, WarShip[][] board) {
 		int staticInt, changingStart, changingEnd;
 		// Hier wird festgelegt, welche Koordinate gleich bleibt und welche sich aendert,
@@ -206,7 +286,7 @@ public class Player {
 
 	// Anfangs- und Endteil des Schiffs setzen
 	// Bei falschen Eingaben: Brechstange, fang von vorne an!
-	private void setShipParts(int choice, WarShip board[][], Player player, Game game, Scanner scan) {
+	private void setShipParts(int choice, WarShip board[][], IPlayer player, Game game, Scanner scan) {
 
 		// X- und Y-Koordinaten der Anfangs- und Endpunkte der Schiffe
 		int xfirst, yfirst, xlast, ylast;
@@ -325,7 +405,7 @@ public class Player {
 		}
 	}
 
-	protected void setShip (Player player, WarShip[][] board1, Game game, Scanner scan) {
+	protected void setShip (IPlayer player, WarShip[][] board1, Game game, Scanner scan) {
 
 		// TODO sysout ERSETZEN!
 		// Welcher Schiffstyp? Zeigt Anzahl der noch vefuegbaren Schiffe jeden Typs an
@@ -367,16 +447,28 @@ public class Player {
 		this.numberOfWins = numberOfWins;		
 	}
 
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#getName()
+	 */
+	@Override
 	public Object getName(){
 		return name;
 	}
 
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#numberOfWins()
+	 */
+	@Override
 	public Object numberOfWins(){
 		return numberOfWins;
 	}
 
 	//Ist in Einklang mit der printBestenliste Mehtode, es entsteht eine Tabelle im richtigen Format abhängig von der 
 	//Länge des Spielernamens
+	/* (non-Javadoc)
+	 * @see c2f.boatbusters.classes.IPlayer#toString()
+	 */
+	@Override
 	public String toString(){
 		if( name.toString().length() == 1){ return name + "                 |   " + numberOfWins;}
 		else if( name.toString().length() == 2){ return name + "                |   " + numberOfWins;}

@@ -36,7 +36,7 @@ public class WarShip extends Ship implements WarShipInterface {
 	}
 	
 	@Override
-	public void fire(int x, int y, WarShip board[][], Player player, WarShip shooter, Game game) {
+	public void fire(int x, int y, WarShip board[][], IPlayer player, WarShip shooter, Game game) {
 		// TODO wenn man nicht getroffen hat: Kreuz ins Feld zeichnen
 		if (!Player.checkFree(x, y, board)) {
 			// TODO log System.out.println("HIT! \n");

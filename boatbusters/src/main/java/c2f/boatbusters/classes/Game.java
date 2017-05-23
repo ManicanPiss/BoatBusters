@@ -54,7 +54,7 @@ public class Game {
 		}
 	}
 
-	protected void startFiring(Player player, WarShip[][] board, WarShip shooter, Game game) {
+	protected void startFiring(IPlayer player, WarShip[][] board, WarShip shooter, Game game) {
 
 		Main.getLogger().info("Type in the field you want to shoot at: \n" + "X-Coordinate: \n");
 		@SuppressWarnings("resource")
@@ -147,7 +147,7 @@ public class Game {
 		Main.getLogger().info("Let's bust some boats! \n"); //TODO log
 
 		//Solange kein Spieler gewonnen hat, wird weiter gespielt; Runden werden innerhalb der startFiring() Methode gezaehlt
-		while (player1.getScore() < Player.maxScore && player2.getScore() < Player.maxScore) {
+		while (player1.getScore() < IPlayer.maxScore && player2.getScore() < IPlayer.maxScore) {
 			startFiring(player1, board2, shooterPlayer1, game);
 			startFiring(player2, board1, shooterPlayer2, game);
 		}
