@@ -489,6 +489,7 @@ public class Player implements IPlayer {
 		else if( name.toString().length() == 16){ return name + "  |   " + numberOfWins;}
 		else if( name.toString().length() == 17){ return name + " |   " + numberOfWins;}
 		else if( name.toString().length() == 18){ return name + "|   " + numberOfWins;}
+		else if( name.toString().length() == 0){ return name + "                  |   " + numberOfWins;}
 		else { return name + "      |   " + numberOfWins;}
 	}
 

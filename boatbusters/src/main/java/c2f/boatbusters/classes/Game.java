@@ -91,19 +91,11 @@ public class Game {
 		}
 	}
 
-	public void startGame (Game game, Scanner scan) {
+	public void startGame (Game game, Scanner scan, String namePlayer1, String namePlayer2) {
 
 
 		//Erstellung der Factories um Spieler und Bretter zu erstellen
 		PlayerFactory pf = new PlayerFactory();
-
-
-		//Abfrage der Namen der Spieler
-		Main.getLogger().info("Player 1, please type in your name: ");
-		String namePlayer1 = scan.next();
-		
-		Main.getLogger().info("Player 2, please type in your name: ");
-		String namePlayer2 = scan.next();
 
 		
 		Player player1 = pf.createPlayer(namePlayer1, Highscore.checkIfArrayListContainsName(namePlayer1));
@@ -163,7 +155,7 @@ public class Game {
 		String str = scan.next();
 
 		switch (str) {
-		case "1": startGame(game, scan);
+		//case "1": startGame(game, scan);
 		case "2": showHighscore(game);
 		case "3": scan.close();
 			quit();

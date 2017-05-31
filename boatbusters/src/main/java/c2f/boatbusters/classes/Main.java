@@ -135,21 +135,26 @@ public class Main extends Application{
 			Game game = new Game(0);
 			
 			VBox menu0 = new VBox(10);
-			VBox menu1 = new VBox(10); //sub menu
+			VBox menu1Player1 = new VBox(10); //sub menu
+			VBox menu1Player2 = new VBox(10); //sub menu
 			VBox menu2 = new VBox(10);
 			
 			menu0.setTranslateX(200);
 			menu0.setTranslateY(300);
 			
-			menu1.setTranslateX(200);
-			menu1.setTranslateY(300);
+			menu1Player1.setTranslateX(200);
+			menu1Player1.setTranslateY(300);
+			
+			menu1Player2.setTranslateX(200);
+			menu1Player2.setTranslateY(300);
 			
 			menu2.setTranslateX(200);
 			menu2.setTranslateY(300);
 			
 			final int offset = 400;
 			
-			menu1.setTranslateX(offset);
+			menu1Player1.setTranslateX(offset);
+			menu1Player2.setTranslateX(offset);
 			menu2.setTranslateX(offset);
 			
 			
@@ -157,12 +162,12 @@ public class Main extends Application{
 			btnStart.setOnMouseClicked(event ->{
 //				game.startGame(game, scan);
 				
-				getChildren().add(menu1);
+				getChildren().add(menu1Player1);
 				
 				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu0);
 				tt.setToX(menu0.getTranslateX() - offset);
 				
-				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu1);
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu1Player1);
 				tt1.setToX(menu0.getTranslateX());
 				
 				tt.play();
@@ -200,30 +205,61 @@ public class Main extends Application{
 				game.quit();
 			});
 			
-			Text loginText = new Text("Login");
-			loginText.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
-			loginText.setFill(Color.WHITE);
+			Text loginTextPlayer1 = new Text("Login: Player 1, please type in your name");
+			loginTextPlayer1.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
+			loginTextPlayer1.setFill(Color.WHITE);
 			
-			TextField textfieldLogin = new TextField();
-			textfieldLogin.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
-			textfieldLogin.setOnKeyPressed(event ->{				// LoginName wird mit Enter Bestätigt
+			Text loginTextPlayer2 = new Text("Login: Player 2, please type in your name");
+			loginTextPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
+			loginTextPlayer2.setFill(Color.WHITE);
+			
+			
+			TextField textfieldLoginPlayer1 = new TextField();
+			textfieldLoginPlayer1.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+			textfieldLoginPlayer1.setOnKeyPressed(event ->{				// LoginName wird mit Enter Bestätigt
 				if(event.getCode() == KeyCode.ENTER){
-					System.out.println(textfieldLogin.getText()); // vorrübergehend
+					System.out.println(textfieldLoginPlayer1.getText()); // vorrübergehend
 					
 					getChildren().add(menu0);
 					
-					TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1);
-					tt.setToX(menu1.getTranslateX() + offset);
+					TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1Player1);
+					tt.setToX(menu1Player1.getTranslateX() + offset);
 					
 					TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
-					tt1.setToX(menu1.getTranslateX());
+					tt1.setToX(menu1Player1.getTranslateX());
 					
 					tt.play();
 					tt1.play();
 					
 					
 					tt.setOnFinished(evt ->{
-						getChildren().remove(menu1);
+						getChildren().remove(menu1Player1);
+						
+					});
+				}
+			});
+			
+			
+			TextField textfieldLoginPlayer2 = new TextField();
+			textfieldLoginPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+			textfieldLoginPlayer2.setOnKeyPressed(event ->{				// LoginName wird mit Enter Bestätigt
+				if(event.getCode() == KeyCode.ENTER){
+					System.out.println(textfieldLoginPlayer2.getText()); // vorrübergehend
+					
+					getChildren().add(menu0);
+					
+					TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1Player2);
+					tt.setToX(menu1Player1.getTranslateX() + offset);
+					
+					TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+					tt1.setToX(menu1Player1.getTranslateX());
+					
+					tt.play();
+					tt1.play();
+					
+					
+					tt.setOnFinished(evt ->{
+						getChildren().remove(menu1Player2);
 						
 					});
 				}
@@ -231,26 +267,81 @@ public class Main extends Application{
 			
 			Text highscoreText = new Text("Fabi is the best");
 			
-			MenuButton btnBack1 = new MenuButton("BACK");
-			btnBack1.setOnMouseClicked(event ->{
+			MenuButton btnBack0 = new MenuButton("BACK");
+			btnBack0.setOnMouseClicked(event ->{
 				
 				getChildren().add(menu0);
 				
-				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1);
-				tt.setToX(menu1.getTranslateX() + offset);
+				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1Player2);
+				tt.setToX(menu1Player2.getTranslateX() + offset);
 				
 				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
-				tt1.setToX(menu1.getTranslateX());
+				tt1.setToX(menu1Player2.getTranslateX());
 				
 				tt.play();
 				tt1.play();
 				
 				
 				tt.setOnFinished(evt ->{
-					getChildren().remove(menu1);
+					getChildren().remove(menu1Player2);
 					
 				});
 			});
+			
+			
+			MenuButton btnBack1 = new MenuButton("BACK");
+			btnBack1.setOnMouseClicked(event ->{
+				
+				getChildren().add(menu0);
+				
+				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1Player1);
+				tt.setToX(menu1Player1.getTranslateX() + offset);
+				
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+				tt1.setToX(menu1Player1.getTranslateX());
+				
+				tt.play();
+				tt1.play();
+				
+				
+				tt.setOnFinished(evt ->{
+					getChildren().remove(menu1Player1);
+					
+				});
+			});
+			
+			
+			MenuButton btnLoginPlayer1 = new MenuButton("OK");
+			btnLoginPlayer1.setOnMouseClicked(event ->{
+
+					getChildren().add(menu1Player2);
+					
+					TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1Player1);
+					tt.setToX(menu1Player1.getTranslateX() - offset);
+					
+					TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu1Player2);
+					tt1.setToX(menu1Player1.getTranslateX());
+					
+					tt.play();
+					tt1.play();
+					
+					tt.setOnFinished(evt ->{
+						getChildren().remove(menu1Player1);
+					});
+				});
+
+			
+			
+			MenuButton btnLoginPlayer2 = new MenuButton("OK. Start game!");
+			btnLoginPlayer1.setOnMouseClicked(event ->{
+				
+				String namePlayer1 = textfieldLoginPlayer1.getText();
+				String namePlayer2 = textfieldLoginPlayer2.getText();
+		        //game.startGame(game, scan, namePlayer1, namePlayer2);
+				
+			});
+
+			
 			
 			MenuButton btnBack2 = new MenuButton("BACK");
 			btnBack2.setOnMouseClicked(event ->{
@@ -274,7 +365,8 @@ public class Main extends Application{
 			});
 			
 			menu0.getChildren().addAll(btnStart, btnScore, btnExit);
-			menu1.getChildren().addAll(loginText, textfieldLogin, btnBack1);
+			menu1Player1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, btnLoginPlayer1, btnBack1);
+			menu1Player2.getChildren().addAll(loginTextPlayer2, textfieldLoginPlayer2, btnLoginPlayer2, btnBack0);
 			menu2.getChildren().addAll(highscoreText, btnBack2);
 			
 			Rectangle bg = new Rectangle(1280,720);
@@ -291,7 +383,6 @@ public class Main extends Application{
 	@SuppressWarnings("restriction")
 	public static void main (String [] args) {
 		
-
 		
 		logger.trace("Configuration File Defined To Be :: " + System.getProperty("log4j.configurationFile"));
 		
@@ -303,10 +394,11 @@ public class Main extends Application{
 			dataArray = reader.next().split(";", -1); // Teilen am ';'
 			// Erstelle Spieler und füge sie der Liste hinzu
 			Highscore.bestenliste.add(new Player(dataArray[0], dataArray[1])); 
-		}
-	} catch (FileNotFoundException e) {
-		e.printStackTrace();
-	}
+		   }
+	     } catch (FileNotFoundException e) {
+	     e.printStackTrace();
+	     }
+
 		Highscore.sortArrayList();
 		
 		launch(args);
