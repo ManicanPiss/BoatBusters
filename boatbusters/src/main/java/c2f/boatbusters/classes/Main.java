@@ -313,31 +313,33 @@ public class Main extends Application{
 			
 			MenuButton btnLoginPlayer1 = new MenuButton("OK");
 			btnLoginPlayer1.setOnMouseClicked(event ->{
-
-					getChildren().add(menu1Player2);
+				
+				getChildren().add(menu1Player2);
+				
+				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1Player1);
+				tt.setToX(menu1Player1.getTranslateX() + offset);
+				
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu1Player2);
+				tt1.setToX(menu1Player1.getTranslateX());
+				
+				tt.play();
+				tt1.play();
+				
+				
+				tt.setOnFinished(evt ->{
+					getChildren().remove(menu1Player1);
 					
-					TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1Player1);
-					tt.setToX(menu1Player1.getTranslateX() - offset);
-					
-					TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu1Player2);
-					tt1.setToX(menu1Player1.getTranslateX());
-					
-					tt.play();
-					tt1.play();
-					
-					tt.setOnFinished(evt ->{
-						getChildren().remove(menu1Player1);
-					});
 				});
+            });
 
 			
 			
 			MenuButton btnLoginPlayer2 = new MenuButton("OK. Start game!");
-			btnLoginPlayer1.setOnMouseClicked(event ->{
+			btnLoginPlayer2.setOnMouseClicked(event ->{
 				
 				String namePlayer1 = textfieldLoginPlayer1.getText();
 				String namePlayer2 = textfieldLoginPlayer2.getText();
-		        //game.startGame(game, scan, namePlayer1, namePlayer2);
+		        game.startGame(game, scan, namePlayer1, namePlayer2);
 				
 			});
 
