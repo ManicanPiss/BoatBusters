@@ -446,22 +446,22 @@ public class Main extends Application{
 			
 			Rectangle bg = new Rectangle(20,20);		
 			bg.setOpacity(0.7);							
-			bg.setFill(Color.WHITE);
+			bg.setFill(Color.BLACK);
 			
 			
-//			setAlignment(Pos.CENTER);
-			getChildren().addAll(bg); // text steht über hintergrund
+			setAlignment(Pos.CENTER);
+			getChildren().addAll(bg,text); // text steht über hintergrund
 			
 			//wenn maus über menupoint
 			setOnMouseEntered(event -> {
 				bg.setFill(Color.GREY);
-//				text.setFill(Color.BLACK);
+				text.setFill(Color.BLACK);
 			
 			});
 			//wenn maus menupoint verlässt
 			setOnMouseExited(event -> {
-				bg.setFill(Color.WHITE);
-//				text.setFill(Color.WHITE);
+				bg.setFill(Color.BLACK);
+				text.setFill(Color.GREY);
 			});
 		}
 	}
@@ -479,20 +479,20 @@ public class Main extends Application{
 ////			cell[i] = new CellButton("X"); 
 ////			}
 			
-			CellButton a1 = new CellButton(null);
-			CellButton a2 = new CellButton(null);
-			CellButton a3 = new CellButton(null);
-			CellButton a4 = new CellButton(null);
+			CellButton a1 = new CellButton("A1");
+			CellButton a2 = new CellButton("A2");
+			CellButton a3 = new CellButton("A3");
+			CellButton a4 = new CellButton("A4");
 			
-			CellButton b1 = new CellButton(null);
-			CellButton b2 = new CellButton(null);
-			CellButton b3 = new CellButton(null);
-			CellButton b4 = new CellButton(null);
+			CellButton b1 = new CellButton("B1");
+			CellButton b2 = new CellButton("B2");
+			CellButton b3 = new CellButton("B3");
+			CellButton b4 = new CellButton("B4");
 			
-			CellButton c1 = new CellButton(null);
-			CellButton c2 = new CellButton(null);
-			CellButton c3 = new CellButton(null);
-			CellButton c4 = new CellButton(null);
+			CellButton c1 = new CellButton("C1");
+			CellButton c2 = new CellButton("C2");
+			CellButton c3 = new CellButton("C3");
+			CellButton c4 = new CellButton("C4");
 			
 			
 			Rectangle bg = new Rectangle(1280,720);
