@@ -15,6 +15,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -22,6 +23,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -44,9 +47,11 @@ public class Main extends Application{
 
 	private GameMenu gameMenu;
 	
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-			
+		
+	
 		Pane root = new Pane();
 		root.setPrefSize(1280,720);
 		
@@ -54,19 +59,20 @@ public class Main extends Application{
 		Image img = new Image(is);
 		is.close();
 		
+		
 		ImageView imgView = new ImageView(img);
 		imgView.setFitWidth(1300);
 		imgView.setFitHeight(760);
 		
 		gameMenu = new GameMenu();
 		
-		root.getChildren().addAll(imgView, gameMenu);
-		
 		Scene scene = new Scene(root);
 		
-		scene.setOnKeyPressed(event ->{
-			
+		root.getChildren().addAll(imgView, gameMenu);
 		
+		
+		
+		scene.setOnKeyPressed(event ->{
 		if(event.getCode() == KeyCode.Q){
 			if(!gameMenu.isVisible()){
 				FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
@@ -129,16 +135,20 @@ public class Main extends Application{
 		}
 	}
 	
-	private class GameMenu extends Parent{
+	public class GameMenu extends Parent{
 		public GameMenu(){
 			
 			Game game = new Game(0);
+			
 			
 			VBox menu0 = new VBox(10); // main menu
 			VBox highscoreMenu1 = new VBox(10); // highscore menu
 			
 			VBox menuPlayer1 = new VBox(10); //player 1 sub menu
 			VBox menuPlayer2 = new VBox(10); //player 2 sub menu
+			
+			HBox menu2 = new HBox(10);
+			
 			
 			menu0.setTranslateX(200);
 			menu0.setTranslateY(300);
@@ -152,6 +162,9 @@ public class Main extends Application{
 			menuPlayer2.setTranslateX(200);
 			menuPlayer2.setTranslateY(300);
 			
+			menu2.setTranslateX(600);
+			menu2.setTranslateY(600);
+			
 			
 			
 			final int offset = 400;
@@ -159,6 +172,7 @@ public class Main extends Application{
 			highscoreMenu1.setTranslateX(offset);
 			menuPlayer1.setTranslateX(offset);
 			menuPlayer2.setTranslateX(offset);
+			
 			
 			
 			
@@ -207,6 +221,14 @@ public class Main extends Application{
 				game.quit();
 			});
 			
+			CellButton btnGame = new CellButton("X");
+			btnGame.setOnMouseClicked(event ->{
+				
+			});
+			
+			
+			
+			
 			Text loginTextPlayer1 = new Text("Login: Player 1");
 			loginTextPlayer1.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
 			loginTextPlayer1.setFill(Color.WHITE);
@@ -215,15 +237,17 @@ public class Main extends Application{
 			loginTextPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
 			loginTextPlayer2.setFill(Color.WHITE);
 			
+			
 			Text highscoreText = new Text("Fabi is the best");
 			
 			
 			TextField textfieldLoginPlayer1 = new TextField();
 			textfieldLoginPlayer1.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+			textfieldLoginPlayer1.setPromptText("Username");
 			
 			textfieldLoginPlayer1.setOnKeyPressed(event ->{				// LoginName wird mit Enter Bestätigt
 				if(event.getCode() == KeyCode.ENTER){
-					System.out.println(textfieldLoginPlayer1.getText()); // vorrübergehend
+					String namePlayer1 = textfieldLoginPlayer1.getText(); // vorrübergehend
 					
 					getChildren().add(menuPlayer2);
 					
@@ -247,10 +271,27 @@ public class Main extends Application{
 			
 			TextField textfieldLoginPlayer2 = new TextField();
 			textfieldLoginPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+			textfieldLoginPlayer2.setPromptText("Username");
 			
 			textfieldLoginPlayer2.setOnKeyPressed(event ->{				// LoginName wird mit Enter Bestätigt
 				if(event.getCode() == KeyCode.ENTER){
-					System.out.println(textfieldLoginPlayer2.getText()); // vorrübergehend
+					String namePlayer2 = textfieldLoginPlayer2.getText();// vorrübergehend
+				
+					getChildren().add(menu2);
+					
+					TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
+					tt.setToX(menuPlayer2.getTranslateX() - offset);
+					
+					TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu2);
+					tt1.setToX(menuPlayer2.getTranslateX() + 240);
+					
+					tt.play();
+					tt1.play();
+					
+					tt.setOnFinished(evt ->{
+						getChildren().remove(menuPlayer2);
+						
+					});
 				}
 			});
 			
@@ -298,12 +339,31 @@ public class Main extends Application{
 				});
 			});
 			
-			MenuButton btnLoginPlayer2 = new MenuButton("OK. Start game!");
+			
+			MenuButton btnLoginPlayer2 = new MenuButton("OK. Start game!"); // starte spiel
 			btnLoginPlayer2.setOnMouseClicked(event ->{
+				
 				
 				String namePlayer1 = textfieldLoginPlayer1.getText();
 				String namePlayer2 = textfieldLoginPlayer2.getText();
-		        game.startGame(game, scan, namePlayer1, namePlayer2);
+		   //     game.startGame(game, scan, namePlayer1, namePlayer2);
+				
+				getChildren().add(menu2);
+				
+				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
+				tt.setToX(menuPlayer2.getTranslateX() - offset);
+				
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu2);
+				tt1.setToX(menuPlayer2.getTranslateX()+ 240);
+				
+				tt.play();
+				tt1.play();
+				
+				
+				tt.setOnFinished(evt ->{
+					getChildren().remove(menuPlayer2);
+					
+				});
 				
 			});
 
@@ -349,6 +409,21 @@ public class Main extends Application{
 				});
 			});
 			
+			
+//			CellButton[] cell = new CellButton[3];
+//			for (int i=0; i<2 ;i++) 
+//			{ 
+//			cell[i] = new CellButton("X"+i); 
+//			}
+			
+			CellButton btnCell = new CellButton("X");
+			CellButton btnCell1 = new CellButton("X");
+			CellButton btnCell2 = new CellButton("X");
+			CellButton btnCell3 = new CellButton("X");
+			CellButton btnCell4 = new CellButton("X");
+			CellButton btnCell5 = new CellButton("X");
+			
+			menu2.getChildren().addAll(btnCell,btnCell1,btnCell2,btnCell3,btnCell4,btnCell5);
 			menu0.getChildren().addAll(btnStart, btnScore, btnExit); // Hauptmenu
 			highscoreMenu1.getChildren().addAll(highscoreText, btnBack2);		// Highscore
 			menuPlayer1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, btnLoginPlayer1, btnBackPlayer1); // login1
@@ -361,10 +436,39 @@ public class Main extends Application{
 			
 			getChildren().addAll(bg, menu0);
 		}
+}
+	public class CellButton extends GridPane{
+		Text text;
+		public CellButton(String name){
+			text = new Text(name);
+			text.setFont(text.getFont());
+			text.setFill(Color.WHITE);
+			
+			Rectangle bg = new Rectangle(15,15);		
+			bg.setOpacity(0.7);							
+			bg.setFill(Color.WHITE);
+			
+			
+//			setAlignment(Pos.CENTER);
+			getChildren().addAll(bg); // text steht über hintergrund
+			
+			//wenn maus über menupoint
+			setOnMouseEntered(event -> {
+				bg.setFill(Color.GREY);
+//				text.setFill(Color.BLACK);
+			
+			});
+			//wenn maus menupoint verlässt
+			setOnMouseExited(event -> {
+				bg.setFill(Color.WHITE);
+//				text.setFill(Color.WHITE);
+			});
+		}
 	}
 	
+			
+		
 	
-
 	
 	@SuppressWarnings("restriction")
 	public static void main (String [] args) {

@@ -118,6 +118,7 @@ public class Game {
 		WarShip board1[][] = bf.createBoard(1);
 		WarShip board2[][] = bf.createBoard(2);
 
+		
 		// "Shooter" werden benoetigt, um auf die Methoden der WarShipKlasse zugreifen zu koennen, ohne diese static zu machen
 
 		WarShip shooterPlayer1 = new WarShip(1);
