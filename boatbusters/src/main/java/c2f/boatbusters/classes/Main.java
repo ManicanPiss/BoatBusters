@@ -46,6 +46,7 @@ public class Main extends Application{
 	private final static Logger logger = LogManager.getRootLogger();
 
 	private GameMenu gameMenu;
+	private GameField gameField;
 	
 	
 	@Override
@@ -65,10 +66,11 @@ public class Main extends Application{
 		imgView.setFitHeight(760);
 		
 		gameMenu = new GameMenu();
+		gameField = new GameField();
 		
 		Scene scene = new Scene(root);
 		
-		root.getChildren().addAll(imgView, gameMenu);
+		root.getChildren().addAll(imgView, gameMenu, gameField);
 		
 		
 		
@@ -100,7 +102,7 @@ public class Main extends Application{
 	}
 	
 	
-	private static class MenuButton extends StackPane{
+	public static class MenuButton extends StackPane{
 		private Text text;
 		
 		public MenuButton(String name){
@@ -138,16 +140,14 @@ public class Main extends Application{
 	public class GameMenu extends Parent{
 		public GameMenu(){
 			
+			GameField gameField = new GameField();
 			Game game = new Game(0);
-			
 			
 			VBox menu0 = new VBox(10); // main menu
 			VBox highscoreMenu1 = new VBox(10); // highscore menu
 			
 			VBox menuPlayer1 = new VBox(10); //player 1 sub menu
 			VBox menuPlayer2 = new VBox(10); //player 2 sub menu
-			
-			HBox menu2 = new HBox(10);
 			
 			
 			menu0.setTranslateX(200);
@@ -162,8 +162,7 @@ public class Main extends Application{
 			menuPlayer2.setTranslateX(200);
 			menuPlayer2.setTranslateY(300);
 			
-			menu2.setTranslateX(600);
-			menu2.setTranslateY(600);
+			
 			
 			
 			
@@ -178,7 +177,7 @@ public class Main extends Application{
 			
 			MenuButton btnStart = new MenuButton("START GAME"); 		//START Button Mainmenu
 			btnStart.setOnMouseClicked(event ->{
-//				game.startGame(game, scan);
+//				
 				
 				getChildren().add(menuPlayer1);
 				
@@ -221,11 +220,6 @@ public class Main extends Application{
 				game.quit();
 			});
 			
-			CellButton btnGame = new CellButton("X");
-			btnGame.setOnMouseClicked(event ->{
-				
-			});
-			
 			
 			
 			
@@ -237,7 +231,6 @@ public class Main extends Application{
 			loginTextPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
 			loginTextPlayer2.setFill(Color.WHITE);
 			
-			
 			Text highscoreText = new Text("Fabi is the best");
 			
 			
@@ -245,7 +238,7 @@ public class Main extends Application{
 			textfieldLoginPlayer1.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
 			textfieldLoginPlayer1.setPromptText("Username");
 			
-			textfieldLoginPlayer1.setOnKeyPressed(event ->{				// LoginName wird mit Enter Bestätigt
+			textfieldLoginPlayer1.setOnKeyPressed(event ->{				// LoginName1 wird mit Enter Bestätigt
 				if(event.getCode() == KeyCode.ENTER){
 					String namePlayer1 = textfieldLoginPlayer1.getText(); // vorrübergehend
 					
@@ -260,7 +253,6 @@ public class Main extends Application{
 					tt.play();
 					tt1.play();
 					
-					
 					tt.setOnFinished(evt ->{
 						getChildren().remove(menuPlayer1);
 						
@@ -273,20 +265,33 @@ public class Main extends Application{
 			textfieldLoginPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
 			textfieldLoginPlayer2.setPromptText("Username");
 			
-			textfieldLoginPlayer2.setOnKeyPressed(event ->{				// LoginName wird mit Enter Bestätigt
+			textfieldLoginPlayer2.setOnKeyPressed(event ->{				// Start Game mit Enter
 				if(event.getCode() == KeyCode.ENTER){
-					String namePlayer2 = textfieldLoginPlayer2.getText();// vorrübergehend
+					String namePlayer1 = textfieldLoginPlayer1.getText();
+					String namePlayer2 = textfieldLoginPlayer2.getText();
+			   //     game.startGame(game, scan, namePlayer1, namePlayer2);
 				
-					getChildren().add(menu2);
+					getChildren().addAll(gameField.row1, gameField.row2);
 					
 					TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
 					tt.setToX(menuPlayer2.getTranslateX() - offset);
 					
-					TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu2);
-					tt1.setToX(menuPlayer2.getTranslateX() + 240);
+					TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), gameField.row1);
+					tt1.setToX(200);
+					tt1.setToY(300);
+					
+					TranslateTransition ttt1 = new TranslateTransition(Duration.seconds(0.5), gameField.row2);
+					ttt1.setToX(200);
+					ttt1.setToY(321);
+					
+					TranslateTransition tttt1 = new TranslateTransition(Duration.seconds(0.5), gameField.row3);
+					tttt1.setToX(200);
+					tttt1.setToY(342);
 					
 					tt.play();
 					tt1.play();
+					ttt1.play();
+					
 					
 					tt.setOnFinished(evt ->{
 						getChildren().remove(menuPlayer2);
@@ -332,7 +337,6 @@ public class Main extends Application{
 				tt.play();
 				tt1.play();
 				
-				
 				tt.setOnFinished(evt ->{
 					getChildren().remove(menuPlayer1);
 					
@@ -344,20 +348,32 @@ public class Main extends Application{
 			btnLoginPlayer2.setOnMouseClicked(event ->{
 				
 				
+				
 				String namePlayer1 = textfieldLoginPlayer1.getText();
 				String namePlayer2 = textfieldLoginPlayer2.getText();
 		   //     game.startGame(game, scan, namePlayer1, namePlayer2);
 				
-				getChildren().add(menu2);
+				getChildren().addAll(gameField.row1, gameField.row2, gameField.row3);
 				
 				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
 				tt.setToX(menuPlayer2.getTranslateX() - offset);
 				
-				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu2);
-				tt1.setToX(menuPlayer2.getTranslateX()+ 240);
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), gameField.row1);
+				tt1.setToX(200);
+				tt1.setToY(300);
+				
+				TranslateTransition ttt1 = new TranslateTransition(Duration.seconds(0.5), gameField.row2);
+				ttt1.setToX(200);
+				ttt1.setToY(321);
+				
+				TranslateTransition tttt1 = new TranslateTransition(Duration.seconds(0.5), gameField.row3);
+				tttt1.setToX(200);
+				tttt1.setToY(342);
 				
 				tt.play();
 				tt1.play();
+				ttt1.play();
+				tttt1.play();
 				
 				
 				tt.setOnFinished(evt ->{
@@ -381,7 +397,6 @@ public class Main extends Application{
 				tt.play();
 				tt1.play();
 				
-				
 				tt.setOnFinished(evt ->{
 					getChildren().remove(menuPlayer2);
 					
@@ -402,7 +417,6 @@ public class Main extends Application{
 				tt.play();
 				tt1.play();
 				
-				
 				tt.setOnFinished(evt ->{
 					getChildren().remove(highscoreMenu1);
 					
@@ -410,20 +424,6 @@ public class Main extends Application{
 			});
 			
 			
-//			CellButton[] cell = new CellButton[3];
-//			for (int i=0; i<2 ;i++) 
-//			{ 
-//			cell[i] = new CellButton("X"+i); 
-//			}
-			
-			CellButton btnCell = new CellButton("X");
-			CellButton btnCell1 = new CellButton("X");
-			CellButton btnCell2 = new CellButton("X");
-			CellButton btnCell3 = new CellButton("X");
-			CellButton btnCell4 = new CellButton("X");
-			CellButton btnCell5 = new CellButton("X");
-			
-			menu2.getChildren().addAll(btnCell,btnCell1,btnCell2,btnCell3,btnCell4,btnCell5);
 			menu0.getChildren().addAll(btnStart, btnScore, btnExit); // Hauptmenu
 			highscoreMenu1.getChildren().addAll(highscoreText, btnBack2);		// Highscore
 			menuPlayer1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, btnLoginPlayer1, btnBackPlayer1); // login1
@@ -444,7 +444,7 @@ public class Main extends Application{
 			text.setFont(text.getFont());
 			text.setFill(Color.WHITE);
 			
-			Rectangle bg = new Rectangle(15,15);		
+			Rectangle bg = new Rectangle(20,20);		
 			bg.setOpacity(0.7);							
 			bg.setFill(Color.WHITE);
 			
@@ -466,13 +466,50 @@ public class Main extends Application{
 		}
 	}
 	
+	public class GameField extends Parent{
+		HBox row1 = new HBox(1); // die 1 ist der abstand zwischen den cells
+		HBox row2 = new HBox(1);	
+		HBox row3 = new HBox(1);	
+
+		public GameField(){
 			
+			
+//			CellButton[] cell = new CellButton[3];
+////			for (int i=0; i<2 ;i++){ 
+////			cell[i] = new CellButton("X"); 
+////			}
+			
+			CellButton a1 = new CellButton(null);
+			CellButton a2 = new CellButton(null);
+			CellButton a3 = new CellButton(null);
+			CellButton a4 = new CellButton(null);
+			
+			CellButton b1 = new CellButton(null);
+			CellButton b2 = new CellButton(null);
+			CellButton b3 = new CellButton(null);
+			CellButton b4 = new CellButton(null);
+			
+			CellButton c1 = new CellButton(null);
+			CellButton c2 = new CellButton(null);
+			CellButton c3 = new CellButton(null);
+			CellButton c4 = new CellButton(null);
+			
+			
+			Rectangle bg = new Rectangle(1280,720);
+			bg.setFill(Color.GREY);
+			bg.setOpacity(0.4);
+			
+			row1.getChildren().addAll(a1, a2, a3, a4);
+			row2.getChildren().addAll(b1, b2, b3, b4);
+			row3.getChildren().addAll(c1, c2, c3, c4);
+			getChildren().addAll(row1, row2, row3);
+			
+		}
 		
-	
+	}
 	
 	@SuppressWarnings("restriction")
 	public static void main (String [] args) {
-		
 		
 		logger.trace("Configuration File Defined To Be :: " + System.getProperty("log4j.configurationFile"));
 		
@@ -494,11 +531,6 @@ public class Main extends Application{
 		launch(args);
 	
   }
-	
-	
-
-	
-	
 	public static Logger getLogger(){
 		return logger;
 	}
