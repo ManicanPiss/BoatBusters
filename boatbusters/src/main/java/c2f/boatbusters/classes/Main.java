@@ -134,40 +134,44 @@ public class Main extends Application{
 			
 			Game game = new Game(0);
 			
-			VBox menu0 = new VBox(10);
-			VBox menu1Player1 = new VBox(10); //sub menu
-			VBox menu1Player2 = new VBox(10); //sub menu
-			VBox menu2 = new VBox(10);
+			VBox menu0 = new VBox(10); // main menu
+			VBox highscoreMenu1 = new VBox(10); // highscore menu
+			
+			VBox menuPlayer1 = new VBox(10); //player 1 sub menu
+			VBox menuPlayer2 = new VBox(10); //player 2 sub menu
 			
 			menu0.setTranslateX(200);
 			menu0.setTranslateY(300);
 			
-			menu1Player1.setTranslateX(200);
-			menu1Player1.setTranslateY(300);
+			highscoreMenu1.setTranslateX(200);
+			highscoreMenu1.setTranslateY(300);
 			
-			menu1Player2.setTranslateX(200);
-			menu1Player2.setTranslateY(300);
+			menuPlayer1.setTranslateX(200);
+			menuPlayer1.setTranslateY(300);
 			
-			menu2.setTranslateX(200);
-			menu2.setTranslateY(300);
+			menuPlayer2.setTranslateX(200);
+			menuPlayer2.setTranslateY(300);
+			
+			
 			
 			final int offset = 400;
 			
-			menu1Player1.setTranslateX(offset);
-			menu1Player2.setTranslateX(offset);
-			menu2.setTranslateX(offset);
+			highscoreMenu1.setTranslateX(offset);
+			menuPlayer1.setTranslateX(offset);
+			menuPlayer2.setTranslateX(offset);
 			
 			
-			MenuButton btnStart = new MenuButton("START GAME");
+			
+			MenuButton btnStart = new MenuButton("START GAME"); 		//START Button Mainmenu
 			btnStart.setOnMouseClicked(event ->{
 //				game.startGame(game, scan);
 				
-				getChildren().add(menu1Player1);
+				getChildren().add(menuPlayer1);
 				
 				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu0);
 				tt.setToX(menu0.getTranslateX() - offset);
 				
-				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu1Player1);
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menuPlayer1);
 				tt1.setToX(menu0.getTranslateX());
 				
 				tt.play();
@@ -178,14 +182,14 @@ public class Main extends Application{
 				});
 			});
 			
-			MenuButton btnScore = new MenuButton("HIGHSCORE");
+			MenuButton btnScore = new MenuButton("HIGHSCORE");	//Highscore Button Mainmenu
 			btnScore.setOnMouseClicked(event ->{
-				getChildren().add(menu2);
+				getChildren().add(highscoreMenu1);
 				
 				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu0);
 				tt.setToX(menu0.getTranslateX() - offset);
 				
-				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu2);
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), highscoreMenu1);
 				tt1.setToX(menu0.getTranslateX());
 				
 				tt.play();
@@ -198,42 +202,43 @@ public class Main extends Application{
 				Highscore.printBestenliste();
 			});
 				
-			
-			
-			MenuButton btnExit = new MenuButton("EXIT");
+			MenuButton btnExit = new MenuButton("EXIT"); // EXIT Mainmenu
 			btnExit.setOnMouseClicked(event ->{
 				game.quit();
 			});
 			
-			Text loginTextPlayer1 = new Text("Login: Player 1, please type in your name");
+			Text loginTextPlayer1 = new Text("Login: Player 1");
 			loginTextPlayer1.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
 			loginTextPlayer1.setFill(Color.WHITE);
 			
-			Text loginTextPlayer2 = new Text("Login: Player 2, please type in your name");
+			Text loginTextPlayer2 = new Text("Login: Player 2");
 			loginTextPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
 			loginTextPlayer2.setFill(Color.WHITE);
+			
+			Text highscoreText = new Text("Fabi is the best");
 			
 			
 			TextField textfieldLoginPlayer1 = new TextField();
 			textfieldLoginPlayer1.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+			
 			textfieldLoginPlayer1.setOnKeyPressed(event ->{				// LoginName wird mit Enter Bestätigt
 				if(event.getCode() == KeyCode.ENTER){
 					System.out.println(textfieldLoginPlayer1.getText()); // vorrübergehend
 					
-					getChildren().add(menu0);
+					getChildren().add(menuPlayer2);
 					
-					TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1Player1);
-					tt.setToX(menu1Player1.getTranslateX() + offset);
+					TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer1);
+					tt.setToX(menuPlayer1.getTranslateX() - offset);
 					
-					TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
-					tt1.setToX(menu1Player1.getTranslateX());
+					TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menuPlayer2);
+					tt1.setToX(menuPlayer1.getTranslateX());
 					
 					tt.play();
 					tt1.play();
 					
 					
 					tt.setOnFinished(evt ->{
-						getChildren().remove(menu1Player1);
+						getChildren().remove(menuPlayer1);
 						
 					});
 				}
@@ -242,97 +247,56 @@ public class Main extends Application{
 			
 			TextField textfieldLoginPlayer2 = new TextField();
 			textfieldLoginPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+			
 			textfieldLoginPlayer2.setOnKeyPressed(event ->{				// LoginName wird mit Enter Bestätigt
 				if(event.getCode() == KeyCode.ENTER){
 					System.out.println(textfieldLoginPlayer2.getText()); // vorrübergehend
-					
-					getChildren().add(menu0);
-					
-					TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1Player2);
-					tt.setToX(menu1Player1.getTranslateX() + offset);
-					
-					TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
-					tt1.setToX(menu1Player1.getTranslateX());
-					
-					tt.play();
-					tt1.play();
-					
-					
-					tt.setOnFinished(evt ->{
-						getChildren().remove(menu1Player2);
-						
-					});
 				}
 			});
 			
-			Text highscoreText = new Text("Fabi is the best");
-			
-			MenuButton btnBack0 = new MenuButton("BACK");
-			btnBack0.setOnMouseClicked(event ->{
-				
-				getChildren().add(menu0);
-				
-				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1Player2);
-				tt.setToX(menu1Player2.getTranslateX() + offset);
-				
-				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
-				tt1.setToX(menu1Player2.getTranslateX());
-				
-				tt.play();
-				tt1.play();
-				
-				
-				tt.setOnFinished(evt ->{
-					getChildren().remove(menu1Player2);
-					
-				});
-			});
-			
-			
-			MenuButton btnBack1 = new MenuButton("BACK");
-			btnBack1.setOnMouseClicked(event ->{
-				
-				getChildren().add(menu0);
-				
-				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1Player1);
-				tt.setToX(menu1Player1.getTranslateX() + offset);
-				
-				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
-				tt1.setToX(menu1Player1.getTranslateX());
-				
-				tt.play();
-				tt1.play();
-				
-				
-				tt.setOnFinished(evt ->{
-					getChildren().remove(menu1Player1);
-					
-				});
-			});
 			
 			
 			MenuButton btnLoginPlayer1 = new MenuButton("OK");
 			btnLoginPlayer1.setOnMouseClicked(event ->{
 				
-				getChildren().add(menu1Player2);
+				getChildren().add(menuPlayer2);
 				
-				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1Player1);
-				tt.setToX(menu1Player1.getTranslateX() + offset);
+				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer1);
+				tt.setToX(menuPlayer1.getTranslateX() - offset);
 				
-				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu1Player2);
-				tt1.setToX(menu1Player1.getTranslateX());
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menuPlayer2);
+				tt1.setToX(menuPlayer1.getTranslateX());
 				
 				tt.play();
 				tt1.play();
 				
 				
 				tt.setOnFinished(evt ->{
-					getChildren().remove(menu1Player1);
+					getChildren().remove(menuPlayer1);
 					
 				});
             });
-
 			
+			MenuButton btnBackPlayer1 = new MenuButton("BACK");
+			btnBackPlayer1.setOnMouseClicked(event ->{
+				
+				getChildren().add(menu0);
+				
+				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer1);
+				tt.setToX(menuPlayer1.getTranslateX() + offset);
+				
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+				tt1.setToX(menuPlayer1.getTranslateX());
+				
+				tt.play();
+				tt1.play();
+				
+				
+				tt.setOnFinished(evt ->{
+					getChildren().remove(menuPlayer1);
+					
+				});
+			});
 			
 			MenuButton btnLoginPlayer2 = new MenuButton("OK. Start game!");
 			btnLoginPlayer2.setOnMouseClicked(event ->{
@@ -343,33 +307,53 @@ public class Main extends Application{
 				
 			});
 
-			
-			
-			MenuButton btnBack2 = new MenuButton("BACK");
-			btnBack2.setOnMouseClicked(event ->{
+			MenuButton btnBackPlayer2 = new MenuButton("BACK");
+			btnBackPlayer2.setOnMouseClicked(event ->{
 				
-				getChildren().add(menu0);
+				getChildren().add(menuPlayer1);
 				
-				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu2);
-				tt.setToX(menu2.getTranslateX() + offset);
+				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
+				tt.setToX(menuPlayer2.getTranslateX() + offset);
 				
-				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
-				tt1.setToX(menu2.getTranslateX());
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menuPlayer1);
+				tt1.setToX(menuPlayer2.getTranslateX());
 				
 				tt.play();
 				tt1.play();
 				
 				
 				tt.setOnFinished(evt ->{
-					getChildren().remove(menu2);
+					getChildren().remove(menuPlayer2);
 					
 				});
 			});
 			
-			menu0.getChildren().addAll(btnStart, btnScore, btnExit);
-			menu1Player1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, btnLoginPlayer1, btnBack1);
-			menu1Player2.getChildren().addAll(loginTextPlayer2, textfieldLoginPlayer2, btnLoginPlayer2, btnBack0);
-			menu2.getChildren().addAll(highscoreText, btnBack2);
+			MenuButton btnBack2 = new MenuButton("BACK"); // Highscore back-Button
+			btnBack2.setOnMouseClicked(event ->{
+				
+				getChildren().add(menu0);
+				
+				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), highscoreMenu1);
+				tt.setToX(highscoreMenu1.getTranslateX() + offset);
+				
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+				tt1.setToX(highscoreMenu1.getTranslateX());
+				
+				tt.play();
+				tt1.play();
+				
+				
+				tt.setOnFinished(evt ->{
+					getChildren().remove(highscoreMenu1);
+					
+				});
+			});
+			
+			menu0.getChildren().addAll(btnStart, btnScore, btnExit); // Hauptmenu
+			highscoreMenu1.getChildren().addAll(highscoreText, btnBack2);		// Highscore
+			menuPlayer1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, btnLoginPlayer1, btnBackPlayer1); // login1
+			menuPlayer2.getChildren().addAll(loginTextPlayer2, textfieldLoginPlayer2, btnLoginPlayer2, btnBackPlayer2); // login2
+			
 			
 			Rectangle bg = new Rectangle(1280,720);
 			bg.setFill(Color.GREY);
@@ -406,6 +390,8 @@ public class Main extends Application{
 		launch(args);
 	
   }
+	
+	
 
 	
 	
