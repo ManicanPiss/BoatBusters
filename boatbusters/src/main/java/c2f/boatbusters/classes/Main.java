@@ -75,9 +75,7 @@ public class Main extends Application{
 		
 		root.getChildren().addAll(imgView, gameMenu, gameField);
 		
-		
-		
-		scene.setOnKeyPressed(event ->{
+		scene.setOnKeyPressed(event ->{ 												// menu mit Q ein und ausblenden
 		if(event.getCode() == KeyCode.Q){
 			if(!gameMenu.isVisible()){
 				FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
@@ -143,7 +141,6 @@ public class Main extends Application{
 	public class GameMenu extends Parent{
 		public GameMenu(){
 			
-			
 			Game game = new Game(0);
 			
 			VBox menu0 = new VBox(10); // main menu
@@ -165,17 +162,11 @@ public class Main extends Application{
 			menuPlayer2.setTranslateX(200);
 			menuPlayer2.setTranslateY(300);
 			
-			
-			
-			
-			
 			final int offset = 400;
 			
 			highscoreMenu1.setTranslateX(offset);
 			menuPlayer1.setTranslateX(offset);
 			menuPlayer2.setTranslateX(offset);
-			
-			
 			
 			
 			MenuButton btnStart = new MenuButton("START GAME"); 		//START Button Mainmenu
@@ -222,8 +213,6 @@ public class Main extends Application{
 			btnExit.setOnMouseClicked(event ->{
 				game.quit();
 			});
-			
-			
 			
 			
 			Text loginTextPlayer1 = new Text("Login: Player 1");
@@ -300,7 +289,7 @@ public class Main extends Application{
 					
 					
 					t2.setOnFinished(evt ->{
-						getChildren().remove(menuPlayer2);
+						getChildren().removeAll(menuPlayer2);
 						
 					});
 				}
@@ -522,6 +511,8 @@ public class Main extends Application{
 		row1.getChildren().addAll(a1, a2, a3, a4);
 		row2.getChildren().addAll(b1, b2, b3, b4);
 		row3.getChildren().addAll(c1, c2, c3, c4);
+		
+		getChildren().addAll(row1,row2,row3);
 		
 	}}
 	
