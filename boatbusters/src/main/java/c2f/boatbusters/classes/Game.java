@@ -26,7 +26,7 @@ public class Game {
 
 	private int round = 1;
 
-	protected Game (int i) {
+	public Game (int i) {
 		this.round = i;
 	}
 
