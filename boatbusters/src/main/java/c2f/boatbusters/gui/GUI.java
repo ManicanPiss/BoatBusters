@@ -99,16 +99,16 @@ public class GUI extends Application {
 		Scene sceneStart = new Scene(rootStart);
 
 		sceneStart.setOnKeyPressed(event -> {
-//			if (event.getCode() == KeyCode.ENTER) {
-				primaryStage.close();
+			// if (event.getCode() == KeyCode.ENTER) {
+			primaryStage.close();
 
-				try {
-					GameMenu gameMenu = new GameMenu();
-					gameMenu.GameMenu();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-//			}
+			try {
+				GameMenu gameMenu = new GameMenu();
+				gameMenu.GameMenu();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			// }
 		});
 
 		primaryStage.setTitle("Boatbusters");
@@ -229,7 +229,6 @@ public class GUI extends Application {
 			scoreMenu.setTranslateX(offset);
 			menuPlayer1.setTranslateX(offset);
 			menuPlayer2.setTranslateX(offset);
-			
 
 			///// START GAME BUTTON MAIN MENU /////
 			MenuButton btnStart = new MenuButton("START GAME");
@@ -495,20 +494,16 @@ public class GUI extends Application {
 			Stage gameStage = new Stage();
 
 			Pane rootGame = new Pane();
-			BorderPane windowBox = new BorderPane();
-
-			// HBox topBox = new HBox();
-			// VBox leftBox = new VBox();
-			// VBox rightBox = new VBox();
+			
 			VBox leftsideBox = new VBox();
 			VBox rightsideBox = new VBox();
-			VBox playerBox = new VBox();
+			VBox topleftcornerBox = new VBox();
 
 			GridPane gameFieldLEFT = new GridPane();
 			GridPane gameFieldRIGHT = new GridPane();
 
-			playerBox.setTranslateX(10); 
-			playerBox.setTranslateY(10);
+			topleftcornerBox.setTranslateX(10);
+			topleftcornerBox.setTranslateY(10);
 
 			leftsideBox.setTranslateX(100);
 			leftsideBox.setTranslateY((WINDOW_SIZE_Y / 2) - (MENUBUTTON_SIZE_Y + 300));
@@ -536,16 +531,16 @@ public class GUI extends Application {
 
 					int x = column;
 					int y = row;
-					
+
 					button.setOnMouseClicked(event -> {
-						
+
 						System.out.println("LEFTSIDE: Button at " + x + "/" + y + " pressed");
 						Text gameMessage = new Text("LEFTSIDE: Button at " + x + "/" + y + " pressed");
 						gameMessage.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
 						gameMessage.setFill(Color.WHITE);
 
 						leftsideBox.getChildren().add(gameMessage);
-						
+
 					});
 					gameFieldLEFT.add(button, row, column);
 				}
@@ -560,15 +555,14 @@ public class GUI extends Application {
 					int y = row;
 
 					button.setOnMouseClicked(event -> {
-						
+
 						System.out.println("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
 						Text gameMessage = new Text("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
 						gameMessage.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
 						gameMessage.setFill(Color.WHITE);
 
 						rightsideBox.getChildren().add(gameMessage);
-						
-						
+
 					});
 
 					gameFieldRIGHT.add(button, row, column);
@@ -578,24 +572,24 @@ public class GUI extends Application {
 			Text gameMessage1 = new Text("Spieler: skat3r_B0Y_2001 ist dran!");
 			gameMessage1.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
 			gameMessage1.setFill(Color.WHITE);
-			playerBox.getChildren().add(gameMessage1);
+			topleftcornerBox.getChildren().add(gameMessage1);
 
-			rootGame.getChildren().addAll(imgGameBG, gameFieldLEFT, gameFieldRIGHT, leftsideBox, rightsideBox, playerBox);
+			rootGame.getChildren().addAll(imgGameBG, gameFieldLEFT, gameFieldRIGHT, leftsideBox, rightsideBox,
+					topleftcornerBox);
 
 			Scene gameScene = new Scene(rootGame);
-			
+
 			gameScene.setOnKeyPressed(event -> {
 				if (event.getCode() == KeyCode.Q) {
 					gameStage.close();
-					
+
 					try {
 						GameMenu gameMenu = new GameMenu();
 						gameMenu.GameMenu();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
-					
+
 				}
 			});
 			gameStage.setTitle("BoatBusters");
