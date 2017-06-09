@@ -1,5 +1,6 @@
 package c2f.boatbusters.gui;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -41,26 +42,59 @@ public class GUI extends Application {
 	final int WINDOW_SIZE_Y = 720;
 	final int translateX = 200;
 	final int translateY = 300;
+	final static int MENUBUTTON_SIZE_X = 250;
+	final static int MENUBUTTON_SIZE_Y = 30;
+	final static int CELLBUTTON_SIZE_X_Y = 30;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		Pane root = new Pane();
-		root.setPrefSize(WINDOW_SIZE_X, WINDOW_SIZE_Y);
+		Pane rootStart = new Pane();
+		rootStart.setPrefSize(WINDOW_SIZE_X, WINDOW_SIZE_Y);
 
-		InputStream is = Files.newInputStream(Paths.get("src/main/resources/ShipBg.jpg"));
+		VBox startBox = new VBox();
+
+		startBox.setTranslateX((WINDOW_SIZE_X /2) -MENUBUTTON_SIZE_X);
+		startBox.setTranslateY((WINDOW_SIZE_Y /2) -MENUBUTTON_SIZE_Y);
+
+		InputStream is = Files.newInputStream(Paths.get("src/main/resources/home.jpg"));
 		Image img = new Image(is);
 		is.close();
 
-		GameMenu gameMenu = new GameMenu();
-		GameField gameField = new GameField();
+		ImageView imgHome = new ImageView(img);
+		imgHome.setFitWidth(WINDOW_SIZE_X + 20);
+		imgHome.setFitHeight(WINDOW_SIZE_Y + 20);
 
-		ImageView imgView = new ImageView(img);
-		imgView.setFitWidth(WINDOW_SIZE_X + 20);
-		imgView.setFitHeight(WINDOW_SIZE_Y + 20);
+		MenuButton welcomeBtn = new MenuButton("PRESS TO CONTINUE");
+		welcomeBtn.setTranslateY(20);
+		welcomeBtn.setOnMousePressed(event -> {
 
-		Scene scene = new Scene(root);
-		root.getChildren().addAll(imgView, gameMenu, gameField);
+			primaryStage.close();
+			try {
+				GameMenu gameMenu = new GameMenu();
+				gameMenu.GameMenu();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+
+		Text welcomeMessage0 = new Text("WELCOME TO BOATBUSTERS");
+		welcomeMessage0.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
+		welcomeMessage0.setFill(Color.WHITE);
+
+//		Text welcomeMessage1 = new Text("PRESS ENTER TO CONTINUE");
+//		welcomeMessage1.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
+//		welcomeMessage1.setFill(Color.BLACK);
+		
+
+		startBox.getChildren().addAll(welcomeMessage0, welcomeBtn);
+		
+		rootStart.getChildren().addAll(imgHome, startBox);
+		Scene sceneStart = new Scene(rootStart);
+		primaryStage.setTitle("Boatbusters");
+		// primaryStage.setResizable(false);
+		primaryStage.setScene(sceneStart);
+		primaryStage.show();
 
 		// scene.setOnKeyPressed(event -> { // menu mit Q ein und ausblenden
 		// if (event.getCode() == KeyCode.Q) {
@@ -83,11 +117,6 @@ public class GUI extends Application {
 		// }
 		// });
 
-		primaryStage.setTitle("Boatbusters");
-		// primaryStage.setResizable(false);
-		primaryStage.setScene(scene);
-		primaryStage.show();
-
 	}
 
 	public static class MenuButton extends StackPane {
@@ -98,7 +127,7 @@ public class GUI extends Application {
 			text.setFont(text.getFont());
 			text.setFill(Color.WHITE);
 
-			Rectangle bg = new Rectangle(250, 30);
+			Rectangle bg = new Rectangle(MENUBUTTON_SIZE_X, MENUBUTTON_SIZE_Y);
 			bg.setOpacity(0.5);
 			bg.setFill(Color.BLACK);
 
@@ -132,7 +161,7 @@ public class GUI extends Application {
 			text.setFont(text.getFont());
 			text.setFill(Color.BLACK);
 
-			Rectangle bg = new Rectangle(30, 30); // größe der Cell
+			Rectangle bg = new Rectangle(CELLBUTTON_SIZE_X_Y, CELLBUTTON_SIZE_X_Y); // größe der Cell
 
 			bg.setFill(Color.GREY);
 
@@ -151,17 +180,29 @@ public class GUI extends Application {
 			});
 		}
 
-		public void setOnAction(EventHandler<ActionEvent> eventHandler) {
+		public void setOnAction(EventHandler<ActionEvent> eventHandler) { //TODO:
 			// TODO Auto-generated method stub
-
+			
 		}
+
 	}
 
-	public class GameMenu extends Parent {
+	public class GameMenu {
 
-		public GameMenu() throws Exception {
+		public void GameMenu() throws Exception {
 
 			Game game = new Game(0);
+
+			Stage menuStage = new Stage();
+			Pane rootMenu = new Pane();
+
+			InputStream is = Files.newInputStream(Paths.get("src/main/resources/ShipBg.jpg"));
+			Image imgShip = new Image(is);
+			is.close();
+
+			ImageView imgView = new ImageView(imgShip);
+			imgView.setFitWidth(WINDOW_SIZE_X + 20);
+			imgView.setFitHeight(WINDOW_SIZE_Y + 20);
 
 			VBox mainMenu = new VBox(10); // main menu
 			VBox scoreMenu = new VBox(10); // highscore menu
@@ -191,7 +232,7 @@ public class GUI extends Application {
 			MenuButton btnStart = new MenuButton("START GAME");
 			btnStart.setOnMouseClicked(event -> {
 
-				getChildren().add(menuPlayer1);
+				rootMenu.getChildren().add(menuPlayer1);
 
 				TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), mainMenu);
 				t1.setToX(mainMenu.getTranslateX() - offset);
@@ -203,16 +244,15 @@ public class GUI extends Application {
 				t2.play();
 
 				t1.setOnFinished(evt -> {
-					getChildren().remove(mainMenu);
+					rootMenu.getChildren().remove(mainMenu);
 				});
 			});
 
 			///// HIGHSCORE BUTTON MAIN MENU /////
-			MenuButton btnScore = new MenuButton("HIGHSCORE"); // Highscore
-																// Button
-																// Mainmenu
+			MenuButton btnScore = new MenuButton("HIGHSCORE");
+
 			btnScore.setOnMouseClicked(event -> {
-				getChildren().add(scoreMenu);
+				rootMenu.getChildren().add(scoreMenu);
 
 				TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), mainMenu);
 				t1.setToX(mainMenu.getTranslateX() - offset);
@@ -224,7 +264,7 @@ public class GUI extends Application {
 				t2.play();
 
 				t1.setOnFinished(evt -> {
-					getChildren().remove(mainMenu);
+					rootMenu.getChildren().remove(mainMenu);
 				});
 
 			});
@@ -256,7 +296,7 @@ public class GUI extends Application {
 				if (event.getCode() == KeyCode.ENTER) {
 					String namePlayer1 = textfieldLoginPlayer1.getText(); // TODO:vorrübergehend
 
-					getChildren().add(menuPlayer2);
+					rootMenu.getChildren().add(menuPlayer2);
 
 					TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), menuPlayer1);
 					t1.setToX(menuPlayer1.getTranslateX() - offset);
@@ -268,7 +308,7 @@ public class GUI extends Application {
 					t2.play();
 
 					t1.setOnFinished(evt -> {
-						getChildren().remove(menuPlayer1);
+						rootMenu.getChildren().remove(menuPlayer1);
 
 					});
 				}
@@ -292,11 +332,12 @@ public class GUI extends Application {
 					t1.play();
 
 					t1.setOnFinished(evt -> {
-						getChildren().remove(menuPlayer2);
+						rootMenu.getChildren().remove(menuPlayer2);
 
 					});
 
 					try {
+						menuStage.close();
 						GameField gameField = new GameField();
 						gameField.GameField();
 					} catch (Exception e) {
@@ -312,7 +353,7 @@ public class GUI extends Application {
 			MenuButton btnLoginPlayer1 = new MenuButton("OK");
 			btnLoginPlayer1.setOnMouseClicked(event -> {
 
-				getChildren().add(menuPlayer2);
+				rootMenu.getChildren().add(menuPlayer2);
 
 				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer1);
 				tt.setToX(menuPlayer1.getTranslateX() - offset);
@@ -324,7 +365,7 @@ public class GUI extends Application {
 				tt1.play();
 
 				tt.setOnFinished(evt -> {
-					getChildren().remove(menuPlayer1);
+					rootMenu.getChildren().remove(menuPlayer1);
 
 				});
 			});
@@ -333,7 +374,7 @@ public class GUI extends Application {
 			MenuButton btnBackPlayer1 = new MenuButton("BACK");
 			btnBackPlayer1.setOnMouseClicked(event -> {
 
-				getChildren().add(mainMenu);
+				rootMenu.getChildren().add(mainMenu);
 
 				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer1);
 				tt.setToX(menuPlayer1.getTranslateX() + offset);
@@ -345,7 +386,7 @@ public class GUI extends Application {
 				tt1.play();
 
 				tt.setOnFinished(evt -> {
-					getChildren().remove(menuPlayer1);
+					rootMenu.getChildren().remove(menuPlayer1);
 
 				});
 			});
@@ -364,13 +405,16 @@ public class GUI extends Application {
 				t1.play();
 
 				t1.setOnFinished(evt -> {
-					getChildren().remove(menuPlayer2);
+					rootMenu.getChildren().remove(menuPlayer2);
 
 				});
 
+				menuStage.close();
 				try {
+
 					GameField gameField = new GameField();
 					gameField.GameField();
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -381,7 +425,7 @@ public class GUI extends Application {
 			MenuButton btnBackPlayer2 = new MenuButton("BACK");
 			btnBackPlayer2.setOnMouseClicked(event -> {
 
-				getChildren().add(menuPlayer1);
+				rootMenu.getChildren().add(menuPlayer1);
 
 				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
 				tt.setToX(menuPlayer2.getTranslateX() + offset);
@@ -393,7 +437,7 @@ public class GUI extends Application {
 				tt1.play();
 
 				tt.setOnFinished(evt -> {
-					getChildren().remove(menuPlayer2);
+					rootMenu.getChildren().remove(menuPlayer2);
 
 				});
 			});
@@ -402,7 +446,7 @@ public class GUI extends Application {
 			MenuButton btnBack2 = new MenuButton("BACK");
 			btnBack2.setOnMouseClicked(event -> {
 
-				getChildren().add(mainMenu);
+				rootMenu.getChildren().add(mainMenu);
 
 				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), scoreMenu);
 				tt.setToX(scoreMenu.getTranslateX() + offset);
@@ -414,7 +458,7 @@ public class GUI extends Application {
 				tt1.play();
 
 				tt.setOnFinished(evt -> {
-					getChildren().remove(scoreMenu);
+					rootMenu.getChildren().remove(scoreMenu);
 
 				});
 			});
@@ -428,48 +472,133 @@ public class GUI extends Application {
 			bg.setFill(Color.GREY);
 			bg.setOpacity(0.4);
 
-			getChildren().addAll(bg, mainMenu);
+			// getChildren().addAll(bg, mainMenu);
+			rootMenu.getChildren().addAll(bg, imgView, mainMenu);
+
+			Scene menuScene = new Scene(rootMenu);
+			menuStage.setTitle("BoatBusters");
+			menuStage.setWidth(WINDOW_SIZE_X);
+			menuStage.setHeight(WINDOW_SIZE_Y);
+			menuStage.setScene(menuScene);
+			menuStage.show();
 
 		}
 	}
 
 	public class GameField extends Parent {
 
-		public void GameField(){
+		public void GameField() throws Exception {
 
-			BorderPane rootGame = new BorderPane();
+			Stage gameStage = new Stage();
 
-			GridPane boardPane = new GridPane();
+			Pane rootGame = new Pane();
+			BorderPane windowBox = new BorderPane();
 
-			boardPane.setTranslateX(translateX);
-			boardPane.setTranslateY(translateY);
+			HBox topBox = new HBox();
+			VBox leftBox = new VBox();
+			VBox rightBox = new VBox();
+			VBox bottomBox0 = new VBox();
+			VBox bottomBox1 = new VBox();
+			VBox bottomBox = new VBox();
+			
+			GridPane centerBox0 = new GridPane();
+			GridPane centerBox1 = new GridPane();
 
-			VBox bottom = new VBox();
-			Label message = new Label("TEST MESSAGE");
-			bottom.getChildren().add(message);
-			bottom.setPadding(new Insets(0, 0, 0, 20));
+//			windowBox.setTop(topBox);
+//			windowBox.setLeft(leftBox);
+//			windowBox.setRight(rightBox);
+//			windowBox.setBottom(bottomBox);
+//			windowBox.setCenter(centerBox);
+			
+			bottomBox.setTranslateX(WINDOW_SIZE_X /3);
+			bottomBox.setTranslateY(WINDOW_SIZE_Y /3);
+			
+			bottomBox0.setTranslateX(100);
+			bottomBox0.setTranslateY((WINDOW_SIZE_Y /2) -(MENUBUTTON_SIZE_Y +300));
+			
+			bottomBox1.setTranslateX(WINDOW_SIZE_X - 500);
+			bottomBox1.setTranslateY((WINDOW_SIZE_Y /2) -(MENUBUTTON_SIZE_Y +300));
+			
+			centerBox0.setTranslateX(200);
+			centerBox0.setTranslateY(WINDOW_SIZE_Y /2 - CELLBUTTON_SIZE_X_Y);
+			
+			centerBox1.setTranslateX(WINDOW_SIZE_X - 500);
+			centerBox1.setTranslateY(WINDOW_SIZE_Y /2 - CELLBUTTON_SIZE_X_Y);
+		
+			
+			InputStream is = Files.newInputStream(Paths.get("src/main/resources/ShipBg.jpg"));
+			Image img = new Image(is);
+			is.close();
 
-			for (int row = 0; row < 8; row++) {
-				for (int column = 0; column < 8; column++) {
-					CellButton button = new CellButton("X");
+			ImageView imgGameBG = new ImageView(img);
+			imgGameBG.setFitWidth(WINDOW_SIZE_X + 20);
+			imgGameBG.setFitHeight(WINDOW_SIZE_Y + 20);
+
+			
+			
+			
+
+			for (int row = 1; row < 11; row++) {
+				for (int column = 0; column < 10; column++) {
+					Button button = new Button("X");
 
 					int x = column;
 					int y = row;
 
-					button.setOnAction(event -> {
+					button.setOnAction(new EventHandler<ActionEvent>() {
+						public void handle(ActionEvent event) {
 
-						System.out.println("button mit Cordinate: " + x + "/" + y);
-
+							System.out.println("LEFTSIDE: Button at " + x + "/" + y + " pressed");
+							Text gameMessage = new Text("LEFTSIDE: Button at " + x + "/" + y + " pressed");
+							gameMessage.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+							gameMessage.setFill(Color.WHITE);
+							
+							bottomBox0.getChildren().add(gameMessage);
+						}
 					});
-					boardPane.add(button, row, column);
+					centerBox0.add(button, row, column);
 				}
 
 			}
 			
-			rootGame.setCenter(boardPane);
-			rootGame.setBottom(bottom);
+			for (int row = 1; row < 11; row++) {
+				for (int column = 0; column < 10; column++) {
+					Button button = new Button("X");
 
-			getChildren().add(rootGame);
+					int x = column;
+					int y = row;
+
+					button.setOnAction(new EventHandler<ActionEvent>() {
+						public void handle(ActionEvent event) {
+
+							System.out.println("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
+							Text gameMessage = new Text("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
+							gameMessage.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+							gameMessage.setFill(Color.WHITE);
+							
+							bottomBox1.getChildren().add(gameMessage);
+						}
+					});
+					centerBox1.add(button, row, column);
+				}
+
+			}
+			Text gameMessage1 = new Text("Spieler: skat3r_B0Y_2001 ist dran!");
+			gameMessage1.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
+			gameMessage1.setFill(Color.WHITE);
+			
+			
+			bottomBox.getChildren().add(gameMessage1);
+			
+			
+			rootGame.getChildren().addAll(imgGameBG, centerBox0, centerBox1, bottomBox0, bottomBox1, bottomBox);
+
+			Scene gameScene = new Scene(rootGame);
+			gameStage.setTitle("BoatBusters");
+			gameStage.setWidth(WINDOW_SIZE_X);
+			gameStage.setHeight(WINDOW_SIZE_Y);
+			gameStage.setScene(gameScene);
+			gameStage.show();
 			
 
 		}
