@@ -32,6 +32,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -52,12 +53,12 @@ public class GUI extends Application {
 		Pane rootStart = new Pane();
 		rootStart.setPrefSize(WINDOW_SIZE_X, WINDOW_SIZE_Y);
 
-		VBox startBox = new VBox();
+		VBox startBox = new VBox(10);
 
-		startBox.setTranslateX((WINDOW_SIZE_X /2) -MENUBUTTON_SIZE_X);
-		startBox.setTranslateY((WINDOW_SIZE_Y /2) -MENUBUTTON_SIZE_Y);
+		startBox.setTranslateX((WINDOW_SIZE_X / 2) - 350);
+		startBox.setTranslateY((WINDOW_SIZE_Y / 2) - MENUBUTTON_SIZE_Y);
 
-		InputStream is = Files.newInputStream(Paths.get("src/main/resources/home.jpg"));
+		InputStream is = Files.newInputStream(Paths.get("src/main/resources/bg2.jpg"));
 		Image img = new Image(is);
 		is.close();
 
@@ -65,8 +66,8 @@ public class GUI extends Application {
 		imgHome.setFitWidth(WINDOW_SIZE_X + 20);
 		imgHome.setFitHeight(WINDOW_SIZE_Y + 20);
 
-		MenuButton welcomeBtn = new MenuButton("PRESS TO CONTINUE");
-		welcomeBtn.setTranslateY(20);
+		MenuButton welcomeBtn = new MenuButton("PRESS ANY KEY TO CONTINUE");
+
 		welcomeBtn.setOnMousePressed(event -> {
 
 			primaryStage.close();
@@ -79,43 +80,41 @@ public class GUI extends Application {
 		});
 
 		Text welcomeMessage0 = new Text("WELCOME TO BOATBUSTERS");
-		welcomeMessage0.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
+		welcomeMessage0.setStyle("-fx-font: normal bold 35px 'serif' ");
 		welcomeMessage0.setFill(Color.WHITE);
+		welcomeMessage0.setTranslateY(-50);
+		welcomeMessage0.setTranslateX(-400);
 
-//		Text welcomeMessage1 = new Text("PRESS ENTER TO CONTINUE");
-//		welcomeMessage1.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
-//		welcomeMessage1.setFill(Color.BLACK);
-		
+		TranslateTransition t1 = new TranslateTransition(Duration.seconds(1.0), welcomeMessage0);
+		t1.setToX(welcomeMessage0.getTranslateX() + 400);
+		t1.play();
+
+		Rectangle bg = new Rectangle(WINDOW_SIZE_X, WINDOW_SIZE_Y);
+		bg.setFill(Color.GREY);
+		bg.setOpacity(0.8);
 
 		startBox.getChildren().addAll(welcomeMessage0, welcomeBtn);
-		
-		rootStart.getChildren().addAll(imgHome, startBox);
+		rootStart.getChildren().addAll(bg, imgHome, startBox);
+
 		Scene sceneStart = new Scene(rootStart);
+
+		sceneStart.setOnKeyPressed(event -> {
+//			if (event.getCode() == KeyCode.ENTER) {
+				primaryStage.close();
+
+				try {
+					GameMenu gameMenu = new GameMenu();
+					gameMenu.GameMenu();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+//			}
+		});
+
 		primaryStage.setTitle("Boatbusters");
 		// primaryStage.setResizable(false);
 		primaryStage.setScene(sceneStart);
 		primaryStage.show();
-
-		// scene.setOnKeyPressed(event -> { // menu mit Q ein und ausblenden
-		// if (event.getCode() == KeyCode.Q) {
-		// if (!gameMenu.isVisible()) {
-		// FadeTransition ft = new FadeTransition(Duration.seconds(0.5),
-		// gameMenu);
-		// ft.setFromValue(0);
-		// ft.setToValue(1);
-		//
-		// gameMenu.setVisible(true);
-		// ft.play();
-		// } else {
-		// FadeTransition ft = new FadeTransition(Duration.seconds(0.5),
-		// gameMenu);
-		// ft.setFromValue(1);
-		// ft.setToValue(0);
-		// ft.setOnFinished(evt -> gameMenu.setVisible(false));
-		// ft.play();
-		// }
-		// }
-		// });
 
 	}
 
@@ -156,33 +155,36 @@ public class GUI extends Application {
 	public class CellButton extends GridPane {
 		Text text;
 
-		public CellButton(String name) {
-			text = new Text(name);
-			text.setFont(text.getFont());
-			text.setFill(Color.BLACK);
+		public CellButton() {
+			// text = new Text(name);
+			// text.setFont(text.getFont());
+			// text.setFill(Color.BLACK);
 
-			Rectangle bg = new Rectangle(CELLBUTTON_SIZE_X_Y, CELLBUTTON_SIZE_X_Y); // größe der Cell
+			Rectangle bg = new Rectangle(CELLBUTTON_SIZE_X_Y, CELLBUTTON_SIZE_X_Y); // größe
+																					// der
+																					// Cell
 
-			bg.setFill(Color.GREY);
+			bg.setFill(Color.WHITE);
+			bg.setStroke(Color.DARKGREY);
 
-			getChildren().addAll(bg, text);
+			getChildren().addAll(bg);
 
 			// wenn maus über menupoint
 			setOnMouseEntered(event -> {
 				bg.setFill(Color.GREY);
-				text.setFill(Color.BEIGE);
+				// text.setFill(Color.TURQUOISE);
 
 			});
 			// wenn maus menupoint verlässt
 			setOnMouseExited(event -> {
-				bg.setFill(Color.GREY);
-				text.setFill(Color.BLACK);
+				bg.setFill(Color.WHITE);
+				// text.setFill(Color.BLACK);
 			});
 		}
 
-		public void setOnAction(EventHandler<ActionEvent> eventHandler) { //TODO:
+		public void setOnAction(EventHandler<ActionEvent> eventHandler) { // TODO:
 			// TODO Auto-generated method stub
-			
+
 		}
 
 	}
@@ -227,6 +229,7 @@ public class GUI extends Application {
 			scoreMenu.setTranslateX(offset);
 			menuPlayer1.setTranslateX(offset);
 			menuPlayer2.setTranslateX(offset);
+			
 
 			///// START GAME BUTTON MAIN MENU /////
 			MenuButton btnStart = new MenuButton("START GAME");
@@ -494,39 +497,32 @@ public class GUI extends Application {
 			Pane rootGame = new Pane();
 			BorderPane windowBox = new BorderPane();
 
-			HBox topBox = new HBox();
-			VBox leftBox = new VBox();
-			VBox rightBox = new VBox();
-			VBox bottomBox0 = new VBox();
-			VBox bottomBox1 = new VBox();
-			VBox bottomBox = new VBox();
-			
-			GridPane centerBox0 = new GridPane();
-			GridPane centerBox1 = new GridPane();
+			// HBox topBox = new HBox();
+			// VBox leftBox = new VBox();
+			// VBox rightBox = new VBox();
+			VBox leftsideBox = new VBox();
+			VBox rightsideBox = new VBox();
+			VBox playerBox = new VBox();
 
-//			windowBox.setTop(topBox);
-//			windowBox.setLeft(leftBox);
-//			windowBox.setRight(rightBox);
-//			windowBox.setBottom(bottomBox);
-//			windowBox.setCenter(centerBox);
-			
-			bottomBox.setTranslateX(WINDOW_SIZE_X /3);
-			bottomBox.setTranslateY(WINDOW_SIZE_Y /3);
-			
-			bottomBox0.setTranslateX(100);
-			bottomBox0.setTranslateY((WINDOW_SIZE_Y /2) -(MENUBUTTON_SIZE_Y +300));
-			
-			bottomBox1.setTranslateX(WINDOW_SIZE_X - 500);
-			bottomBox1.setTranslateY((WINDOW_SIZE_Y /2) -(MENUBUTTON_SIZE_Y +300));
-			
-			centerBox0.setTranslateX(200);
-			centerBox0.setTranslateY(WINDOW_SIZE_Y /2 - CELLBUTTON_SIZE_X_Y);
-			
-			centerBox1.setTranslateX(WINDOW_SIZE_X - 500);
-			centerBox1.setTranslateY(WINDOW_SIZE_Y /2 - CELLBUTTON_SIZE_X_Y);
-		
-			
-			InputStream is = Files.newInputStream(Paths.get("src/main/resources/ShipBg.jpg"));
+			GridPane gameFieldLEFT = new GridPane();
+			GridPane gameFieldRIGHT = new GridPane();
+
+			playerBox.setTranslateX(10); 
+			playerBox.setTranslateY(10);
+
+			leftsideBox.setTranslateX(100);
+			leftsideBox.setTranslateY((WINDOW_SIZE_Y / 2) - (MENUBUTTON_SIZE_Y + 300));
+
+			rightsideBox.setTranslateX(WINDOW_SIZE_X - 500);
+			rightsideBox.setTranslateY((WINDOW_SIZE_Y / 2) - (MENUBUTTON_SIZE_Y + 300));
+
+			gameFieldLEFT.setTranslateX((WINDOW_SIZE_X / 2) - ((WINDOW_SIZE_X / 4) + (CELLBUTTON_SIZE_X_Y * 5)));
+			gameFieldLEFT.setTranslateY(WINDOW_SIZE_Y / 3);
+
+			gameFieldRIGHT.setTranslateX((WINDOW_SIZE_X / 2) + (CELLBUTTON_SIZE_X_Y * 5));
+			gameFieldRIGHT.setTranslateY(WINDOW_SIZE_Y / 3);
+
+			InputStream is = Files.newInputStream(Paths.get("src/main/resources/bg2.jpg"));
 			Image img = new Image(is);
 			is.close();
 
@@ -534,72 +530,79 @@ public class GUI extends Application {
 			imgGameBG.setFitWidth(WINDOW_SIZE_X + 20);
 			imgGameBG.setFitHeight(WINDOW_SIZE_Y + 20);
 
-			
-			
-			
-
-			for (int row = 1; row < 11; row++) {
+			for (int row = 0; row < 10; row++) {
 				for (int column = 0; column < 10; column++) {
-					Button button = new Button("X");
+					CellButton button = new CellButton();
 
 					int x = column;
 					int y = row;
+					
+					button.setOnMouseClicked(event -> {
+						
+						System.out.println("LEFTSIDE: Button at " + x + "/" + y + " pressed");
+						Text gameMessage = new Text("LEFTSIDE: Button at " + x + "/" + y + " pressed");
+						gameMessage.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
+						gameMessage.setFill(Color.WHITE);
 
-					button.setOnAction(new EventHandler<ActionEvent>() {
-						public void handle(ActionEvent event) {
-
-							System.out.println("LEFTSIDE: Button at " + x + "/" + y + " pressed");
-							Text gameMessage = new Text("LEFTSIDE: Button at " + x + "/" + y + " pressed");
-							gameMessage.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
-							gameMessage.setFill(Color.WHITE);
-							
-							bottomBox0.getChildren().add(gameMessage);
-						}
+						leftsideBox.getChildren().add(gameMessage);
+						
 					});
-					centerBox0.add(button, row, column);
+					gameFieldLEFT.add(button, row, column);
 				}
 
 			}
-			
-			for (int row = 1; row < 11; row++) {
+
+			for (int row = 0; row < 10; row++) {
 				for (int column = 0; column < 10; column++) {
-					Button button = new Button("X");
+					CellButton button = new CellButton();
 
 					int x = column;
 					int y = row;
 
-					button.setOnAction(new EventHandler<ActionEvent>() {
-						public void handle(ActionEvent event) {
+					button.setOnMouseClicked(event -> {
+						
+						System.out.println("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
+						Text gameMessage = new Text("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
+						gameMessage.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
+						gameMessage.setFill(Color.WHITE);
 
-							System.out.println("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
-							Text gameMessage = new Text("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
-							gameMessage.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
-							gameMessage.setFill(Color.WHITE);
-							
-							bottomBox1.getChildren().add(gameMessage);
-						}
+						rightsideBox.getChildren().add(gameMessage);
+						
+						
 					});
-					centerBox1.add(button, row, column);
+
+					gameFieldRIGHT.add(button, row, column);
 				}
 
 			}
 			Text gameMessage1 = new Text("Spieler: skat3r_B0Y_2001 ist dran!");
-			gameMessage1.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
+			gameMessage1.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
 			gameMessage1.setFill(Color.WHITE);
-			
-			
-			bottomBox.getChildren().add(gameMessage1);
-			
-			
-			rootGame.getChildren().addAll(imgGameBG, centerBox0, centerBox1, bottomBox0, bottomBox1, bottomBox);
+			playerBox.getChildren().add(gameMessage1);
+
+			rootGame.getChildren().addAll(imgGameBG, gameFieldLEFT, gameFieldRIGHT, leftsideBox, rightsideBox, playerBox);
 
 			Scene gameScene = new Scene(rootGame);
+			
+			gameScene.setOnKeyPressed(event -> {
+				if (event.getCode() == KeyCode.Q) {
+					gameStage.close();
+					
+					try {
+						GameMenu gameMenu = new GameMenu();
+						gameMenu.GameMenu();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					
+				}
+			});
 			gameStage.setTitle("BoatBusters");
 			gameStage.setWidth(WINDOW_SIZE_X);
 			gameStage.setHeight(WINDOW_SIZE_Y);
 			gameStage.setScene(gameScene);
 			gameStage.show();
-			
 
 		}
 	}
