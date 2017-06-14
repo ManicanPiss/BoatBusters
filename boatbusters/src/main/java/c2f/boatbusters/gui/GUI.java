@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import c2f.boatbusters.classes.Game;
-
+import c2f.boatbusters.classes.Main;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -534,10 +534,17 @@ public class GUI extends Application {
 
 					button.setOnMouseClicked(event -> {
 
-						System.out.println("LEFTSIDE: Button at " + x + "/" + y + " pressed");
+						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
 						Text gameMessage = new Text("LEFTSIDE: Button at " + x + "/" + y + " pressed");
 						gameMessage.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
 						gameMessage.setFill(Color.WHITE);
+						
+						button.setOnAction(new EventHandler<ActionEvent>() {
+							public void handle(ActionEvent event) {
+                                 // player1.setShip(x, y);
+							}
+						});
+						
 
 						leftsideBox.getChildren().add(gameMessage);
 
@@ -556,10 +563,18 @@ public class GUI extends Application {
 
 					button.setOnMouseClicked(event -> {
 
-						System.out.println("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
+						Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
 						Text gameMessage = new Text("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
 						gameMessage.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
 						gameMessage.setFill(Color.WHITE);
+						
+						button.setOnAction(new EventHandler<ActionEvent>() {
+							public void handle(ActionEvent event) {
+                                 // player1.setShip(x, y);
+							}
+						});
+						
+						
 
 						rightsideBox.getChildren().add(gameMessage);
 
