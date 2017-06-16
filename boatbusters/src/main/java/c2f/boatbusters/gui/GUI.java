@@ -41,7 +41,6 @@ import javafx.util.Duration;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 
-
 public class GUI extends Application {
 
 	final int WINDOW_SIZE_X = 1280;
@@ -51,7 +50,6 @@ public class GUI extends Application {
 	final static int MENUBUTTON_SIZE_X = 250;
 	final static int MENUBUTTON_SIZE_Y = 30;
 	final static int CELLBUTTON_SIZE_X_Y = 30;
-		
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -94,8 +92,6 @@ public class GUI extends Application {
 		TranslateTransition t1 = new TranslateTransition(Duration.seconds(1.0), welcomeMessage0);
 		t1.setToX(welcomeMessage0.getTranslateX() + 400);
 		t1.play();
-
-		
 
 		startBox.getChildren().addAll(welcomeMessage0, welcomeBtn);
 		rootStart.getChildren().addAll(imgHome, startBox);
@@ -178,7 +174,7 @@ public class GUI extends Application {
 			setOnMouseEntered(event -> {
 				bg.setFill(Color.ORANGE);
 				bg.setOpacity(0.7);
-				
+
 				// text.setFill(Color.TURQUOISE);
 
 			});
@@ -478,7 +474,6 @@ public class GUI extends Application {
 			menuPlayer1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, btnLoginPlayer1, btnBackPlayer1); // login1
 			menuPlayer2.getChildren().addAll(loginTextPlayer2, textfieldLoginPlayer2, btnLoginPlayer2, btnBackPlayer2); // login2
 
-
 			// getChildren().addAll(bg, mainMenu);
 			rootMenu.getChildren().addAll(imgView, mainMenu);
 
@@ -499,10 +494,18 @@ public class GUI extends Application {
 
 			BorderPane rootGame = new BorderPane();
 
+			InputStream is = Files.newInputStream(Paths.get("src/main/resources/bg2.jpg"));
+			Image img = new Image(is);
+			is.close();
+
+			ImageView imgGameBG = new ImageView(img);
+			imgGameBG.setFitWidth(WINDOW_SIZE_X);
+			imgGameBG.setFitHeight(WINDOW_SIZE_Y);
+
 			HBox gameBoards = new HBox();
 			gameBoards.setSpacing(100);
 			gameBoards.setPadding(new Insets(100, 0, 0, 0));
-			
+
 			/// TOP ///
 			StackPane top = new StackPane();
 			top.setAlignment(Pos.CENTER);
@@ -511,11 +514,11 @@ public class GUI extends Application {
 			bgTopBox.setOpacity(0.4);
 			bgTopBox.setFill(Color.DIMGRAY);
 			bgTopBox.setStroke(Color.LIGHTGRAY);
-			
+
 			VBox gameTextTop = new VBox();
-			gameTextTop.setTranslateX(WINDOW_SIZE_X /2 - 180);
+			gameTextTop.setTranslateX(WINDOW_SIZE_X / 2 - 180);
 			gameTextTop.setTranslateY(25);
-			
+
 			Text textInfo = new Text("Infonachricht: Du bist scheiße!");
 			textInfo.setTextAlignment(TextAlignment.CENTER);
 			textInfo.setFont(Font.font("Verdana", FontPosture.ITALIC, 25));
@@ -523,16 +526,14 @@ public class GUI extends Application {
 			gameTextTop.getChildren().add(textInfo);
 			top.getChildren().addAll(bgTopBox, gameTextTop);
 			///////
-			
-			
-			
+
 			// LEFTSIDE//
 			StackPane left = new StackPane();
-			Rectangle bgLeftBox = new Rectangle(150 ,500);
+			Rectangle bgLeftBox = new Rectangle(150, 500);
 			bgLeftBox.setOpacity(0.4);
 			bgLeftBox.setFill(Color.DIMGREY);
 			bgLeftBox.setStroke(Color.LIGHTGRAY);
-			
+
 			VBox gameTextLeft = new VBox();
 			Text textLeft = new Text("Press Q to Surrender");
 			textLeft.setTextAlignment(TextAlignment.CENTER);
@@ -545,15 +546,15 @@ public class GUI extends Application {
 			gameTextLeft.getChildren().addAll(textLeft, textPlayerLeft);
 			left.getChildren().addAll(bgLeftBox, gameTextLeft);
 			/////
-			
+
 			/// RIGHTSIDE ///
 			StackPane right = new StackPane();
 			right.setAlignment(Pos.CENTER_RIGHT);
-			Rectangle bgRightBox = new Rectangle(150 ,500);
+			Rectangle bgRightBox = new Rectangle(150, 500);
 			bgRightBox.setOpacity(0.4);
 			bgRightBox.setFill(Color.DIMGREY);
 			bgRightBox.setStroke(Color.LIGHTGRAY);
-			
+
 			VBox gameTextRight = new VBox();
 			Text textRight = new Text("Press Q to Surrender");
 			textRight.setTextAlignment(TextAlignment.CENTER);
@@ -563,80 +564,59 @@ public class GUI extends Application {
 			textPlayerRight.setTextAlignment(TextAlignment.CENTER);
 			textPlayerRight.setFont(Font.font("Verdana", FontPosture.ITALIC, 14));
 			textPlayerRight.setFill(Color.DARKSEAGREEN);
-			gameTextRight.getChildren().addAll(textRight ,textPlayerRight);
+			gameTextRight.getChildren().addAll(textRight, textPlayerRight);
 			right.getChildren().addAll(bgRightBox, gameTextRight);
 			/////
-			
-			
+
 			///// BOTTOM ///////
 			StackPane bottom = new StackPane();
 			Rectangle bgBottomBox = new Rectangle(WINDOW_SIZE_X, 100);
 			bgBottomBox.setOpacity(0.4);
 			bgBottomBox.setFill(Color.DIMGRAY);
 			bgBottomBox.setStroke(Color.LIGHTGRAY);
-			
+
 			HBox playerNames = new HBox();
-			playerNames.setPadding(new Insets(0,0,50,0));
+			playerNames.setPadding(new Insets(0, 0, 50, 0));
 			playerNames.setSpacing(100);
 			playerNames.setAlignment(Pos.CENTER);
 			Text textPlayer1 = new Text("Player 1: skat3r_B0Y_2001");
 			textPlayer1.setFont(Font.font("Verdana", FontPosture.ITALIC, 25));
 			textPlayer1.setFill(Color.BEIGE);
-			
+
 			Text textPlayer2 = new Text("Player 2: lil_gaengster23");
 			textPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 25));
 			textPlayer2.setFill(Color.DARKSEAGREEN);
-			
+
 			playerNames.getChildren().addAll(textPlayer1, textPlayer2);
 			bottom.getChildren().addAll(bgBottomBox, playerNames);
 			////////
-			
-			
-			
-	
-			GridPane gameFieldLEFT = new GridPane();
-			GridPane gameFieldRIGHT = new GridPane();					
-			gameBoards.setAlignment(Pos.BASELINE_CENTER);
-			
-			InputStream is = Files.newInputStream(Paths.get("src/main/resources/bg2.jpg"));
-			Image img = new Image(is);
-			is.close();
 
-			ImageView imgGameBG = new ImageView(img);
-			imgGameBG.setFitWidth(WINDOW_SIZE_X);
-			imgGameBG.setFitHeight(WINDOW_SIZE_Y);
-					
+			GridPane gameFieldLEFT = new GridPane();
+			GridPane gameFieldRIGHT = new GridPane();
+			gameBoards.setAlignment(Pos.BASELINE_CENTER);
+
 			gameBoards.getChildren().addAll(gameFieldLEFT, gameFieldRIGHT);
 
-
+			// Gamefield eastside //
 			for (int row = 0; row < 10; row++) {
 				for (int column = 0; column < 10; column++) {
 					CellButton button = new CellButton();
-	
-
-					
-					
 					int x = column;
 					int y = row;
 
 					button.setOnMouseClicked(event -> {
-
 						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
-						
 						button.setOnAction(new EventHandler<ActionEvent>() {
 							public void handle(ActionEvent event) {
-                                 // player1.setShip(x, y);
+								// player1.setShip(x, y);
 							}
 						});
-						
-						
-
 					});
 					gameFieldLEFT.add(button, row, column);
 				}
 
 			}
-
+			// GameField westside //
 			for (int row = 0; row < 10; row++) {
 				for (int column = 0; column < 10; column++) {
 					CellButton button = new CellButton();
@@ -645,59 +625,51 @@ public class GUI extends Application {
 					int y = row;
 
 					button.setOnMouseClicked(event -> {
-						
+
 						Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
-						
+
 						button.setOnAction(new EventHandler<ActionEvent>() {
 							public void handle(ActionEvent event) {
-                                 // player2.setShip(x, y);
+								// player2.setShip(x, y);
 							}
 						});
-						
-						
+
 					});
 
 					gameFieldRIGHT.add(button, row, column);
-					
+
 				}
 
 			}
-			
-			
-			
-			
-			rootGame.getChildren().addAll(imgGameBG);
-//			rootGame.setTop(new ToolBar());
+
+			rootGame.getChildren().add(imgGameBG);
+			// rootGame.setTop(new ToolBar());
 			rootGame.setCenter(gameBoards);
 			rootGame.setBottom(bottom);
 			rootGame.setTop(top);
 			rootGame.setLeft(left);
 			rootGame.setRight(right);
-			
-			
-			
-			Scene gameScene = new Scene(rootGame);
-			
 
+			Scene gameScene = new Scene(rootGame);
 			gameScene.setOnKeyPressed(event -> {
 				if (event.getCode() == KeyCode.Q) {
 					gameStage.close();
-						
-						try {
-							GameMenu gameMenu = new GameMenu();
-							gameMenu.GameMenu();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						
+
+					try {
+						GameMenu gameMenu = new GameMenu();
+						gameMenu.GameMenu();
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-					
+
+				}
+
 			});
 			gameStage.setTitle("BoatBusters");
 			gameStage.setWidth(WINDOW_SIZE_X);
 			gameStage.setHeight(WINDOW_SIZE_Y);
 			gameStage.setScene(gameScene);
-//			gameStage.setResizable(false);
+			// gameStage.setResizable(false);
 			gameStage.show();
 
 		}
