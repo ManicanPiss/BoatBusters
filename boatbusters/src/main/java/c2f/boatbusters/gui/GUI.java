@@ -35,6 +35,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.layout.AnchorPane;
@@ -500,11 +501,13 @@ public class GUI extends Application {
 
 			HBox gameBoards = new HBox();
 			gameBoards.setSpacing(100);
-			gameBoards.setPadding(new Insets(180, 100, 0, 0));
+			gameBoards.setPadding(new Insets(100, 0, 0, 0));
 			
-			// Background obere Box
-			Rectangle bgTopBox = new Rectangle(400, 100);
-			bgTopBox.setTranslateX(WINDOW_SIZE_X /2 - 200);
+			/// TOP ///
+			StackPane top = new StackPane();
+			top.setAlignment(Pos.CENTER);
+			Rectangle bgTopBox = new Rectangle(600, 100);
+
 			bgTopBox.setOpacity(0.4);
 			bgTopBox.setFill(Color.DIMGRAY);
 			bgTopBox.setStroke(Color.LIGHTGRAY);
@@ -512,45 +515,88 @@ public class GUI extends Application {
 			VBox gameTextTop = new VBox();
 			gameTextTop.setTranslateX(WINDOW_SIZE_X /2 - 180);
 			gameTextTop.setTranslateY(25);
+			
 			Text textInfo = new Text("Infonachricht: Du bist scheiße!");
-			textInfo.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+			textInfo.setTextAlignment(TextAlignment.CENTER);
+			textInfo.setFont(Font.font("Verdana", FontPosture.ITALIC, 25));
 			textInfo.setFill(Color.ORANGE);
 			gameTextTop.getChildren().add(textInfo);
+			top.getChildren().addAll(bgTopBox, gameTextTop);
+			///////
 			
-//			gameTextButtons.setAlignment(Pos.BOTTOM_CENTER);
 			
-			// Background links
-			Rectangle bgLeftBox = new Rectangle(200,WINDOW_SIZE_Y);
+			
+			// LEFTSIDE//
+			StackPane left = new StackPane();
+			Rectangle bgLeftBox = new Rectangle(150 ,500);
 			bgLeftBox.setOpacity(0.4);
-			bgLeftBox.setFill(Color.LIGHTGRAY);
-			bgLeftBox.setStroke(Color.DIMGRAY);
+			bgLeftBox.setFill(Color.DIMGREY);
+			bgLeftBox.setStroke(Color.LIGHTGRAY);
 			
-			VBox gameMenuLeiste = new VBox();
-			Text textMenu = new Text("Press Q to MainMenu");
-			textMenu.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
-			textMenu.setFill(Color.ORANGE);
-			gameMenuLeiste.getChildren().add(textMenu);
+			VBox gameTextLeft = new VBox();
+			Text textLeft = new Text("Press Q to Surrender");
+			textLeft.setTextAlignment(TextAlignment.CENTER);
+			textLeft.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
+			textLeft.setFill(Color.BEIGE);
+			Text textPlayerLeft = new Text("Player 1:");
+			textPlayerLeft.setTextAlignment(TextAlignment.CENTER);
+			textPlayerLeft.setFont(Font.font("Verdana", FontPosture.ITALIC, 14));
+			textPlayerLeft.setFill(Color.BEIGE);
+			gameTextLeft.getChildren().addAll(textLeft, textPlayerLeft);
+			left.getChildren().addAll(bgLeftBox, gameTextLeft);
+			/////
 			
+			/// RIGHTSIDE ///
+			StackPane right = new StackPane();
+			right.setAlignment(Pos.CENTER_RIGHT);
+			Rectangle bgRightBox = new Rectangle(150 ,500);
+			bgRightBox.setOpacity(0.4);
+			bgRightBox.setFill(Color.DIMGREY);
+			bgRightBox.setStroke(Color.LIGHTGRAY);
+			
+			VBox gameTextRight = new VBox();
+			Text textRight = new Text("Press Q to Surrender");
+			textRight.setTextAlignment(TextAlignment.CENTER);
+			textRight.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
+			textRight.setFill(Color.DARKSEAGREEN);
+			Text textPlayerRight = new Text("Player 2:");
+			textPlayerRight.setTextAlignment(TextAlignment.CENTER);
+			textPlayerRight.setFont(Font.font("Verdana", FontPosture.ITALIC, 14));
+			textPlayerRight.setFill(Color.DARKSEAGREEN);
+			gameTextRight.getChildren().addAll(textRight ,textPlayerRight);
+			right.getChildren().addAll(bgRightBox, gameTextRight);
+			/////
+			
+			
+			///// BOTTOM ///////
+			StackPane bottom = new StackPane();
+			Rectangle bgBottomBox = new Rectangle(WINDOW_SIZE_X, 100);
+			bgBottomBox.setOpacity(0.4);
+			bgBottomBox.setFill(Color.DIMGRAY);
+			bgBottomBox.setStroke(Color.LIGHTGRAY);
 			
 			HBox playerNames = new HBox();
-			playerNames.setPadding(new Insets(0,0,100,0));
+			playerNames.setPadding(new Insets(0,0,50,0));
 			playerNames.setSpacing(100);
-			playerNames.setAlignment(Pos.BASELINE_CENTER);
+			playerNames.setAlignment(Pos.CENTER);
 			Text textPlayer1 = new Text("Player 1: skat3r_B0Y_2001");
 			textPlayer1.setFont(Font.font("Verdana", FontPosture.ITALIC, 25));
-			textPlayer1.setFill(Color.ORANGE);
+			textPlayer1.setFill(Color.BEIGE);
 			
 			Text textPlayer2 = new Text("Player 2: lil_gaengster23");
 			textPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 25));
-			textPlayer2.setFill(Color.ORANGE);
+			textPlayer2.setFill(Color.DARKSEAGREEN);
 			
 			playerNames.getChildren().addAll(textPlayer1, textPlayer2);
+			bottom.getChildren().addAll(bgBottomBox, playerNames);
+			////////
+			
 			
 			
 	
 			GridPane gameFieldLEFT = new GridPane();
 			GridPane gameFieldRIGHT = new GridPane();					
-			gameBoards.setAlignment(Pos.CENTER);
+			gameBoards.setAlignment(Pos.BASELINE_CENTER);
 			
 			InputStream is = Files.newInputStream(Paths.get("src/main/resources/bg2.jpg"));
 			Image img = new Image(is);
@@ -620,12 +666,14 @@ public class GUI extends Application {
 			
 			
 			
-			rootGame.getChildren().addAll(imgGameBG, bgTopBox, bgLeftBox);
+			rootGame.getChildren().addAll(imgGameBG);
 //			rootGame.setTop(new ToolBar());
 			rootGame.setCenter(gameBoards);
-			rootGame.setBottom(playerNames);
-			rootGame.setTop(gameTextTop);
-			rootGame.setLeft(gameMenuLeiste);
+			rootGame.setBottom(bottom);
+			rootGame.setTop(top);
+			rootGame.setLeft(left);
+			rootGame.setRight(right);
+			
 			
 			
 			Scene gameScene = new Scene(rootGame);
@@ -634,15 +682,16 @@ public class GUI extends Application {
 			gameScene.setOnKeyPressed(event -> {
 				if (event.getCode() == KeyCode.Q) {
 					gameStage.close();
-
-					try {
-						GameMenu gameMenu = new GameMenu();
-						gameMenu.GameMenu();
-					} catch (Exception e) {
-						e.printStackTrace();
+						
+						try {
+							GameMenu gameMenu = new GameMenu();
+							gameMenu.GameMenu();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
 					}
-
-				}
+					
 			});
 			gameStage.setTitle("BoatBusters");
 			gameStage.setWidth(WINDOW_SIZE_X);
