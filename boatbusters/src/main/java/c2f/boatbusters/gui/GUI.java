@@ -50,6 +50,8 @@ public class GUI extends Application {
 	final static int MENUBUTTON_SIZE_X = 250;
 	final static int MENUBUTTON_SIZE_Y = 30;
 	final static int CELLBUTTON_SIZE_X_Y = 30;
+	final static int SHIPBUTTON_SIZE_X = 150;
+	final static int SHIPBUTTON_SIZE_Y = 30;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -191,6 +193,43 @@ public class GUI extends Application {
 
 		}
 
+	}
+
+	public class GameButton extends StackPane {
+		Text text;
+		public GameButton(String name) {
+			text = new Text(name);
+			text.setFont(text.getFont());
+			text.setFill(Color.WHITE);
+			text.setTextAlignment(TextAlignment.RIGHT);
+			
+			Rectangle bg = new Rectangle(SHIPBUTTON_SIZE_X-10, SHIPBUTTON_SIZE_Y); // größe
+																				// der
+			bg.setFill(Color.DIMGRAY);
+			bg.setOpacity(0.7);
+			bg.setStroke(Color.BLACK);
+			setAlignment(Pos.CENTER);
+
+			getChildren().addAll(bg, text);
+			setOnMousePressed(event ->{
+				text.setFill(Color.ORANGE);
+			});
+			
+			setOnMouseReleased(event ->{
+				text.setFill(Color.WHITE);
+			});
+			
+			setOnMouseEntered(event -> {
+//				text.setFill(Color.ORANGE);
+				bg.setStroke(Color.ORANGE);
+
+			});
+			
+			setOnMouseExited(event -> {
+//				text.setFill(Color.WHITE);
+				bg.setStroke(Color.BLACK);
+			});
+		}
 	}
 
 	public class GameMenu {
@@ -534,17 +573,32 @@ public class GUI extends Application {
 			bgLeftBox.setFill(Color.DIMGREY);
 			bgLeftBox.setStroke(Color.LIGHTGRAY);
 
-			VBox gameTextLeft = new VBox();
-			Text textLeft = new Text("Press Q to Surrender");
+			VBox gameLeft = new VBox();
+			gameLeft.setSpacing(5);
+			GameButton smallLeft = new GameButton("small Ship");
+			smallLeft.setOnMouseClicked(event->{
+				
+			});
+			GameButton middleLeft = new GameButton("middle Ship");
+			middleLeft.setOnMouseClicked(event->{
+				
+			});
+			GameButton bigLeft = new GameButton("big Ship");
+			bigLeft.setOnMouseClicked(event->{
+				
+			});
+			
+			Text textLeft = new Text(" Press Q to Surrender");
 			textLeft.setTextAlignment(TextAlignment.CENTER);
 			textLeft.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
 			textLeft.setFill(Color.BEIGE);
-			Text textPlayerLeft = new Text("Player 1:");
+			
+			Text textPlayerLeft = new Text(" Player 1:");
 			textPlayerLeft.setTextAlignment(TextAlignment.CENTER);
 			textPlayerLeft.setFont(Font.font("Verdana", FontPosture.ITALIC, 14));
 			textPlayerLeft.setFill(Color.BEIGE);
-			gameTextLeft.getChildren().addAll(textLeft, textPlayerLeft);
-			left.getChildren().addAll(bgLeftBox, gameTextLeft);
+			gameLeft.getChildren().addAll(textLeft, textPlayerLeft, smallLeft, middleLeft ,bigLeft);
+			left.getChildren().addAll(bgLeftBox, gameLeft);
 			/////
 
 			/// RIGHTSIDE ///
@@ -555,17 +609,31 @@ public class GUI extends Application {
 			bgRightBox.setFill(Color.DIMGREY);
 			bgRightBox.setStroke(Color.LIGHTGRAY);
 
-			VBox gameTextRight = new VBox();
-			Text textRight = new Text("Press Q to Surrender");
+			VBox gameRight = new VBox();
+			gameRight.setSpacing(5);
+			GameButton smallRight = new GameButton("small Ship");
+			smallRight.setOnMouseClicked(event->{
+				
+			});
+			GameButton middleRight = new GameButton("middle Ship");
+			middleRight.setOnMouseClicked(event->{
+				
+			});
+			GameButton bigRight = new GameButton("big Ship");
+			bigRight.setOnMouseClicked(event->{
+				
+			});
+			
+			Text textRight = new Text(" Press Q to Surrender");
 			textRight.setTextAlignment(TextAlignment.CENTER);
 			textRight.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
 			textRight.setFill(Color.DARKSEAGREEN);
-			Text textPlayerRight = new Text("Player 2:");
+			Text textPlayerRight = new Text(" Player 2:");
 			textPlayerRight.setTextAlignment(TextAlignment.CENTER);
 			textPlayerRight.setFont(Font.font("Verdana", FontPosture.ITALIC, 14));
 			textPlayerRight.setFill(Color.DARKSEAGREEN);
-			gameTextRight.getChildren().addAll(textRight, textPlayerRight);
-			right.getChildren().addAll(bgRightBox, gameTextRight);
+			gameRight.getChildren().addAll(textRight, textPlayerRight, smallRight, middleRight, bigRight);
+			right.getChildren().addAll(bgRightBox, gameRight);
 			/////
 
 			///// BOTTOM ///////
@@ -629,6 +697,7 @@ public class GUI extends Application {
 						Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
 
 						button.setOnAction(new EventHandler<ActionEvent>() {
+
 							public void handle(ActionEvent event) {
 								// player2.setShip(x, y);
 							}
