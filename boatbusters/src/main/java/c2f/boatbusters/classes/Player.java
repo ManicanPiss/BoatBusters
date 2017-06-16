@@ -317,10 +317,11 @@ public class Player implements IPlayer {
 				setShip(player, board, game, scan);
 			}
 
-			// input = Zahl? Position im Brett frei? 
+			// input = Zahl? Position im Brett frei?
 			if (checkNumber(input) && checkFree(xfirst, Integer.parseInt(input), board)) {
 				yfirst = Integer.parseInt(input);
-				// TODO log System.out.println("Now type in the X-Coordinate of the last part of the Ship and press Enter!\n");
+				// TODO log System.out.println("Now type in the X-Coordinate of
+				// the last part of the Ship and press Enter!\n");
 				Main.getLogger().info("Now type in the X-Coordinate of the last part of the Ship and press Enter!\n");
 				input = scan.next();
 
@@ -332,7 +333,8 @@ public class Player implements IPlayer {
 
 				if (checkNumber(input) && checkXcoord(xfirst, board)) {
 					xlast = Integer.parseInt(input);
-					// TODO log System.out.println("Now type in the Y-Coordinate of the last part of the Ship!\n");
+					// TODO log System.out.println("Now type in the Y-Coordinate
+					// of the last part of the Ship!\n");
 					Main.getLogger().info("Now type in the Y-Coordinate of the last part of the Ship!\n");
 					input = scan.next();
 
@@ -342,29 +344,37 @@ public class Player implements IPlayer {
 						setShip(player, board, game, scan);
 					}
 
-					// Checkt input, Freiheit der Endposition, Freiheit der Linie und Laenge des Schiffs.
+					// Checkt input, Freiheit der Endposition, Freiheit der
+					// Linie und Laenge des Schiffs.
 					// Setzt erst dann die Referenzen in das Feld.
-					if (checkNumber(input) && checkFree(xlast, Integer.parseInt(input), board) && checkIfLineIsFreeAndLengthCorrect(xfirst, yfirst, xlast, Integer.parseInt(input), choice, board)) {
+					if (checkNumber(input) && checkFree(xlast, Integer.parseInt(input), board)
+							&& checkIfLineIsFreeAndLengthCorrect(xfirst, yfirst, xlast, Integer.parseInt(input), choice,
+									board)) {
 						ylast = Integer.parseInt(input);
 
-						// Schiff wird gesetzt, Anzahl der verfuegbaren Schiffe diesen Typs verringert
+						// Schiff wird gesetzt, Anzahl der verfuegbaren Schiffe
+						// diesen Typs verringert
 						setShipOnBoard(xfirst, yfirst, xlast, ylast, board, choice);
 						reduceShipCount(choice, player);
 
 					} else {
-						// TODO log System.out.println("Invalid Input, we will start over again.\n");
+						// TODO log System.out.println("Invalid Input, we will
+						// start over again.\n");
 						setShipParts(choice, board, player, game, scan);
 					}
 				} else {
-					// TODO log System.out.println("Invalid Input, we will start over again.\n");
+					// TODO log System.out.println("Invalid Input, we will start
+					// over again.\n");
 					setShipParts(choice, board, player, game, scan);
 				}
 			} else {
-				// TODO log System.out.println("Invalid Input, we will start over again.\n");
+				// TODO log System.out.println("Invalid Input, we will start
+				// over again.\n");
 				setShipParts(choice, board, player, game, scan);
 			}
 		} else {
-			// TODO log System.out.println("Invalid Input, we will start over again.\n");
+			// TODO log System.out.println("Invalid Input, we will start over
+			// again.\n");
 			setShipParts(choice, board, player, game, scan);
 		}
 	}
@@ -438,6 +448,7 @@ public class Player implements IPlayer {
 			setShip(player, board1, game, scan);
 		}
 	} 
+
 
 	//Sachen für Bestenliste/Highschore: Anfang:
 

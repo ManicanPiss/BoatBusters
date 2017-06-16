@@ -26,6 +26,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -36,6 +37,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+
 
 public class GUI extends Application {
 
@@ -46,6 +50,7 @@ public class GUI extends Application {
 	final static int MENUBUTTON_SIZE_X = 250;
 	final static int MENUBUTTON_SIZE_Y = 30;
 	final static int CELLBUTTON_SIZE_X_Y = 30;
+		
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -490,33 +495,18 @@ public class GUI extends Application {
 	public class GameField extends Parent {
 
 		public void GameField() throws Exception {
-
 			Stage gameStage = new Stage();
 
-			Pane rootGame = new Pane();
-			
-			VBox leftsideBox = new VBox();
-			VBox rightsideBox = new VBox();
-			VBox topleftcornerBox = new VBox();
+			BorderPane rootGame = new BorderPane();
 
+			HBox gameBoards = new HBox();
+			gameBoards.setSpacing(100);
+			gameBoards.setPadding(new Insets(220, 50, 50, 50));
+	
 			GridPane gameFieldLEFT = new GridPane();
-			GridPane gameFieldRIGHT = new GridPane();
-
-			topleftcornerBox.setTranslateX(10);
-			topleftcornerBox.setTranslateY(10);
-
-			leftsideBox.setTranslateX(100);
-			leftsideBox.setTranslateY((WINDOW_SIZE_Y / 2) - (MENUBUTTON_SIZE_Y + 300));
-
-			rightsideBox.setTranslateX(WINDOW_SIZE_X - 500);
-			rightsideBox.setTranslateY((WINDOW_SIZE_Y / 2) - (MENUBUTTON_SIZE_Y + 300));
-
-			gameFieldLEFT.setTranslateX((WINDOW_SIZE_X / 2) - ((WINDOW_SIZE_X / 4) + (CELLBUTTON_SIZE_X_Y * 5)));
-			gameFieldLEFT.setTranslateY(WINDOW_SIZE_Y / 3);
-
-			gameFieldRIGHT.setTranslateX((WINDOW_SIZE_X / 2) + (CELLBUTTON_SIZE_X_Y * 5));
-			gameFieldRIGHT.setTranslateY(WINDOW_SIZE_Y / 3);
-
+			GridPane gameFieldRIGHT = new GridPane();					
+			gameBoards.setAlignment(Pos.CENTER);
+			
 			InputStream is = Files.newInputStream(Paths.get("src/main/resources/bg2.jpg"));
 			Image img = new Image(is);
 			is.close();
@@ -524,11 +514,17 @@ public class GUI extends Application {
 			ImageView imgGameBG = new ImageView(img);
 			imgGameBG.setFitWidth(WINDOW_SIZE_X + 20);
 			imgGameBG.setFitHeight(WINDOW_SIZE_Y + 20);
+					
+			gameBoards.getChildren().addAll(gameFieldLEFT, gameFieldRIGHT);
+
 
 			for (int row = 0; row < 10; row++) {
 				for (int column = 0; column < 10; column++) {
 					CellButton button = new CellButton();
+	
 
+					
+					
 					int x = column;
 					int y = row;
 
@@ -546,7 +542,6 @@ public class GUI extends Application {
 						});
 						
 
-						leftsideBox.getChildren().add(gameMessage);
 
 					});
 					gameFieldLEFT.add(button, row, column);
@@ -570,13 +565,9 @@ public class GUI extends Application {
 						
 						button.setOnAction(new EventHandler<ActionEvent>() {
 							public void handle(ActionEvent event) {
-                                 // player1.setShip(x, y);
+                                 // player2.setShip(x, y);
 							}
 						});
-						
-						
-
-						rightsideBox.getChildren().add(gameMessage);
 
 					});
 
@@ -587,12 +578,14 @@ public class GUI extends Application {
 			Text gameMessage1 = new Text("Spieler: skat3r_B0Y_2001 ist dran!");
 			gameMessage1.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
 			gameMessage1.setFill(Color.WHITE);
-			topleftcornerBox.getChildren().add(gameMessage1);
-
-			rootGame.getChildren().addAll(imgGameBG, gameFieldLEFT, gameFieldRIGHT, leftsideBox, rightsideBox,
-					topleftcornerBox);
-
+			
+			rootGame.getChildren().add(imgGameBG);
+			rootGame.setTop(new ToolBar());
+			rootGame.setCenter(gameBoards);
+			
+			
 			Scene gameScene = new Scene(rootGame);
+			
 
 			gameScene.setOnKeyPressed(event -> {
 				if (event.getCode() == KeyCode.Q) {
@@ -611,6 +604,7 @@ public class GUI extends Application {
 			gameStage.setWidth(WINDOW_SIZE_X);
 			gameStage.setHeight(WINDOW_SIZE_Y);
 			gameStage.setScene(gameScene);
+			gameStage.setResizable(false);
 			gameStage.show();
 
 		}

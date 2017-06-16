@@ -7,7 +7,7 @@ import c2f.boatbusters.classes.*;
 
 public class ShipFactory {
 
-	public WarShipInterface getType (int type){
+	public WarShip getType (int type){
 		switch (type) {
 		case 1 : return new WarShip(2);
 		case 2 : return new WarShip(3);
