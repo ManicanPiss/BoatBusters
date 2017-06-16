@@ -94,12 +94,10 @@ public class GUI extends Application {
 		t1.setToX(welcomeMessage0.getTranslateX() + 400);
 		t1.play();
 
-		Rectangle bg = new Rectangle(WINDOW_SIZE_X, WINDOW_SIZE_Y);
-		bg.setFill(Color.GREY);
-		bg.setOpacity(0.8);
+		
 
 		startBox.getChildren().addAll(welcomeMessage0, welcomeBtn);
-		rootStart.getChildren().addAll(bg, imgHome, startBox);
+		rootStart.getChildren().addAll(imgHome, startBox);
 
 		Scene sceneStart = new Scene(rootStart);
 
@@ -169,20 +167,24 @@ public class GUI extends Application {
 																					// der
 																					// Cell
 
-			bg.setFill(Color.WHITE);
-			bg.setStroke(Color.DARKGREY);
+			bg.setFill(Color.GHOSTWHITE);
+			bg.setOpacity(0.6);
+			bg.setStroke(Color.TRANSPARENT);
 
 			getChildren().addAll(bg);
 
 			// wenn maus über menupoint
 			setOnMouseEntered(event -> {
-				bg.setFill(Color.GREY);
+				bg.setFill(Color.ORANGE);
+				bg.setOpacity(0.7);
+				
 				// text.setFill(Color.TURQUOISE);
 
 			});
 			// wenn maus menupoint verlässt
 			setOnMouseExited(event -> {
-				bg.setFill(Color.WHITE);
+				bg.setFill(Color.GHOSTWHITE);
+				bg.setOpacity(0.6);
 				// text.setFill(Color.BLACK);
 			});
 		}
@@ -475,12 +477,9 @@ public class GUI extends Application {
 			menuPlayer1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, btnLoginPlayer1, btnBackPlayer1); // login1
 			menuPlayer2.getChildren().addAll(loginTextPlayer2, textfieldLoginPlayer2, btnLoginPlayer2, btnBackPlayer2); // login2
 
-			Rectangle bg = new Rectangle(1280, 720);
-			bg.setFill(Color.GREY);
-			bg.setOpacity(0.4);
 
 			// getChildren().addAll(bg, mainMenu);
-			rootMenu.getChildren().addAll(bg, imgView, mainMenu);
+			rootMenu.getChildren().addAll(imgView, mainMenu);
 
 			Scene menuScene = new Scene(rootMenu);
 			menuStage.setTitle("BoatBusters");
@@ -501,7 +500,53 @@ public class GUI extends Application {
 
 			HBox gameBoards = new HBox();
 			gameBoards.setSpacing(100);
-			gameBoards.setPadding(new Insets(220, 50, 50, 50));
+			gameBoards.setPadding(new Insets(180, 100, 0, 0));
+			
+			// Background obere Box
+			Rectangle bgTopBox = new Rectangle(400, 100);
+			bgTopBox.setTranslateX(WINDOW_SIZE_X /2 - 200);
+			bgTopBox.setOpacity(0.4);
+			bgTopBox.setFill(Color.DIMGRAY);
+			bgTopBox.setStroke(Color.LIGHTGRAY);
+			
+			VBox gameTextTop = new VBox();
+			gameTextTop.setTranslateX(WINDOW_SIZE_X /2 - 180);
+			gameTextTop.setTranslateY(25);
+			Text textInfo = new Text("Infonachricht: Du bist scheiße!");
+			textInfo.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+			textInfo.setFill(Color.ORANGE);
+			gameTextTop.getChildren().add(textInfo);
+			
+//			gameTextButtons.setAlignment(Pos.BOTTOM_CENTER);
+			
+			// Background links
+			Rectangle bgLeftBox = new Rectangle(200,WINDOW_SIZE_Y);
+			bgLeftBox.setOpacity(0.4);
+			bgLeftBox.setFill(Color.LIGHTGRAY);
+			bgLeftBox.setStroke(Color.DIMGRAY);
+			
+			VBox gameMenuLeiste = new VBox();
+			Text textMenu = new Text("Press Q to MainMenu");
+			textMenu.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
+			textMenu.setFill(Color.ORANGE);
+			gameMenuLeiste.getChildren().add(textMenu);
+			
+			
+			HBox playerNames = new HBox();
+			playerNames.setPadding(new Insets(0,0,100,0));
+			playerNames.setSpacing(100);
+			playerNames.setAlignment(Pos.BASELINE_CENTER);
+			Text textPlayer1 = new Text("Player 1: skat3r_B0Y_2001");
+			textPlayer1.setFont(Font.font("Verdana", FontPosture.ITALIC, 25));
+			textPlayer1.setFill(Color.ORANGE);
+			
+			Text textPlayer2 = new Text("Player 2: lil_gaengster23");
+			textPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 25));
+			textPlayer2.setFill(Color.ORANGE);
+			
+			playerNames.getChildren().addAll(textPlayer1, textPlayer2);
+			
+			
 	
 			GridPane gameFieldLEFT = new GridPane();
 			GridPane gameFieldRIGHT = new GridPane();					
@@ -512,8 +557,8 @@ public class GUI extends Application {
 			is.close();
 
 			ImageView imgGameBG = new ImageView(img);
-			imgGameBG.setFitWidth(WINDOW_SIZE_X + 20);
-			imgGameBG.setFitHeight(WINDOW_SIZE_Y + 20);
+			imgGameBG.setFitWidth(WINDOW_SIZE_X);
+			imgGameBG.setFitHeight(WINDOW_SIZE_Y);
 					
 			gameBoards.getChildren().addAll(gameFieldLEFT, gameFieldRIGHT);
 
@@ -531,9 +576,6 @@ public class GUI extends Application {
 					button.setOnMouseClicked(event -> {
 
 						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
-						Text gameMessage = new Text("LEFTSIDE: Button at " + x + "/" + y + " pressed");
-						gameMessage.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
-						gameMessage.setFill(Color.WHITE);
 						
 						button.setOnAction(new EventHandler<ActionEvent>() {
 							public void handle(ActionEvent event) {
@@ -541,7 +583,7 @@ public class GUI extends Application {
 							}
 						});
 						
-
+						
 
 					});
 					gameFieldLEFT.add(button, row, column);
@@ -557,31 +599,33 @@ public class GUI extends Application {
 					int y = row;
 
 					button.setOnMouseClicked(event -> {
-
+						
 						Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
-						Text gameMessage = new Text("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
-						gameMessage.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
-						gameMessage.setFill(Color.WHITE);
 						
 						button.setOnAction(new EventHandler<ActionEvent>() {
 							public void handle(ActionEvent event) {
                                  // player2.setShip(x, y);
 							}
 						});
-
+						
+						
 					});
 
 					gameFieldRIGHT.add(button, row, column);
+					
 				}
 
 			}
-			Text gameMessage1 = new Text("Spieler: skat3r_B0Y_2001 ist dran!");
-			gameMessage1.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
-			gameMessage1.setFill(Color.WHITE);
 			
-			rootGame.getChildren().add(imgGameBG);
-			rootGame.setTop(new ToolBar());
+			
+			
+			
+			rootGame.getChildren().addAll(imgGameBG, bgTopBox, bgLeftBox);
+//			rootGame.setTop(new ToolBar());
 			rootGame.setCenter(gameBoards);
+			rootGame.setBottom(playerNames);
+			rootGame.setTop(gameTextTop);
+			rootGame.setLeft(gameMenuLeiste);
 			
 			
 			Scene gameScene = new Scene(rootGame);
@@ -604,7 +648,7 @@ public class GUI extends Application {
 			gameStage.setWidth(WINDOW_SIZE_X);
 			gameStage.setHeight(WINDOW_SIZE_Y);
 			gameStage.setScene(gameScene);
-			gameStage.setResizable(false);
+//			gameStage.setResizable(false);
 			gameStage.show();
 
 		}
