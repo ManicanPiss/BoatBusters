@@ -588,6 +588,7 @@ public class GUI extends Application {
 				
 			});
 			
+			
 			Text textLeft = new Text(" Press Q to Surrender");
 			textLeft.setTextAlignment(TextAlignment.CENTER);
 			textLeft.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
@@ -598,6 +599,13 @@ public class GUI extends Application {
 			textPlayerLeft.setFont(Font.font("Verdana", FontPosture.ITALIC, 14));
 			textPlayerLeft.setFill(Color.BEIGE);
 			gameLeft.getChildren().addAll(textLeft, textPlayerLeft, smallLeft, middleLeft ,bigLeft);
+			
+//			if(alle schiffe gesetzt){ TODO:
+//				gameLeft.getChildren().remove(smallLeft);
+//				gameLeft.getChildren().remove(middleLeft);
+//				gameLeft.getChildren().remove(bigLeft);
+//			}
+			
 			left.getChildren().addAll(bgLeftBox, gameLeft);
 			/////
 
@@ -633,6 +641,12 @@ public class GUI extends Application {
 			textPlayerRight.setFont(Font.font("Verdana", FontPosture.ITALIC, 14));
 			textPlayerRight.setFill(Color.DARKSEAGREEN);
 			gameRight.getChildren().addAll(textRight, textPlayerRight, smallRight, middleRight, bigRight);
+			
+//			if(alle schiffe gesetzt){ TODO:
+//				gameRight.getChildren().remove(smallRight);
+//				gameRight.getChildren().remove(middleRight);
+//				gameRight.getChildren().remove(bigRight);
+//			}
 			right.getChildren().addAll(bgRightBox, gameRight);
 			/////
 
