@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 
 import c2f.boatbusters.classes.Game;
 import c2f.boatbusters.classes.Main;
+import c2f.boatbusters.classes.Player;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -52,6 +53,11 @@ public class GUI extends Application {
 	final static int CELLBUTTON_SIZE_X_Y = 30;
 	final static int SHIPBUTTON_SIZE_X = 150;
 	final static int SHIPBUTTON_SIZE_Y = 30;
+	
+	Player player1;
+	Player player2;
+	Game game;
+	
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -236,7 +242,7 @@ public class GUI extends Application {
 
 		public void GameMenu() throws Exception {
 
-			Game game = new Game(0);
+			game = new Game(0);
 
 			Stage menuStage = new Stage();
 			Pane rootMenu = new Pane();
@@ -389,8 +395,9 @@ public class GUI extends Application {
 						e.printStackTrace();
 					}
 
-					// game.startGame(game, scan, namePlayer1, namePlayer2);
-
+					 game.startGame(game, namePlayer1, namePlayer2);
+					 player1 = game.getPlayer1();
+					 player2 = game.getPlayer2();
 				}
 			});
 
@@ -442,7 +449,7 @@ public class GUI extends Application {
 
 				String namePlayer1 = textfieldLoginPlayer1.getText();
 				String namePlayer2 = textfieldLoginPlayer2.getText();
-				// game.startGame(game, scan, namePlayer1, namePlayer2);
+				game.startGame(game, namePlayer1, namePlayer2);
 
 				TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
 				t1.setToX(menuPlayer2.getTranslateX() - offset);
@@ -671,13 +678,25 @@ public class GUI extends Application {
 
 			playerNames.getChildren().addAll(textPlayer1, textPlayer2);
 			bottom.getChildren().addAll(bgBottomBox, playerNames);
-			////////
+			
 
 			GridPane gameFieldLEFT = new GridPane();
 			GridPane gameFieldRIGHT = new GridPane();
 			gameBoards.setAlignment(Pos.BASELINE_CENTER);
 
 			gameBoards.getChildren().addAll(gameFieldLEFT, gameFieldRIGHT);
+			
+			
+			//TODO Text Feld machen mit dieser Anzeige eine pro Spieler, 
+			//also wie viele Schiffe jeder Spieler noch zu setzen hat:
+			//Aber eher erst die Anzeige über erstem Feld anzeigen lassen,
+			//solange Spieler 1 dran ist, und dann über zweiten Feld, solang Spieler 2 dran ist
+			
+//			Main.getLogger().info("Please put your ships on the field!\n"
+//			+ "You have left:"
+//			+ player.getCountSmall() +  "small ship(s) (3 cells long),\n"
+//			+ player.getCountMiddle() +  "middle ship(s) (4 cells long)\n"
+//			+ player.getCountBig() +  "big ship(s) (5 cells long)");
 
 			// Gamefield eastside //
 			for (int row = 0; row < 10; row++) {
@@ -688,9 +707,18 @@ public class GUI extends Application {
 
 					button.setOnMouseClicked(event -> {
 						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
+						
 						button.setOnAction(new EventHandler<ActionEvent>() {
 							public void handle(ActionEvent event) {
-								// player1.setShip(x, y);
+								
+								if(player1.secondIteration == false) {
+									player1.xfirst = x;
+									player1.yfirst = y;
+									return;
+								}
+								
+								player1.setShipPartsGui( x, y, game.board1);
+								player1.secondIteration = false;
 							}
 						});
 					});
@@ -711,9 +739,16 @@ public class GUI extends Application {
 						Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
 
 						button.setOnAction(new EventHandler<ActionEvent>() {
-
 							public void handle(ActionEvent event) {
-								// player2.setShip(x, y);
+								
+								if(player2.secondIteration == false) {
+									player2.xfirst = x;
+									player2.yfirst = y;
+									return;
+								}
+								
+								player2.setShipPartsGui( x, y, game.board2);
+								player2.secondIteration = false;
 							}
 						});
 

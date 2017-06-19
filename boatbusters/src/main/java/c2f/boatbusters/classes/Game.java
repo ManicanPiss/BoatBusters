@@ -23,6 +23,11 @@ import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.util.Loader;
 
 public class Game {
+	
+	Player player1 = null;
+	Player player2 = null;
+	public WarShip[][] board1;
+	public WarShip[][] board2;
 
 	private int round = 1;
 
@@ -90,16 +95,24 @@ public class Game {
 			startFiring(player, board, shooter, game);
 		}
 	}
+	
+	public Player getPlayer1() {
+		return player1;
+	}
+	
+	public Player getPlayer2() {
+		return player2;
+	}
 
-	public void startGame (Game game, Scanner scan, String namePlayer1, String namePlayer2) {
+	public void startGameOld (Game game, String namePlayer1, String namePlayer2, Scanner scan) {
 
 
 		//Erstellung der Factories um Spieler und Bretter zu erstellen
 		PlayerFactory pf = new PlayerFactory();
 
 		
-		Player player1 = pf.createPlayer(namePlayer1, Highscore.checkIfArrayListContainsName(namePlayer1));
-		Player player2 = pf.createPlayer(namePlayer2, Highscore.checkIfArrayListContainsName(namePlayer2));
+		player1 = pf.createPlayer(namePlayer1, Highscore.checkIfArrayListContainsName(namePlayer1));
+		player2 = pf.createPlayer(namePlayer2, Highscore.checkIfArrayListContainsName(namePlayer2));
 		
 
         if (Highscore.checkIfArrayListContainsName(namePlayer1).equals("0")){
@@ -115,8 +128,8 @@ public class Game {
 
 		BoardFactory bf = new BoardFactory();
 
-		WarShip board1[][] = bf.createBoard(1);
-		WarShip board2[][] = bf.createBoard(2);
+		board1 = bf.createBoard(1);
+		board2 = bf.createBoard(2);
 
 		
 		// "Shooter" werden benoetigt, um auf die Methoden der WarShipKlasse zugreifen zu koennen, ohne diese static zu machen
@@ -146,6 +159,49 @@ public class Game {
 			startFiring(player2, board1, shooterPlayer2, game);
 		}
 	}
+	
+	
+	public void startGame (Game game, String namePlayer1, String namePlayer2) {
+
+
+		//Erstellung der Factories um Spieler und Bretter zu erstellen
+		PlayerFactory pf = new PlayerFactory();
+
+		
+		player1 = pf.createPlayer(namePlayer1, Highscore.checkIfArrayListContainsName(namePlayer1));
+		player2 = pf.createPlayer(namePlayer2, Highscore.checkIfArrayListContainsName(namePlayer2));
+		
+
+        if (Highscore.checkIfArrayListContainsName(namePlayer1).equals("0")){
+		Highscore.bestenliste.add(player1);
+		}
+        if (Highscore.checkIfArrayListContainsName(namePlayer2).equals("0")){
+		Highscore.bestenliste.add(player2);
+        }
+		
+
+		Highscore.sortArrayList();
+		
+
+		BoardFactory bf = new BoardFactory();
+
+		board1 = bf.createBoard(1);
+		board2 = bf.createBoard(2);
+
+		
+		// "Shooter" werden benoetigt, um auf die Methoden der WarShipKlasse zugreifen zu koennen, ohne diese static zu machen
+
+		//WarShip shooterPlayer1 = new WarShip(1);
+		//WarShip shooterPlayer2 = new WarShip(1);
+
+		setShipsBack (board1, board2);
+
+		//Solange kein Spieler gewonnen hat, wird weiter gespielt; Runden werden innerhalb der startFiring() Methode gezaehlt
+		//while (player1.getScore() < IPlayer.maxScore && player2.getScore() < IPlayer.maxScore) {
+			//startFiring(player1, board2, shooterPlayer1, game);
+			//startFiring(player2, board1, shooterPlayer2, game);
+		}
+	
 
 	protected void showMenu(Game game) {
 		Main.getLogger().info("Hauptmenu:\n\n Optionen:\n 1. Spiel Starten \n 2. Highscore anzeigen\n 3. Beenden\n\n"

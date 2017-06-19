@@ -16,7 +16,13 @@ public class Player implements IPlayer {
 	private int countBig = 2;
 	private int shipsCount = countSmall + countMiddle + countBig;
 	private boolean shipsLeftToPut = (shipsCount > 0);
-
+    
+	
+	public boolean secondIteration = false;
+	public int xfirst;
+	public int xlast;
+	public int yfirst;
+	public int ylast;
 	
 
 	// GETTER AND SETTER
@@ -86,7 +92,7 @@ public class Player implements IPlayer {
 	 * @see c2f.boatbusters.classes.IPlayer#areShipsLeftToPut()
 	 */
 	@Override
-	public boolean areShipsLeftToPut() { 
+	public boolean areShipsLeftToPut(IPlayer player) { 
 		shipsLeftToPut = (shipsCount > 0);
 		return shipsLeftToPut; 
 	}
@@ -378,6 +384,71 @@ public class Player implements IPlayer {
 			setShipParts(choice, board, player, game, scan);
 		}
 	}
+	
+	
+	
+	private int checkLength(int xfirst, int yfirst, int xlast, int ylast) {
+		
+		int lengthOfShip;
+		
+		if (xfirst == xlast && yfirst > ylast) {
+			lengthOfShip = yfirst - ylast;
+			return lengthOfShip;
+		} 
+		
+		else if (xfirst == xlast && yfirst < ylast) {
+			lengthOfShip = ylast - yfirst;
+			return lengthOfShip;
+		}
+
+		else if (yfirst == ylast && xfirst > xlast) {
+			lengthOfShip = xfirst - xlast;
+			return lengthOfShip;
+		}
+
+		else if (yfirst == ylast && xfirst < xlast) {
+			lengthOfShip = xlast - xfirst;
+			return lengthOfShip;
+		}
+
+		else {return 0;}
+
+
+	}
+	
+	// SHIP SETTER
+	//--------------------------------------------------------------
+
+	// Anfangs- und Endteil des Schiffs setzen
+	// Bei falschen Eingaben: Brechstange, fang von vorne an!
+	public  void setShipPartsGui(int xlast, int ylast, WarShip[][] board) {
+
+		    int lengthOfShip = checkLength(xfirst, yfirst, xlast, ylast);
+		
+			// input = Zahl? Position im Brett frei?
+			if (checkFree(xfirst, yfirst, board) && checkFree(xlast, ylast, board)) {
+                    
+
+					// Checkt input, Freiheit der Endposition, Freiheit der
+					// Linie und Laenge des Schiffs.
+					// Setzt erst dann die Referenzen in das Feld.
+					if (checkIfLineIsFreeAndLengthCorrect(xfirst, yfirst, xlast, ylast, lengthOfShip, board)) {
+						//ylast = Integer.parseInt(input);
+
+						// Schiff wird gesetzt, Anzahl der verfuegbaren Schiffe
+						// diesen Typs verringert
+						setShipOnBoard(xfirst, yfirst, xlast, ylast, board, lengthOfShip);
+						reduceShipCount(choice, this);
+						
+						//Test in Konsole Ausgabe ob es funktioniert hat
+						Main.getLogger().info("Ships count variable: " + this.getShipsCount());
+						
+					}
+					
+			}
+
+     }
+	
 
 	private void setShipOnBoard(int xfirst, int yfirst, int xlast, int ylast, WarShip[][] board, int choice) {
 		int staticInt, changingStart, changingEnd;
@@ -415,6 +486,8 @@ public class Player implements IPlayer {
 			}
 		}
 	}
+	
+	
 
 	protected void setShip (IPlayer player, WarShip[][] board1, Game game, Scanner scan) {
 
@@ -510,6 +583,11 @@ public class Player implements IPlayer {
 	 */
 	String file(){
 		return name + ";" + numberOfWins + ";\n";
+	}
+	@Override
+	public boolean areShipsLeftToPut() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	//Sachen für Bestenliste/ Highscore: Ende

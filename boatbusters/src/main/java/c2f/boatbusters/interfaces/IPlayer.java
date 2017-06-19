@@ -67,4 +67,6 @@ public interface IPlayer {
 	//Länge des Spielernamens
 	String toString();
 
+	boolean areShipsLeftToPut(IPlayer player);
+
 }
