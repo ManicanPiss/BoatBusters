@@ -18,14 +18,30 @@ public class Player implements IPlayer {
 	private boolean shipsLeftToPut = (shipsCount > 0);
     
 	
-	public boolean secondIteration = false;
-	public int xfirst;
-	public int xlast;
-	public int yfirst;
-	public int ylast;
+	private boolean secondIteration = false;
+	private int xfirst;
+	private int xlast;
+	private int yfirst;
+	private int ylast;
 	
 
 	// GETTER AND SETTER
+	
+	public int getXfirst(){ return xfirst;}
+	public int getXlast(){ return xlast;}
+	public int getYfirst(){ return xfirst;}
+	public int getYlast(){ return ylast;}
+	
+	public void setXfirst(int xfirst) { this.xfirst = xfirst;}
+	public void setXlast(int xlast) { this.xlast = xlast;}
+	public void setYfirst(int yfirst) { this.yfirst = yfirst;}
+	public void setYlast(int ylast) { this.ylast = ylast;}
+	
+	
+	public boolean getSecondIteration(){ return secondIteration;}
+	
+	public void setSecondIterationOnFalse(){ this.secondIteration = false;}
+	
 
 	/* (non-Javadoc)
 	 * @see c2f.boatbusters.classes.IPlayer#getScore()

@@ -707,20 +707,22 @@ public class GUI extends Application {
 
 					button.setOnMouseClicked(event -> {
 						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
-						
-						button.setOnAction(new EventHandler<ActionEvent>() {
-							public void handle(ActionEvent event) {
-								
-								if(player1.secondIteration == false) {
-									player1.xfirst = x;
-									player1.yfirst = y;
-									return;
-								}
-								
-								player1.setShipPartsGui( x, y, game.board1);
-								player1.secondIteration = false;
+
+					});
+					
+					button.setOnAction(new EventHandler<ActionEvent>() {
+						public void handle(ActionEvent event) {
+							
+							if(player1.getSecondIteration() == false) {
+								player1.setXfirst(x);
+								player1.setYfirst(y);
+								return;
 							}
-						});
+							
+							player1.setShipPartsGui( x, y, game.board1);
+							player1.setSecondIterationOnFalse();
+							//Eine Art update-Methode, in der der Spielstand aktualisiert und visualisiert wird;
+						}
 					});
 					gameFieldLEFT.add(button, row, column);
 				}
@@ -738,20 +740,21 @@ public class GUI extends Application {
 
 						Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
 
-						button.setOnAction(new EventHandler<ActionEvent>() {
-							public void handle(ActionEvent event) {
-								
-								if(player2.secondIteration == false) {
-									player2.xfirst = x;
-									player2.yfirst = y;
-									return;
-								}
-								
-								player2.setShipPartsGui( x, y, game.board2);
-								player2.secondIteration = false;
+					});
+					
+					button.setOnAction(new EventHandler<ActionEvent>() {
+						public void handle(ActionEvent event) {
+							
+							if(player2.getSecondIteration() == false) {
+								player2.setXfirst(x);
+								player2.setYfirst(y);
+								return;
 							}
-						});
-
+							
+							player2.setShipPartsGui( x, y, game.board2);
+							player2.setSecondIterationOnFalse();
+							//Eine Art update-Methode, in der der Spielstand aktualisiert und visualisiert wird;
+						}
 					});
 
 					gameFieldRIGHT.add(button, row, column);

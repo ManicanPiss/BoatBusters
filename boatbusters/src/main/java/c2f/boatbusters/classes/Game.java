@@ -30,6 +30,7 @@ public class Game {
 	public WarShip[][] board2;
 
 	private int round = 1;
+	
 
 	public Game (int i) {
 		this.round = i;
