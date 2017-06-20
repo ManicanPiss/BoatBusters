@@ -6,6 +6,8 @@ import c2f.boatbusters.classes.*;
 
 
 public class ShipFactory {
+	
+
 
 	public WarShip getType (int type){
 		switch (type) {

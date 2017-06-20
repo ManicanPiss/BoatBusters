@@ -716,32 +716,33 @@ public class GUI extends Application {
 
 					button.setOnMouseClicked(event -> {
 						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
-						
-						try{
-						if(player1.getSecondIteration() == false) {
-							player1.setXfirst(x);
-							player1.setYfirst(y);
+
+							if (player1.getSecondIteration() == false) {
+								player1.setXfirst(x);
+								player1.setYfirst(y);
+
+							}
+
+							player1.setShipPartsGui(x, y, game.board1);
+							player1.setSecondIterationOnFalse();
 							
+						// TODO Eine Art update-Methode, in der der Spielstand
+						// aktualisiert und visualisiert wird;
+						Main.getLogger().info("Ist WarShip gesetzt auf geklicketem Feld?\n" + game.board1[x][y]);
+						
+						if (game.board1[x][y] == null) {
+							Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
+									+ "statt 'ship' oder 'warship', also anscheinend nein.");
 						}
-						}catch(NullPointerException e){}
-						
-						try{
-						player1.setShipPartsGui(x, y, game.board1);}
-						catch(NullPointerException e){}
-						player1.setSecondIterationOnFalse();
-//						//Eine Art update-Methode, in der der Spielstand aktualisiert und visualisiert wird;
-						Main.getLogger().info("Ist WarShip gesetzt auf geklicketem Feld?\n" 
-                                                + game.board1[x][y]);
-						
- 
+
 					});
 					
-					button.setOnAction(new EventHandler<ActionEvent>() {
-						public void handle(ActionEvent event) {
-							
-
-				    	}
-					});
+//					button.setOnAction(new EventHandler<ActionEvent>() {
+//						public void handle(ActionEvent event) {
+//							
+//
+//				    	}
+//					});
 					
 					gameFieldLEFT.add(button, row, column);
 				}
@@ -755,26 +756,18 @@ public class GUI extends Application {
 					int x = column;
 					int y = row;
 
-					button.setOnMouseClicked(event -> {
 
+					button.setOnMouseClicked(event -> {
 						Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
 
+					
 					});
 					
-					button.setOnAction(new EventHandler<ActionEvent>() {
-						public void handle(ActionEvent event) {
-							
-							if(player2.getSecondIteration() == false) {
-								player2.setXfirst(x);
-								player2.setYfirst(y);
-								return;
-							}
-							
-							player2.setShipPartsGui( x, y, game.board2);
-							player2.setSecondIterationOnFalse();
-							//Eine Art update-Methode, in der der Spielstand aktualisiert und visualisiert wird;
-						}
-					});
+//					button.setOnAction(new EventHandler<ActionEvent>() {
+//						public void handle(ActionEvent event) {
+//
+//						}
+//					});
 
 					gameFieldRIGHT.add(button, row, column);
 

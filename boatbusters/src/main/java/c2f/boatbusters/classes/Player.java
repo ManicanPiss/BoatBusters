@@ -408,22 +408,22 @@ public class Player implements IPlayer {
 		int lengthOfShip;
 		
 		if (xfirst == xlast && yfirst > ylast) {
-			lengthOfShip = yfirst - ylast;
+			lengthOfShip = yfirst - ylast + 1;
 			return lengthOfShip;
 		} 
 		
 		else if (xfirst == xlast && yfirst < ylast) {
-			lengthOfShip = ylast - yfirst;
+			lengthOfShip = ylast - yfirst + 1;
 			return lengthOfShip;
 		}
 
 		else if (yfirst == ylast && xfirst > xlast) {
-			lengthOfShip = xfirst - xlast;
+			lengthOfShip = xfirst - xlast + 1;
 			return lengthOfShip;
 		}
 
 		else if (yfirst == ylast && xfirst < xlast) {
-			lengthOfShip = xlast - xfirst;
+			lengthOfShip = xlast - xfirst + 1;
 			return lengthOfShip;
 		}
 
