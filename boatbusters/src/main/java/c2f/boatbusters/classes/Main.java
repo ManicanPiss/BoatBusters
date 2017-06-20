@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javafx.animation.FadeTransition;
@@ -42,16 +43,35 @@ import javafx.scene.input.MouseEvent;
 
 public class Main{
 	
+	Highscore highscore;
 	
 	static final Scanner scan = new Scanner(System.in);
 	
 	private final static Logger logger = LogManager.getRootLogger();
 
 
-	
 
 	public static void main (String [] args) {
 		
+
+		
+		File dataFile = new File("bestenliste.csv"); // Eingelesene Datei
+		
+		try (Scanner reader = new Scanner(dataFile).useDelimiter("\n")){ 
+
+			while (reader.hasNext()) { // Einlesen der schon gespeicherten Spieler
+			String[] dataArray = new String[2]; // Erstellt Array  (Zwischenspeicher)
+			dataArray = reader.next().split(";", -1); // Teilen am ';'
+			// Erstelle Spieler und füge sie der Liste hinzu
+	       Highscore.getBestenliste().add(new Player(dataArray[0], dataArray[1]));} 
+
+		   }
+	      catch (FileNotFoundException e) {
+	     e.printStackTrace();
+	     }
+		
+		
+		Highscore.sortArrayList();
 		
 		
 		logger.trace("Configuration File Defined To Be :: " + System.getProperty("log4j.configurationFile"));

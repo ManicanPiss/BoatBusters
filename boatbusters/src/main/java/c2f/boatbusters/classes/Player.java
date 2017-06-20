@@ -569,8 +569,8 @@ public class Player implements IPlayer {
 	/* (non-Javadoc)
 	 * @see c2f.boatbusters.classes.IPlayer#toString()
 	 */
-	@Override
-	public String toString(){
+	
+	public String toString2(){
 		if( name.toString().length() == 1){ return name + "                 |   " + numberOfWins;}
 		else if( name.toString().length() == 2){ return name + "                |   " + numberOfWins;}
 		else if( name.toString().length() == 3){ return name + "               |   " + numberOfWins;}

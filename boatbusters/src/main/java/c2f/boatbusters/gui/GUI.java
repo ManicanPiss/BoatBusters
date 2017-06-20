@@ -1,9 +1,12 @@
 package c2f.boatbusters.gui;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 import c2f.boatbusters.classes.Game;
 import c2f.boatbusters.classes.Highscore;
@@ -63,6 +66,7 @@ public class GUI extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		
 
 		Pane rootStart = new Pane();
 		rootStart.setPrefSize(WINDOW_SIZE_X, WINDOW_SIZE_Y);
@@ -315,6 +319,8 @@ public class GUI extends Application {
 
 				t1.play();
 				t2.play();
+				
+				Highscore.printBestenliste();
 
 				t1.setOnFinished(evt -> {
 					rootMenu.getChildren().remove(mainMenu);
