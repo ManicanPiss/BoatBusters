@@ -715,8 +715,23 @@ public class GUI extends Application {
 					int y = row;
 
 					button.setOnMouseClicked(event -> {
-						//Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
-						Main.getLogger().info(highscore.getBestenliste().get(1));
+						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
+						
+						try{
+						if(player1.getSecondIteration() == false) {
+							player1.setXfirst(x);
+							player1.setYfirst(y);
+							
+						}
+						}catch(NullPointerException e){}
+						
+						try{
+						player1.setShipPartsGui(x, y, game.board1);}
+						catch(NullPointerException e){}
+						player1.setSecondIterationOnFalse();
+//						//Eine Art update-Methode, in der der Spielstand aktualisiert und visualisiert wird;
+						Main.getLogger().info("Ist WarShip gesetzt auf geklicketem Feld?\n" 
+                                                + game.board1[x][y]);
 						
  
 					});
@@ -724,16 +739,7 @@ public class GUI extends Application {
 					button.setOnAction(new EventHandler<ActionEvent>() {
 						public void handle(ActionEvent event) {
 							
-							if(player1.getSecondIteration() == false) {
-								player1.setXfirst(x);
-								player1.setYfirst(y);
-								
-							}
-							
-							player1.setShipPartsGui( x, y, game.board1);
-							player1.setSecondIterationOnFalse();
-//							//Eine Art update-Methode, in der der Spielstand aktualisiert und visualisiert wird;
-//							Main.getLogger().info("anzahl schiffe noch zu setzen:" + player1.getShipsCount());
+
 				    	}
 					});
 					

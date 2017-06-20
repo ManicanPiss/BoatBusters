@@ -218,7 +218,7 @@ public class Player implements IPlayer {
 
 	// Position frei?
 	public static boolean checkFree (int x, int y, WarShip[][] board) {
-		return (board [x - 1][y - 1] == null);
+		return (board [x][y] == null);
 	}
 
 	// wenn man ein schiff setzt, wird die anzahl der verfuegbaren schiffe diesen typs um 1 verringert
@@ -271,7 +271,7 @@ public class Player implements IPlayer {
 
 			// Das eigentliche Abchecken findet hier statt
 			for (int i = changingStart; i <= changingEnd; i++) {
-				if (board[staticInt - 1][i - 1] != null){
+				if (board[staticInt][i] != null){
 					isFree = false;
 				}
 			}
@@ -287,7 +287,7 @@ public class Player implements IPlayer {
 
 			// Das eigentliche Abchecken findet hier statt
 			for (int i = changingStart; i <= changingEnd; i++) {
-				if (board[i - 1][staticInt - 1] != null){
+				if (board[i][staticInt] != null){
 					isFree = false;
 				}
 			}
@@ -483,8 +483,8 @@ public class Player implements IPlayer {
 			}
 
 			// Referenz wird gesetzt
-			for (int i = changingStart - 1; i < changingEnd; i++) {
-				board [staticInt-1][i] = ship;
+			for (int i = changingStart; i < changingEnd; i++) {
+				board [staticInt][i] = ship;
 			}
 		} else { // Wenn X statisch ist
 			staticInt = yfirst;
@@ -497,8 +497,8 @@ public class Player implements IPlayer {
 			}
 
 			// Referenz wird gesetzt
-			for (int i = changingStart - 1; i < changingEnd; i++) {
-				board [i][staticInt-1] = ship;
+			for (int i = changingStart; i < changingEnd; i++) {
+				board [i][staticInt] = ship;
 			}
 		}
 	}
