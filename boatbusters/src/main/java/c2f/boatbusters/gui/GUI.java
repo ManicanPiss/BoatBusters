@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import c2f.boatbusters.classes.Game;
+import c2f.boatbusters.classes.Highscore;
 import c2f.boatbusters.classes.Main;
 import c2f.boatbusters.classes.Player;
 import javafx.animation.FadeTransition;
@@ -57,6 +58,7 @@ public class GUI extends Application {
 	Player player1;
 	Player player2;
 	Game game;
+	Highscore highscore;
 	
 
 	@Override
@@ -450,7 +452,8 @@ public class GUI extends Application {
 				String namePlayer1 = textfieldLoginPlayer1.getText();
 				String namePlayer2 = textfieldLoginPlayer2.getText();
 				game.startGame(game, namePlayer1, namePlayer2);
-
+				
+				
 				TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
 				t1.setToX(menuPlayer2.getTranslateX() - offset);
 
@@ -706,8 +709,10 @@ public class GUI extends Application {
 					int y = row;
 
 					button.setOnMouseClicked(event -> {
-						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
-
+						//Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
+						Main.getLogger().info(highscore.getBestenliste().get(1));
+						
+ 
 					});
 					
 					button.setOnAction(new EventHandler<ActionEvent>() {
@@ -716,14 +721,16 @@ public class GUI extends Application {
 							if(player1.getSecondIteration() == false) {
 								player1.setXfirst(x);
 								player1.setYfirst(y);
-								return;
+								
 							}
 							
 							player1.setShipPartsGui( x, y, game.board1);
 							player1.setSecondIterationOnFalse();
-							//Eine Art update-Methode, in der der Spielstand aktualisiert und visualisiert wird;
-						}
+//							//Eine Art update-Methode, in der der Spielstand aktualisiert und visualisiert wird;
+//							Main.getLogger().info("anzahl schiffe noch zu setzen:" + player1.getShipsCount());
+				    	}
 					});
+					
 					gameFieldLEFT.add(button, row, column);
 				}
 

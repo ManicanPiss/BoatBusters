@@ -42,29 +42,20 @@ import javafx.scene.input.MouseEvent;
 
 public class Main{
 	
+	
 	static final Scanner scan = new Scanner(System.in);
 	
 	private final static Logger logger = LogManager.getRootLogger();
 
-	@SuppressWarnings("restriction")
+
+	
+
 	public static void main (String [] args) {
+		
+		
 		
 		logger.trace("Configuration File Defined To Be :: " + System.getProperty("log4j.configurationFile"));
 		
-		File dataFile = new File("bestenliste.csv"); // Eingelesene Datei
-		try (Scanner reader = new Scanner(dataFile).useDelimiter("\n")){ 
-
-			while (reader.hasNext()) { // Einlesen der schon gespeicherten Spieler
-			String[] dataArray = new String[2]; // Erstellt Array  (Zwischenspeicher)
-			dataArray = reader.next().split(";", -1); // Teilen am ';'
-			// Erstelle Spieler und füge sie der Liste hinzu
-			Highscore.bestenliste.add(new Player(dataArray[0], dataArray[1])); 
-		   }
-	     } catch (FileNotFoundException e) {
-	     e.printStackTrace();
-	     }
-
-		Highscore.sortArrayList();
 		
 		GUI javaFX = new GUI();
 		Application.launch(javaFX.getClass(), args);

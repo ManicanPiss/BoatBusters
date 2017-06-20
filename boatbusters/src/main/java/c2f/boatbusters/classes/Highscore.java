@@ -10,8 +10,17 @@ import org.apache.logging.log4j.core.Logger;
 
 public class Highscore {
 	
+	private int phase;
+	
+	public Highscore(int i){
+		this.phase = i;
+	}
 
-	static final ArrayList<Player> bestenliste = new ArrayList <>();
+	private static final ArrayList<Player> bestenliste = new ArrayList <>();
+	
+	public ArrayList<Player> getBestenliste(){
+		return bestenliste;
+	}
 	
 	public static void printBestenliste (){
 		Main.getLogger().info("Player            | NumberOfWins\n------------------+---------------");

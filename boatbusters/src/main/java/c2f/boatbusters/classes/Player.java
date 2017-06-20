@@ -457,7 +457,7 @@ public class Player implements IPlayer {
 						reduceShipCount(choice, this);
 						
 						//Test in Konsole Ausgabe ob es funktioniert hat
-						Main.getLogger().info("Ships count variable: " + this.getShipsCount());
+						//Main.getLogger().info("Ships count variable: " + this.getShipsCount());
 						
 					}
 					

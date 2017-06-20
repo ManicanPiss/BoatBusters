@@ -28,6 +28,7 @@ public class Game {
 	Player player2 = null;
 	public WarShip[][] board1;
 	public WarShip[][] board2;
+	Highscore highscore;
 
 	private int round = 1;
 	
@@ -117,10 +118,10 @@ public class Game {
 		
 
         if (Highscore.checkIfArrayListContainsName(namePlayer1).equals("0")){
-		Highscore.bestenliste.add(player1);
+		highscore.getBestenliste().add(player1);
 		}
         if (Highscore.checkIfArrayListContainsName(namePlayer2).equals("0")){
-		Highscore.bestenliste.add(player2);
+		highscore.getBestenliste().add(player2);
         }
 		
 
@@ -165,6 +166,21 @@ public class Game {
 	public void startGame (Game game, String namePlayer1, String namePlayer2) {
 
 
+		File dataFile = new File("bestenliste.csv"); // Eingelesene Datei
+		try (Scanner reader = new Scanner(dataFile).useDelimiter("\n")){ 
+
+			while (reader.hasNext()) { // Einlesen der schon gespeicherten Spieler
+			String[] dataArray = new String[2]; // Erstellt Array  (Zwischenspeicher)
+			dataArray = reader.next().split(";", -1); // Teilen am ';'
+			// Erstelle Spieler und füge sie der Liste hinzu
+			highscore.getBestenliste().add(new Player(dataArray[0], dataArray[1])); 
+		   }
+	     } catch (FileNotFoundException e) {
+	     e.printStackTrace();
+	     }
+
+		Highscore.sortArrayList();
+		
 		//Erstellung der Factories um Spieler und Bretter zu erstellen
 		PlayerFactory pf = new PlayerFactory();
 
@@ -174,10 +190,10 @@ public class Game {
 		
 
         if (Highscore.checkIfArrayListContainsName(namePlayer1).equals("0")){
-		Highscore.bestenliste.add(player1);
+		highscore.getBestenliste().add(player1);
 		}
         if (Highscore.checkIfArrayListContainsName(namePlayer2).equals("0")){
-		Highscore.bestenliste.add(player2);
+        highscore.getBestenliste().add(player2);
         }
 		
 
@@ -192,10 +208,12 @@ public class Game {
 		
 		// "Shooter" werden benoetigt, um auf die Methoden der WarShipKlasse zugreifen zu koennen, ohne diese static zu machen
 
-		//WarShip shooterPlayer1 = new WarShip(1);
-		//WarShip shooterPlayer2 = new WarShip(1);
+		WarShip shooterPlayer1 = new WarShip(1);
+		WarShip shooterPlayer2 = new WarShip(1);
 
 		setShipsBack (board1, board2);
+		
+		Main.getLogger().info("startGame Methode erfolgreich ausgeführt");
 
 		//Solange kein Spieler gewonnen hat, wird weiter gespielt; Runden werden innerhalb der startFiring() Methode gezaehlt
 		//while (player1.getScore() < IPlayer.maxScore && player2.getScore() < IPlayer.maxScore) {
@@ -229,9 +247,9 @@ public class Game {
 
 		Highscore.printBestenliste();
 
-		@SuppressWarnings("resource")
-		Scanner scan = new Scanner(System.in);
-		String str = scan.next();
+//		@SuppressWarnings("resource")
+//		Scanner scan = new Scanner(System.in);
+//		String str = scan.next();
 		
 
 		// Wenn der Spieler ins Menu zurueck moechte
@@ -247,8 +265,8 @@ public class Game {
 		try {
 			FileWriter fWriter = new FileWriter("bestenliste.csv");
 			BufferedWriter writer = new BufferedWriter(fWriter);
-			for (int i = 0; i < Highscore.bestenliste.size(); i++) {
-				writer.write(Highscore.bestenliste.get(i).file()); //1 Person -> 1 Zeile
+			for (int i = 0; i < highscore.getBestenliste().size(); i++) {
+				writer.write(highscore.getBestenliste().get(i).file()); //1 Person -> 1 Zeile
 			}
 			writer.close();
 		} catch (Exception e) {
