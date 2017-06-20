@@ -18,8 +18,8 @@ public class Player implements IPlayer {
 	private boolean shipsLeftToPut = (shipsCount > 0);
     
 	
-	private boolean secondIteration = false;
-	private int xfirst;
+	private boolean secondClick = false;
+	private int xfirst = -5;
 	private int xlast;
 	private int yfirst;
 	private int ylast;
@@ -38,9 +38,10 @@ public class Player implements IPlayer {
 	public void setYlast(int ylast) { this.ylast = ylast;}
 	
 	
-	public boolean getSecondIteration(){ return secondIteration;}
+	public boolean getSecondClick(){ return secondClick;}
 	
-	public void setSecondIterationOnFalse(){ this.secondIteration = false;}
+	public void setSecondClickOnFalse(){ this.secondClick = false;}
+	public void setSecondClickOnTrue(){ this.secondClick = true;}
 	
 
 	/* (non-Javadoc)

@@ -717,22 +717,24 @@ public class GUI extends Application {
 					button.setOnMouseClicked(event -> {
 						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
 
-							if (player1.getSecondIteration() == false) {
+						//	if (player1.getSecondIteration() == false) {
+						if (player1.getSecondClick() == false){
 								player1.setXfirst(x);
 								player1.setYfirst(y);
-
+								player1.setSecondClickOnTrue();
 							}
-
+						else if (player1.getSecondClick() == true){
 							player1.setShipPartsGui(x, y, game.board1);
-							player1.setSecondIterationOnFalse();
+							player1.setSecondClickOnFalse();
 							
 						// TODO Eine Art update-Methode, in der der Spielstand
 						// aktualisiert und visualisiert wird;
 						Main.getLogger().info("Ist WarShip gesetzt auf geklicketem Feld?\n" + game.board1[x][y]);
 						
 						if (game.board1[x][y] == null) {
-							Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
+							Main.getLogger().info("Zelle mit Endkoordinaten hat Referenz null\n"
 									+ "statt 'ship' oder 'warship', also anscheinend nein.");
+							}
 						}
 
 					});
@@ -760,7 +762,26 @@ public class GUI extends Application {
 					button.setOnMouseClicked(event -> {
 						Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
 
-					
+						//	if (player1.getSecondIteration() == false) {
+						if (player2.getSecondClick() == false){
+								player2.setXfirst(x);
+								player2.setYfirst(y);
+								player2.setSecondClickOnTrue();
+							}
+						else if (player2.getSecondClick() == true){
+							player2.setShipPartsGui(x, y, game.board1);
+							player2.setSecondClickOnFalse();
+							
+						// TODO Eine Art update-Methode, in der der Spielstand
+						// aktualisiert und visualisiert wird;
+						Main.getLogger().info("Ist WarShip gesetzt auf geklicketem Feld?\n" + game.board1[x][y]);
+						
+						if (game.board1[player2.getXfirst()][player2.getYfirst()] == null) {
+							Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
+									+ "statt 'ship' oder 'warship', also anscheinend nein.");
+							}
+						}
+
 					});
 					
 //					button.setOnAction(new EventHandler<ActionEvent>() {

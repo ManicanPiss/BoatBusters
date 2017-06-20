@@ -7,7 +7,8 @@ public class PlayerFactory {
 
 
 	public Player createPlayer(String name, String numberOfWins) {
-		    
-			return new Player(name, numberOfWins);
+		    Player player = new Player (name, numberOfWins);    
+			return player;
+			
 	}
 }
