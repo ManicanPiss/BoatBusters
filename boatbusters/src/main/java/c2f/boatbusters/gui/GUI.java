@@ -320,7 +320,7 @@ public class GUI extends Application {
 				t1.play();
 				t2.play();
 				
-				Highscore.printBestenliste();
+				highscore.printBestenliste();
 
 				t1.setOnFinished(evt -> {
 					rootMenu.getChildren().remove(mainMenu);
