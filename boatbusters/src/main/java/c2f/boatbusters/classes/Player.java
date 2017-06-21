@@ -299,7 +299,7 @@ public class Player implements IPlayer {
 		}
 
 		// Vergleicht Laenge des zu setzenden Schiffs mit der Laenge des Schifftyps
-		if (!(changingEnd - changingStart == length)) {
+		if (!(changingEnd - changingStart + 1 == length)) {
 			isFree = false;
 		} 
 		return isFree;
@@ -455,7 +455,7 @@ public class Player implements IPlayer {
 						// Schiff wird gesetzt, Anzahl der verfuegbaren Schiffe
 						// diesen Typs verringert
 						setShipOnBoard(xfirst, yfirst, xlast, ylast, board, lengthOfShip);
-						reduceShipCount(choice, this);
+						reduceShipCount(lengthOfShip, this);
 						
 						//Test in Konsole Ausgabe ob es funktioniert hat
 						//Main.getLogger().info("Ships count variable: " + this.getShipsCount());
@@ -467,11 +467,11 @@ public class Player implements IPlayer {
      }
 	
 
-	private void setShipOnBoard(int xfirst, int yfirst, int xlast, int ylast, WarShip[][] board, int choice) {
+	private void setShipOnBoard(int xfirst, int yfirst, int xlast, int ylast, WarShip[][] board, int length) {
 		int staticInt, changingStart, changingEnd;
 
 		ShipFactory fact = new ShipFactory();
-		WarShip ship = (WarShip) fact.getType(choice);
+		WarShip ship = fact.getType(length);
 
 		if (xfirst == xlast) { // Wenn X statisch ist
 			staticInt = xfirst;
@@ -484,7 +484,7 @@ public class Player implements IPlayer {
 			}
 
 			// Referenz wird gesetzt
-			for (int i = changingStart; i < changingEnd; i++) {
+			for (int i = changingStart; i <= changingEnd; i++) {
 				board [staticInt][i] = ship;
 			}
 		} else { // Wenn X statisch ist
@@ -498,7 +498,7 @@ public class Player implements IPlayer {
 			}
 
 			// Referenz wird gesetzt
-			for (int i = changingStart; i < changingEnd; i++) {
+			for (int i = changingStart; i <= changingEnd; i++) {
 				board [i][staticInt] = ship;
 			}
 		}

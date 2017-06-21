@@ -740,9 +740,9 @@ public class GUI extends Application {
 							
 						// TODO Eine Art update-Methode, in der der Spielstand
 						// aktualisiert und visualisiert wird;
-						Main.getLogger().info("Ist WarShip gesetzt auf geklicketem Feld?\n" + game.board1[x][y]);
+						Main.getLogger().info("Ist WarShip gesetzt auf Endkoordiante?\n" + board1[x][y]);
 						
-						if (game.board1[x][y] == null) {
+						if (board1[x][y] == null) {
 							Main.getLogger().info("Zelle mit Endkoordinaten hat Referenz null\n"
 									+ "statt 'ship' oder 'warship', also anscheinend nein.");
 							}
@@ -780,14 +780,15 @@ public class GUI extends Application {
 								player2.setSecondClick(true);
 							}
 						else if (player2.getSecondClick() == true){
-							player2.setShipPartsGui(x, y, game.board1);
+							player2.setShipPartsGui(x, y, game.board2);
 							player2.setSecondClick(false);
 							
 						// TODO Eine Art update-Methode, in der der Spielstand
 						// aktualisiert und visualisiert wird;
-						Main.getLogger().info("Ist WarShip gesetzt auf geklicketem Feld?\n" + game.board1[x][y]);
+						Main.getLogger().info("Ist WarShip gesetzt auf Endkoordinate?\n" +
+						                        board2[x][y]);
 						
-						if (game.board1[player2.getXfirst()][player2.getYfirst()] == null) {
+						if (board2[x][y] == null) {
 							Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
 									+ "statt 'ship' oder 'warship', also anscheinend nein.");
 							}
