@@ -212,7 +212,7 @@ public class GUI extends Application {
 
 		public GameButton(String name) {
 			text = new Text(name);
-			text.setStyle(font20);
+			text.setStyle(font14);
 			text.setFill(Color.WHITE);
 			text.setTextAlignment(TextAlignment.RIGHT);
 
@@ -223,6 +223,7 @@ public class GUI extends Application {
 			setAlignment(Pos.CENTER);
 
 			getChildren().addAll(bg, text);
+			
 			setOnMousePressed(event -> {
 				text.setFill(Color.ORANGE);
 			});
@@ -624,6 +625,11 @@ public class GUI extends Application {
 			bigLeft.setOnMouseClicked(event -> {
 			// TODO: großes schiff button auswahl
 			});
+			GameButton resetLeft = new GameButton("reset Ships");
+			resetLeft.setOnMouseClicked(event -> {
+			// TODO: schiffe player1 zurücksetzen
+			});
+			
 
 			Text textLeft = new Text(" Press Q to Surrender");
 			textLeft.setStyle(font14);
@@ -640,7 +646,7 @@ public class GUI extends Application {
 			Text textBigLeft = new Text(" " + player1.getCountBig() + " big Ships left");
 			textBigLeft.setFill(Color.WHITE);
 			gameLeft.getChildren().addAll(textLeft, textPlayerLeft, smallLeft, textSmallLeft, middleLeft,
-					textMiddleLeft, bigLeft, textBigLeft);
+					textMiddleLeft, bigLeft, textBigLeft, resetLeft);
 
 			// if(alle schiffe gesetzt){ TODO:
 			// gameLeft.getChildren().remove(smallLeft);
@@ -673,6 +679,10 @@ public class GUI extends Application {
 			bigRight.setOnMouseClicked(event -> {
 			// TODO: großes schiff button auswahl
 			});
+			GameButton resetRight = new GameButton("reset Ships");
+			resetLeft.setOnMouseClicked(event -> {
+			// TODO: schiffe player1 zurücksetzen
+			});
 
 			Text textRight = new Text(" Press Q to Surrender");
 			textRight.setStyle(font14);
@@ -689,7 +699,7 @@ public class GUI extends Application {
 			Text textBigRight = new Text(" " + player2.getCountBig() + " big Ships left");
 			textBigRight.setFill(Color.DARKSEAGREEN);
 			gameRight.getChildren().addAll(textRight, textPlayerRight, smallRight, textSmallRight, middleRight,
-					textMiddleRight, bigRight, textBigRight);
+					textMiddleRight, bigRight, textBigRight, resetRight);
 
 			// if(alle schiffe gesetzt){ TODO:
 			// gameRight.getChildren().remove(smallRight);
