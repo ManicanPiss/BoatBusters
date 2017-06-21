@@ -564,11 +564,19 @@ public class GUI extends Application {
 
 	public class GameField extends Parent {
 		
-		
+		//Anzeigetexte für linke Spielhälfte, d.h. Spieler 1, wieviele Schiffe er/sie noch setzen muss
 		Text textSmallLeft = new Text();
 		Text textMiddleLeft = new Text();
-		Text textBigLeft = new Text();		
+		Text textBigLeft = new Text();
 		
+		//Anzeigetexte für rechte Spielhälfte, d.h. Spieler 2, wieviele Schiffe er/sie noch setzen muss
+		Text textSmallRight = new Text();
+		Text textMiddleRight = new Text();
+		Text textBigRight = new Text();	
+		
+		
+		//Getter und Setter der Texte, wie viele Schiffe noch gesetzt werden müssen
+		//für linke Spielhälfte, d.h. die von Spieler 1
 		public void setTextSmallLeft(){
 			this.textSmallLeft = new Text(" " + player1.getCountSmall() + " small Ships left");
 			textSmallLeft.setStyle(font14);
@@ -597,6 +605,38 @@ public class GUI extends Application {
 
 		public Text getTextBigLeft() {
 			return textBigLeft;
+		}
+		
+		//Getter und Setter der Texte, wie viele Schiffe noch gesetzt werden müssen
+		//für rechte Spielhälfte, d.h. die von Spieler 2
+		public void setTextSmallRight(){
+			this.textSmallRight = new Text(" " + player2.getCountSmall() + " small Ships left");
+			textSmallRight.setStyle(font14);
+			textSmallRight.setFill(Color.WHITE);
+		}
+		
+		public void setTextMiddleRight(){
+			this.textMiddleRight = new Text(" " + player2.getCountMiddle() + " middle Ships left");
+			textMiddleRight.setStyle(font14);
+			textMiddleRight.setFill(Color.WHITE);
+		}
+		
+		public void setTextBigRight(){
+			this.textBigRight = new Text(" " + player2.getCountBig() + " big Ships left");
+			textBigRight.setStyle(font14);
+			textBigRight.setFill(Color.WHITE);
+		}
+		
+		public Text getTextSmallRight() {
+			return textSmallRight;
+		}
+
+		public Text getTextMiddleRight() {
+			return textMiddleRight;
+		}
+
+		public Text getTextBigRight() {
+			return textBigRight;
 		}
 		
 		
@@ -827,22 +867,8 @@ public class GUI extends Application {
 			Text textPlayerRight = new Text(" Player 2:");
 			textPlayerRight.setStyle(font14);
 			textPlayerRight.setFill(Color.YELLOW);
-
-			Text textSmallRight = new Text(" " + player2.getCountSmall() + " small Ships left");
-			textSmallRight.setStyle(font14);
-			textSmallRight.setFill(Color.YELLOW);
 			
-			Text textMiddleRight = new Text(" " + player2.getCountMiddle() + " middle Ships left");
-			textMiddleRight.setStyle(font14);
-			textMiddleRight.setFill(Color.YELLOW);
-			
-			Text textBigRight = new Text(" " + player2.getCountBig() + " big Ships left");
-			textBigRight.setStyle(font14);
-			textBigRight.setFill(Color.YELLOW);
-			
-			
-			gameRight.getChildren().addAll(textRight, textPlayerRight, textSmallRight,
-											textMiddleRight, textBigRight, resetRight);
+			gameRight.getChildren().addAll(textRight, textPlayerRight, resetRight);
 
 			// if(alle schiffe gesetzt){ TODO:
 			// gameRight.getChildren().remove(smallRight);
@@ -910,32 +936,43 @@ public class GUI extends Application {
 		}
 		
 		void update(GridPane feld1, GridPane feld2, VBox left, VBox right) {
+			//Zellen, auf die eine Referenz gesetzt ist, werden eingefärbt
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					if (board1[i][j] != null) {
 						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
 					}
+					//Zellen, die die Referenz null haben, werden transparent gemacht
 					else if(board1[i][j] == null){
 						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
 					}
 				}
 			}
-
+			//Zellen, auf die eine Referenz gesetzt ist, werden eingefärbt
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					if (board2[i][j] != null) {
 						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
 					}
+					//Zellen, die die Referenz null haben, werden transparent gemacht
 					else if(board2[i][j] == null){
 						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
 					}
 				}
 			}
+			//Anzeigetexte in GUI, wie viele Schiffe noch gesetzt werden müssen, werden aktualisiert (VBox links Player1)
 			left.getChildren().removeAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
 			setTextSmallLeft();
 			setTextMiddleLeft();
 			setTextBigLeft();
 			left.getChildren().addAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
+			
+			//Anzeigetexte in GUI, wie viele Schiffe noch gesetzt werden müssen, werden aktualisiert (VBox rechts Player2)
+			right.getChildren().removeAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
+			setTextSmallRight();
+			setTextMiddleRight();
+			setTextBigRight();
+			right.getChildren().addAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
 			
 		}
 
