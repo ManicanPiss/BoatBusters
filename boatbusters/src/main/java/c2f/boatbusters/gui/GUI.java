@@ -730,8 +730,8 @@ public class GUI extends Application {
 			for (int row = 0; row < 10; row++) {
 				for (int column = 0; column < 10; column++) {
 					CellButton button = new CellButton();
-					int x = column;
-					int y = row;
+					int y = column;
+					int x = row;
 
 					button.setOnMouseClicked(event -> {
 						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
@@ -778,8 +778,8 @@ public class GUI extends Application {
 				for (int column = 0; column < 10; column++) {
 					CellButton button = new CellButton();
 
-					int x = column;
-					int y = row;
+					int y = column;
+					int x = row;
 
 
 					button.setOnMouseClicked(event -> {
