@@ -586,6 +586,12 @@ public class GUI extends Application {
 			GridPane gameFieldRight = new GridPane();
 			gameBoards.setAlignment(Pos.BASELINE_CENTER);
 			
+			StackPane left = new StackPane();
+			VBox gameRight = new VBox();
+			
+			StackPane right = new StackPane();
+			VBox gameLeft = new VBox();
+			
 			
 
 			gameBoards.getChildren().addAll(gameFieldLeft, gameFieldRight);
@@ -628,7 +634,7 @@ public class GUI extends Application {
 								Main.getLogger().info("#sotrue , Ja, hier ist ein Schiff");
 							}
 						}
-						update(gameFieldLeft, gameFieldRight);
+						update(gameFieldLeft, gameFieldRight, gameLeft, gameRight);
 
 					});
 
@@ -684,7 +690,7 @@ public class GUI extends Application {
 							}
 
 						}
-						update(gameFieldLeft, gameFieldRight);
+						update(gameFieldLeft, gameFieldRight, gameLeft, gameRight);
 
 					});
 
@@ -722,31 +728,19 @@ public class GUI extends Application {
 			///////
 
 			// LEFTSIDE//
-			StackPane left = new StackPane();
+			
 			Rectangle bgLeftBox = new Rectangle(150, 500);
 			bgLeftBox.setOpacity(0.4);
 			bgLeftBox.setFill(Color.DIMGREY);
 			bgLeftBox.setStroke(Color.LIGHTGRAY);
 
-			VBox gameLeft = new VBox();
-			gameLeft.setSpacing(5);
-			GameButton smallLeft = new GameButton("small Ship");
-			smallLeft.setOnMouseClicked(event -> {
-			//	TODO: kleines schiff auswahl
-
-			});
-			GameButton middleLeft = new GameButton("middle Ship");
-			middleLeft.setOnMouseClicked(event -> {
-			// TODO: mittleres schiff button auswahl
-			});
-			GameButton bigLeft = new GameButton("big Ship");
-			bigLeft.setOnMouseClicked(event -> {
-			// TODO: großes schiff button auswahl
-			});
+			
+			gameLeft.setSpacing(10);
+			
 			GameButton resetLeft = new GameButton("reset Ships");
 			resetLeft.setOnMouseClicked(event -> {
 				game.setShipsBackBoard1(board1); 
-				update(gameFieldLeft, gameFieldRight);
+				update(gameFieldLeft, gameFieldRight, gameLeft, gameRight);
 				
 				
 			});
@@ -761,13 +755,19 @@ public class GUI extends Application {
 			textPlayerLeft.setFill(Color.BEIGE);
 
 			Text textSmallLeft = new Text(" " + player1.getCountSmall() + " small Ships left");
+			textSmallLeft.setStyle(font14);
 			textSmallLeft.setFill(Color.WHITE);
+			
 			Text textMiddleLeft = new Text(" " + player1.getCountMiddle() + " middle Ships left");
+			textMiddleLeft.setStyle(font14);
 			textMiddleLeft.setFill(Color.WHITE);
+			
 			Text textBigLeft = new Text(" " + player1.getCountBig() + " big Ships left");
+			textBigLeft.setStyle(font14);
 			textBigLeft.setFill(Color.WHITE);
-			gameLeft.getChildren().addAll(textLeft, textPlayerLeft, smallLeft, textSmallLeft, middleLeft,
-					textMiddleLeft, bigLeft, textBigLeft, resetLeft);
+			
+			gameLeft.getChildren().addAll(textLeft, textPlayerLeft, textSmallLeft,
+					textMiddleLeft, textBigLeft, resetLeft);
 
 			// if(alle schiffe gesetzt){ TODO:
 			// gameLeft.getChildren().remove(smallLeft);
@@ -779,52 +779,45 @@ public class GUI extends Application {
 			/////
 
 			/// RIGHTSIDE ///
-			StackPane right = new StackPane();
+			
 			right.setAlignment(Pos.CENTER_RIGHT);
 			Rectangle bgRightBox = new Rectangle(150, 500);
 			bgRightBox.setOpacity(0.4);
 			bgRightBox.setFill(Color.DIMGREY);
 			bgRightBox.setStroke(Color.LIGHTGRAY);
 
-			VBox gameRight = new VBox();
-			gameRight.setSpacing(5);
-			GameButton smallRight = new GameButton("small Ship");
-			smallRight.setOnMouseClicked(event -> {
-			// TODO: kleines schiff button
-			});
-			GameButton middleRight = new GameButton("middle Ship");
-			middleRight.setOnMouseClicked(event -> {
-			// TODO: mittleres schiff button auswahl
-			});
-			GameButton bigRight = new GameButton("big Ship");
-			bigRight.setOnMouseClicked(event -> {
-			// TODO: großes schiff button auswahl
-			});
+			
+			gameRight.setSpacing(10);
 			
 			GameButton resetRight = new GameButton("reset Ships");
 			resetRight.setOnMouseClicked(event -> {
 				game.setShipsBackBoard2(board2);
-				update(gameFieldLeft, gameFieldRight);
+				update(gameFieldLeft, gameFieldRight, gameLeft, gameRight);
 			});
 
 			Text textRight = new Text(" Press Q to Surrender");
 			textRight.setStyle(font14);
-			textRight.setFill(Color.DARKSEAGREEN);
+			textRight.setFill(Color.YELLOW);
 
 			Text textPlayerRight = new Text(" Player 2:");
 			textPlayerRight.setStyle(font14);
-			textPlayerRight.setFill(Color.DARKSEAGREEN);
+			textPlayerRight.setFill(Color.YELLOW);
 
 			Text textSmallRight = new Text(" " + player2.getCountSmall() + " small Ships left");
-			textSmallRight.setFill(Color.DARKSEAGREEN);
+			textSmallRight.setStyle(font14);
+			textSmallRight.setFill(Color.YELLOW);
+			
 			Text textMiddleRight = new Text(" " + player2.getCountMiddle() + " middle Ships left");
-			textMiddleRight.setFill(Color.DARKSEAGREEN);
+			textMiddleRight.setStyle(font14);
+			textMiddleRight.setFill(Color.YELLOW);
+			
 			Text textBigRight = new Text(" " + player2.getCountBig() + " big Ships left");
-			textBigRight.setFill(Color.DARKSEAGREEN);
+			textBigRight.setStyle(font14);
+			textBigRight.setFill(Color.YELLOW);
 			
 			
-			gameRight.getChildren().addAll(textRight, textPlayerRight, smallRight, textSmallRight, middleRight,
-					textMiddleRight, bigRight, textBigRight, resetRight);
+			gameRight.getChildren().addAll(textRight, textPlayerRight, textSmallRight,
+											textMiddleRight, textBigRight, resetRight);
 
 			// if(alle schiffe gesetzt){ TODO:
 			// gameRight.getChildren().remove(smallRight);
@@ -851,7 +844,7 @@ public class GUI extends Application {
 
 			Text textPlayer2 = new Text("Player 2: " + player2.getName());
 			textPlayer2.setStyle(font30);
-			textPlayer2.setFill(Color.DARKSEAGREEN);
+			textPlayer2.setFill(Color.YELLOW);
 
 			playerNames.getChildren().addAll(textPlayer1, textPlayer2);
 			bottom.getChildren().addAll(bgBottomBox, playerNames);
@@ -866,6 +859,7 @@ public class GUI extends Application {
 			rootGame.setLeft(left);
 			rootGame.setRight(right);
 
+			update(gameFieldLeft, gameFieldRight, gameLeft, gameRight);
 			Scene gameScene = new Scene(rootGame);
 			gameScene.setOnKeyPressed(event -> {
 				if (event.getCode() == KeyCode.Q) {
@@ -891,7 +885,7 @@ public class GUI extends Application {
 		}
 	}
 
-	void update(GridPane feld1, GridPane feld2) {
+	void update(GridPane feld1, GridPane feld2, VBox left, VBox right) {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				if (board1[i][j] != null) {
@@ -913,6 +907,9 @@ public class GUI extends Application {
 				}
 			}
 		}
+		
+//		left.getChildren().addAll(textSmallLeft, textMiddleLeft, textBigLeft);
+		
 	}
 
 }
