@@ -581,6 +581,110 @@ public class GUI extends Application {
 			HBox gameBoards = new HBox();
 			gameBoards.setSpacing(100);
 			gameBoards.setPadding(new Insets(100, 0, 0, 0));
+			
+			GridPane gameFieldLeft = new GridPane();
+			GridPane gameFieldRight = new GridPane();
+			gameBoards.setAlignment(Pos.BASELINE_CENTER);
+			
+			
+
+			gameBoards.getChildren().addAll(gameFieldLeft, gameFieldRight);
+
+			
+			// Gamefield eastside //
+			for (int row = 0; row < 10; row++) {
+				for (int column = 0; column < 10; column++) {
+					CellButton button = new CellButton();
+					int y = column;
+					int x = row;
+
+					button.setOnMouseClicked(event -> {
+						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
+
+						// if (player1.getSecondIteration() == false) {
+						if (player1.getSecondClick() == false) {
+							player1.setXfirst(x);
+							player1.setYfirst(y);
+							player1.setSecondClick(true);
+						} else if (player1.getSecondClick() == true) {
+							player1.setShipPartsGui(x, y, game.board1);
+							player1.setSecondClick(false);
+
+							// TODO Eine Art update-Methode, in der der
+							// Spielstand
+							// aktualisiert und visualisiert wird;
+							Main.getLogger().info("Ist WarShip gesetzt auf Endkoordiante?\n" + board1[x][y]);
+
+							if (board1[x][y] == null) {
+								Main.getLogger().info("Zelle mit Endkoordinaten hat Referenz null\n"
+										+ "statt 'ship' oder 'warship', also anscheinend nein.");
+							} else if (board1[x][y] != null) {
+								Main.getLogger().info("#sotrue");
+							}
+						}
+						update(gameFieldLeft, gameFieldRight);
+
+					});
+
+					// button.setOnAction(new EventHandler<ActionEvent>() {
+					// public void handle(ActionEvent event) {
+					//
+					//
+					// }
+					// });
+
+					gameFieldLeft.add(button, row, column);
+				}
+				
+			}
+			// GameField westside //
+			for (int row = 0; row < 10; row++) {
+				for (int column = 0; column < 10; column++) {
+					CellButton button = new CellButton();
+
+					int y = column;
+					int x = row;
+
+					button.setOnMouseClicked(event -> {
+						Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
+
+						// if (player1.getSecondIteration() == false) {
+						if (player2.getSecondClick() == false) {
+							player2.setXfirst(x);
+							player2.setYfirst(y);
+							player2.setSecondClick(true);
+						} else if (player2.getSecondClick() == true) {
+							player2.setShipPartsGui(x, y, game.board2);
+							player2.setSecondClick(false);
+
+							// TODO Eine Art update-Methode, in der der
+							// Spielstand
+							// aktualisiert und visualisiert wird;
+							Main.getLogger().info("Ist WarShip gesetzt auf Endkoordinate?\n" + board2[x][y]);
+
+							if (board2[x][y] == null) {
+								Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
+										+ "statt 'ship' oder 'warship', also anscheinend nein.");
+							} else if (board2[x][y] != null) {
+								Main.getLogger().info("#sotrue");
+							}
+
+						}
+						update(gameFieldLeft, gameFieldRight);
+
+					});
+
+					// button.setOnAction(new EventHandler<ActionEvent>() {
+					// public void handle(ActionEvent event) {
+					//
+					// }
+					// });
+
+					gameFieldRight.add(button, row, column);
+
+				}
+
+			}
 
 			/// TOP ///
 			StackPane top = new StackPane();
@@ -628,6 +732,7 @@ public class GUI extends Application {
 			GameButton resetLeft = new GameButton("reset Ships");
 			resetLeft.setOnMouseClicked(event -> {
 				game.setShipsBackBoard1(board1); 
+				update(gameFieldLeft, gameFieldRight);
 			});
 			
 
@@ -679,10 +784,11 @@ public class GUI extends Application {
 			bigRight.setOnMouseClicked(event -> {
 			// TODO: großes schiff button auswahl
 			});
+			
 			GameButton resetRight = new GameButton("reset Ships");
 			resetLeft.setOnMouseClicked(event -> {
 				game.setShipsBackBoard2(board2);
-			
+				update(gameFieldLeft, gameFieldRight);
 			});
 
 			Text textRight = new Text(" Press Q to Surrender");
@@ -699,6 +805,8 @@ public class GUI extends Application {
 			textMiddleRight.setFill(Color.DARKSEAGREEN);
 			Text textBigRight = new Text(" " + player2.getCountBig() + " big Ships left");
 			textBigRight.setFill(Color.DARKSEAGREEN);
+			
+			
 			gameRight.getChildren().addAll(textRight, textPlayerRight, smallRight, textSmallRight, middleRight,
 					textMiddleRight, bigRight, textBigRight, resetRight);
 
@@ -732,107 +840,7 @@ public class GUI extends Application {
 			playerNames.getChildren().addAll(textPlayer1, textPlayer2);
 			bottom.getChildren().addAll(bgBottomBox, playerNames);
 
-			GridPane gameFieldLEFT = new GridPane();
-			GridPane gameFieldRIGHT = new GridPane();
-			gameBoards.setAlignment(Pos.BASELINE_CENTER);
-
-			gameBoards.getChildren().addAll(gameFieldLEFT, gameFieldRIGHT);
-
 			
-			// Gamefield eastside //
-			for (int row = 0; row < 10; row++) {
-				for (int column = 0; column < 10; column++) {
-					CellButton button = new CellButton();
-					int y = column;
-					int x = row;
-
-					button.setOnMouseClicked(event -> {
-						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
-
-						// if (player1.getSecondIteration() == false) {
-						if (player1.getSecondClick() == false) {
-							player1.setXfirst(x);
-							player1.setYfirst(y);
-							player1.setSecondClick(true);
-						} else if (player1.getSecondClick() == true) {
-							player1.setShipPartsGui(x, y, game.board1);
-							player1.setSecondClick(false);
-
-							// TODO Eine Art update-Methode, in der der
-							// Spielstand
-							// aktualisiert und visualisiert wird;
-							Main.getLogger().info("Ist WarShip gesetzt auf Endkoordiante?\n" + board1[x][y]);
-
-							if (board1[x][y] == null) {
-								Main.getLogger().info("Zelle mit Endkoordinaten hat Referenz null\n"
-										+ "statt 'ship' oder 'warship', also anscheinend nein.");
-							} else if (board1[x][y] != null) {
-								Main.getLogger().info("#sotrue");
-							}
-						}
-						update(gameFieldLEFT, gameFieldRIGHT);
-
-					});
-
-					// button.setOnAction(new EventHandler<ActionEvent>() {
-					// public void handle(ActionEvent event) {
-					//
-					//
-					// }
-					// });
-
-					gameFieldLEFT.add(button, row, column);
-				}
-				
-			}
-			// GameField westside //
-			for (int row = 0; row < 10; row++) {
-				for (int column = 0; column < 10; column++) {
-					CellButton button = new CellButton();
-
-					int y = column;
-					int x = row;
-
-					button.setOnMouseClicked(event -> {
-						Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
-
-						// if (player1.getSecondIteration() == false) {
-						if (player2.getSecondClick() == false) {
-							player2.setXfirst(x);
-							player2.setYfirst(y);
-							player2.setSecondClick(true);
-						} else if (player2.getSecondClick() == true) {
-							player2.setShipPartsGui(x, y, game.board2);
-							player2.setSecondClick(false);
-
-							// TODO Eine Art update-Methode, in der der
-							// Spielstand
-							// aktualisiert und visualisiert wird;
-							Main.getLogger().info("Ist WarShip gesetzt auf Endkoordinate?\n" + board2[x][y]);
-
-							if (board2[x][y] == null) {
-								Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
-										+ "statt 'ship' oder 'warship', also anscheinend nein.");
-							} else if (board2[x][y] != null) {
-								Main.getLogger().info("#sotrue");
-							}
-
-						}
-						update(gameFieldLEFT, gameFieldRIGHT);
-
-					});
-
-					// button.setOnAction(new EventHandler<ActionEvent>() {
-					// public void handle(ActionEvent event) {
-					//
-					// }
-					// });
-
-					gameFieldRIGHT.add(button, row, column);
-
-				}
-
-			}
 
 			rootGame.getChildren().add(imgGameBG);
 			// rootGame.setTop(new ToolBar());
