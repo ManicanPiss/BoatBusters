@@ -58,7 +58,11 @@ public class GUI extends Application {
 	final static int CELLBUTTON_SIZE_X_Y = 30;
 	final static int SHIPBUTTON_SIZE_X = 150;
 	final static int SHIPBUTTON_SIZE_Y = 30;
+	final String font14 = "-fx-font: italic 14px Verdana";
+	final String font20 = "-fx-font: italic 20px Verdana";
+	final String font30 = "-fx-font: italic 20px Verdana";
 	
+//	String namePlayer1, namePlayer2;
 	Player player1;
 	Player player2;
 	Game game;
@@ -214,7 +218,7 @@ public class GUI extends Application {
 		Text text;
 		public GameButton(String name) {
 			text = new Text(name);
-			text.setFont(text.getFont());
+			text.setStyle(font20);
 			text.setFill(Color.WHITE);
 			text.setTextAlignment(TextAlignment.RIGHT);
 			
@@ -248,6 +252,9 @@ public class GUI extends Application {
 	}
 
 	public class GameMenu {
+
+		public String namePlayer1;
+		public String namePlayer2;
 
 		public void GameMenu() throws Exception {
 
@@ -309,6 +316,7 @@ public class GUI extends Application {
 			});
 
 			///// HIGHSCORE BUTTON MAIN MENU /////
+			
 			MenuButton btnScore = new MenuButton("HIGHSCORE");
 
 			btnScore.setOnMouseClicked(event -> {
@@ -323,7 +331,7 @@ public class GUI extends Application {
 				t1.play();
 				t2.play();
 				
-				highscore.printBestenliste();
+				
 
 				t1.setOnFinished(evt -> {
 					rootMenu.getChildren().remove(mainMenu);
@@ -338,25 +346,29 @@ public class GUI extends Application {
 
 			// Login Text Player1
 			Text loginTextPlayer1 = new Text("Login: Player 1");
-			loginTextPlayer1.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
+			loginTextPlayer1.setStyle(font30);
 			loginTextPlayer1.setFill(Color.WHITE);
 
 			// Login Text Player2
 			Text loginTextPlayer2 = new Text("Login: Player 2");
-			loginTextPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 30));
+			loginTextPlayer2.setStyle(font30);
 			loginTextPlayer2.setFill(Color.WHITE);
 
 			Text highscoreText = new Text("HIGHSCORE");
 
 			// Textfield Login Player 1
 			TextField textfieldLoginPlayer1 = new TextField();
-			textfieldLoginPlayer1.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+			textfieldLoginPlayer1.setStyle(font20);
 			textfieldLoginPlayer1.setPromptText("Username");
 
 			// Login Player 1 Press-ENTER
 			textfieldLoginPlayer1.setOnKeyPressed(event -> {
 				if (event.getCode() == KeyCode.ENTER) {
-					String namePlayer1 = textfieldLoginPlayer1.getText(); // TODO:vorrübergehend
+					
+					namePlayer1 = textfieldLoginPlayer1.getText();
+					Player player = new Player(namePlayer1, 0);
+					
+					player1 = player;
 
 					rootMenu.getChildren().add(menuPlayer2);
 
@@ -378,20 +390,21 @@ public class GUI extends Application {
 
 			// Textfield Login Player 2
 			TextField textfieldLoginPlayer2 = new TextField();
-			textfieldLoginPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+			textfieldLoginPlayer2.setStyle(font20);
 			textfieldLoginPlayer2.setPromptText("Username");
-
+			
 			// Login Player 2 Press-ENTER (START GAME)
 			textfieldLoginPlayer2.setOnKeyPressed(event -> {
 				if (event.getCode() == KeyCode.ENTER) {
 
-					String namePlayer1 = textfieldLoginPlayer1.getText();
-					String namePlayer2 = textfieldLoginPlayer2.getText();
+					namePlayer2 = textfieldLoginPlayer2.getText();
+					Player player = new Player(namePlayer2, 0);
+					
 					game.startGame(game, namePlayer1, namePlayer2);
 						System.out.println("asdasd");
 					
-					 player1 = game.player1;
-					 player2 = game.player2;
+					 player2 = player;
+					 
 					 
 					 board1 = game.board1;
 					 board2 = game.board2;
@@ -420,12 +433,18 @@ public class GUI extends Application {
 //					 player2 = game.player2;
 				}
 			});
+			
 
 			///// Login Player 1 bestätigen mit Maus /////
 			MenuButton btnLoginPlayer1 = new MenuButton("OK");
 			btnLoginPlayer1.setOnMouseClicked(event -> {
 
 				rootMenu.getChildren().add(menuPlayer2);
+				
+				namePlayer1 = textfieldLoginPlayer1.getText();
+				Player player = new Player(namePlayer1, 0);
+				
+				player1 = player;
 
 				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer1);
 				tt.setToX(menuPlayer1.getTranslateX() - offset);
@@ -467,13 +486,15 @@ public class GUI extends Application {
 			MenuButton btnLoginPlayer2 = new MenuButton("OK. Start game!");
 			btnLoginPlayer2.setOnMouseClicked(event -> {
 
-				String namePlayer1 = textfieldLoginPlayer1.getText();
-				String namePlayer2 = textfieldLoginPlayer2.getText();
+				
+				
+				namePlayer2 = textfieldLoginPlayer2.getText();
+				Player player = new Player(namePlayer2, 0);
 				game.startGame(game, namePlayer1, namePlayer2);
 					System.out.println("asdasd");
 				
-				 player1 = game.player1;
-				 player2 = game.player2;
+				 
+				 player2 = player;
 				 
 				 board1 = game.board1;
 				 board2 = game.board2;
@@ -567,7 +588,9 @@ public class GUI extends Application {
 			Stage gameStage = new Stage();
 
 			BorderPane rootGame = new BorderPane();
-
+			GameMenu z = new GameMenu();
+			
+			
 			InputStream is = Files.newInputStream(Paths.get("src/main/resources/bg2.jpg"));
 			Image img = new Image(is);
 			is.close();
@@ -593,10 +616,10 @@ public class GUI extends Application {
 			gameTextTop.setTranslateX(WINDOW_SIZE_X / 2 - 180);
 			gameTextTop.setTranslateY(25);
 
-			Text textInfo = new Text("Infonachricht: Du bist scheiße!");
+			Label textInfo = new Label("Test Text");
 			textInfo.setTextAlignment(TextAlignment.CENTER);
-			textInfo.setFont(Font.font("Verdana", FontPosture.ITALIC, 25));
-			textInfo.setFill(Color.ORANGE);
+			textInfo.setStyle(font30);
+			textInfo.setTextFill(Color.ORANGE);
 			gameTextTop.getChildren().add(textInfo);
 			top.getChildren().addAll(bgTopBox, gameTextTop);
 			///////
@@ -625,15 +648,20 @@ public class GUI extends Application {
 			
 			
 			Text textLeft = new Text(" Press Q to Surrender");
-			textLeft.setTextAlignment(TextAlignment.CENTER);
-			textLeft.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
+			textLeft.setStyle(font14);
 			textLeft.setFill(Color.BEIGE);
 			
 			Text textPlayerLeft = new Text(" Player 1:");
-			textPlayerLeft.setTextAlignment(TextAlignment.CENTER);
-			textPlayerLeft.setFont(Font.font("Verdana", FontPosture.ITALIC, 14));
+			textPlayerLeft.setStyle(font14);
 			textPlayerLeft.setFill(Color.BEIGE);
-			gameLeft.getChildren().addAll(textLeft, textPlayerLeft, smallLeft, middleLeft ,bigLeft);
+			
+			Text textSmallLeft = new Text(" " + player1.getCountSmall() + " small Ships left");
+			textSmallLeft.setFill(Color.WHITE);
+			Text textMiddleLeft = new Text(" " + player1.getCountMiddle() + " middle Ships left");
+			textMiddleLeft.setFill(Color.WHITE);
+			Text textBigLeft = new Text(" " + player1.getCountBig() + " big Ships left");
+			textBigLeft.setFill(Color.WHITE);
+			gameLeft.getChildren().addAll(textLeft, textPlayerLeft, smallLeft, textSmallLeft, middleLeft, textMiddleLeft, bigLeft, textBigLeft);
 			
 //			if(alle schiffe gesetzt){ TODO:
 //				gameLeft.getChildren().remove(smallLeft);
@@ -668,14 +696,20 @@ public class GUI extends Application {
 			});
 			
 			Text textRight = new Text(" Press Q to Surrender");
-			textRight.setTextAlignment(TextAlignment.CENTER);
-			textRight.setFont(Font.font("Verdana", FontPosture.ITALIC, 12));
+			textRight.setStyle(font14);
 			textRight.setFill(Color.DARKSEAGREEN);
+			
 			Text textPlayerRight = new Text(" Player 2:");
-			textPlayerRight.setTextAlignment(TextAlignment.CENTER);
-			textPlayerRight.setFont(Font.font("Verdana", FontPosture.ITALIC, 14));
+			textPlayerRight.setStyle(font14);
 			textPlayerRight.setFill(Color.DARKSEAGREEN);
-			gameRight.getChildren().addAll(textRight, textPlayerRight, smallRight, middleRight, bigRight);
+			
+			Text textSmallRight = new Text(" " + player2.getCountSmall() + " small Ships left");
+			textSmallRight.setFill(Color.DARKSEAGREEN);
+			Text textMiddleRight = new Text(" " + player2.getCountMiddle() + " middle Ships left");
+			textMiddleRight.setFill(Color.DARKSEAGREEN);
+			Text textBigRight = new Text(" " + player2.getCountBig() + " big Ships left");
+			textBigRight.setFill(Color.DARKSEAGREEN);
+			gameRight.getChildren().addAll(textRight, textPlayerRight, smallRight, textSmallRight, middleRight, textMiddleRight, bigRight, textBigRight);
 			
 //			if(alle schiffe gesetzt){ TODO:
 //				gameRight.getChildren().remove(smallRight);
@@ -696,12 +730,13 @@ public class GUI extends Application {
 			playerNames.setPadding(new Insets(0, 0, 50, 0));
 			playerNames.setSpacing(100);
 			playerNames.setAlignment(Pos.CENTER);
-			Text textPlayer1 = new Text("Player 1: skat3r_B0Y_2001");
-			textPlayer1.setFont(Font.font("Verdana", FontPosture.ITALIC, 25));
+			Text textPlayer1 = new Text("Player 1: "+ player1.getName());
+			textPlayer1.setStyle(font20);
 			textPlayer1.setFill(Color.BEIGE);
+			
 
-			Text textPlayer2 = new Text("Player 2: lil_gaengster23");
-			textPlayer2.setFont(Font.font("Verdana", FontPosture.ITALIC, 25));
+			Text textPlayer2 = new Text("Player 2: " + player2.getName());
+			textPlayer2.setStyle(font20);
 			textPlayer2.setFill(Color.DARKSEAGREEN);
 
 			playerNames.getChildren().addAll(textPlayer1, textPlayer2);
@@ -862,7 +897,7 @@ public class GUI extends Application {
 		for(int i = 0; i < 10; i++){
 			for(int j = 0; j < 10; j++){
 				if(board1[i][j] != null) {
-					feld1.getChildren().get(i*10 + j).setStyle("-fx-background-color: brown;");
+					feld1.getChildren().get(i*10 + j).setStyle("-fx-background-color: green;");
 				}
 			}
 		}
@@ -870,7 +905,7 @@ public class GUI extends Application {
 		for(int i = 0; i < 10; i++){
 			for(int j = 0; j < 10; j++){
 				if(board2[i][j] != null) {
-					feld2.getChildren().get(i*10 + j).setStyle("-fx-background-color: brown;");
+					feld2.getChildren().get(i*10 + j).setStyle("-fx-background-color: green;");
 				}
 			}
 		}
