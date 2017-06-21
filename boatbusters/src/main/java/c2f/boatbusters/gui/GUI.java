@@ -184,7 +184,7 @@ public class GUI extends Application {
 																					// Cell
 
 			bg.setFill(Color.GHOSTWHITE);
-			bg.setOpacity(0.6);
+//			bg.setOpacity(0.6);
 			bg.setStroke(Color.TRANSPARENT);
 
 			getChildren().addAll(bg);
@@ -192,15 +192,15 @@ public class GUI extends Application {
 			// wenn maus über menupoint
 			setOnMouseEntered(event -> {
 				bg.setFill(Color.ORANGE);
-				bg.setOpacity(0.7);
+//				bg.setOpacity(0.7);
 
 				// text.setFill(Color.TURQUOISE);
-
+				
 			});
 			// wenn maus menupoint verlässt
 			setOnMouseExited(event -> {
 				bg.setFill(Color.GHOSTWHITE);
-				bg.setOpacity(0.6);
+//				bg.setOpacity(0.6);
 				// text.setFill(Color.BLACK);
 			});
 		}
@@ -881,6 +881,9 @@ public class GUI extends Application {
 				if (board1[i][j] != null) {
 					feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
 				}
+//				else if(board1[i][j] == null){
+//					feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
+//				}
 			}
 		}
 
