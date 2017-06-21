@@ -184,7 +184,7 @@ public class GUI extends Application {
 																					// Cell
 
 			bg.setFill(Color.GHOSTWHITE);
-//			bg.setOpacity(0.6);
+			bg.setOpacity(0.6);
 			bg.setStroke(Color.TRANSPARENT);
 
 			getChildren().addAll(bg);
@@ -192,7 +192,7 @@ public class GUI extends Application {
 			// wenn maus über menupoint
 			setOnMouseEntered(event -> {
 				bg.setFill(Color.ORANGE);
-//				bg.setOpacity(0.7);
+				bg.setOpacity(0.7);
 
 				// text.setFill(Color.TURQUOISE);
 				
@@ -200,7 +200,7 @@ public class GUI extends Application {
 			// wenn maus menupoint verlässt
 			setOnMouseExited(event -> {
 				bg.setFill(Color.GHOSTWHITE);
-//				bg.setOpacity(0.6);
+				bg.setOpacity(0.6);
 				// text.setFill(Color.BLACK);
 			});
 		}
@@ -786,7 +786,7 @@ public class GUI extends Application {
 			});
 			
 			GameButton resetRight = new GameButton("reset Ships");
-			resetLeft.setOnMouseClicked(event -> {
+			resetRight.setOnMouseClicked(event -> {
 				game.setShipsBackBoard2(board2);
 				update(gameFieldLeft, gameFieldRight);
 			});
@@ -881,9 +881,9 @@ public class GUI extends Application {
 				if (board1[i][j] != null) {
 					feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
 				}
-//				else if(board1[i][j] == null){
-//					feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
-//				}
+				else if(board1[i][j] == null){
+					feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
+				}
 			}
 		}
 
@@ -891,6 +891,9 @@ public class GUI extends Application {
 			for (int j = 0; j < 10; j++) {
 				if (board2[i][j] != null) {
 					feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
+				}
+				else if(board2[i][j] == null){
+					feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
 				}
 			}
 		}
