@@ -607,7 +607,7 @@ public class GUI extends Application {
 							player1.setYfirst(y);
 							player1.setSecondClick(true);
 						} else if (player1.getSecondClick() == true) {
-							player1.setShipPartsGui(x, y, game.board1);
+							player1.setShipPartsGui(x, y, game.board1, player1);
 							player1.setSecondClick(false);
 
 							// TODO Eine Art update-Methode, in der der
@@ -660,7 +660,7 @@ public class GUI extends Application {
 							player2.setYfirst(y);
 							player2.setSecondClick(true);
 						} else if (player2.getSecondClick() == true) {
-							player2.setShipPartsGui(x, y, game.board2);
+							player2.setShipPartsGui(x, y, game.board2, player2);
 							player2.setSecondClick(false);
 
 							// TODO Eine Art update-Methode, in der der

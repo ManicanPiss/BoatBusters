@@ -173,11 +173,11 @@ public class Player implements IPlayer {
 	 */
 	@Override
 	public boolean checkIfShipAvailable (int i, IPlayer player) {
-		if (i == 1) {
+		if (i == 2) {
 			return (player.getCountSmall() > 0);
-		} else if (i == 2) {
-			return (player.getCountMiddle() > 0);
 		} else if (i == 3) {
+			return (player.getCountMiddle() > 0);
+		} else if (i == 4) {
 			return (player.getCountBig() > 0);
 		} else {
 			//  TODO error log
@@ -449,12 +449,12 @@ public class Player implements IPlayer {
 
 	// Anfangs- und Endteil des Schiffs setzen
 	// Bei falschen Eingaben: Brechstange, fang von vorne an!
-	public void setShipPartsGui(int xlast, int ylast, WarShip[][] board) {
+	public void setShipPartsGui(int xlast, int ylast, WarShip[][] board, Player player) {
 
 		    int lengthOfShip = checkLength(xfirst, yfirst, xlast, ylast);
 		
 			// input = Zahl? Position im Brett frei?
-			if (checkFree(xfirst, yfirst, board) && checkFree(xlast, ylast, board)) {
+			if (checkFree(xfirst, yfirst, board) && checkFree(xlast, ylast, board) && checkIfShipAvailable(lengthOfShip, player)) {
                     
 
 					// Checkt input, Freiheit der Endposition, Freiheit der
