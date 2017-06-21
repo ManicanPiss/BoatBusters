@@ -571,14 +571,20 @@ public class GUI extends Application {
 		
 		public void setTextSmallLeft(){
 			this.textSmallLeft = new Text(" " + player1.getCountSmall() + " small Ships left");
+			textSmallLeft.setStyle(font14);
+			textSmallLeft.setFill(Color.WHITE);
 		}
 		
 		public void setTextMiddleLeft(){
-			this.textMiddleLeft = new Text(" " + player1.getCountMiddle() + " small Ships left");
+			this.textMiddleLeft = new Text(" " + player1.getCountMiddle() + " middle Ships left");
+			textMiddleLeft.setStyle(font14);
+			textMiddleLeft.setFill(Color.WHITE);
 		}
 		
 		public void setTextBigLeft(){
-			this.textBigLeft = new Text(" " + player1.getCountBig() + " small Ships left");
+			this.textBigLeft = new Text(" " + player1.getCountBig() + " big Ships left");
+			textBigLeft.setStyle(font14);
+			textBigLeft.setFill(Color.WHITE);
 		}
 		
 		public Text getTextSmallLeft() {
@@ -785,21 +791,8 @@ public class GUI extends Application {
 			textPlayerLeft.setStyle(font14);
 			textPlayerLeft.setFill(Color.BEIGE);
 
-			Text textSmallLeft = new Text(" " + player1.getCountSmall() + " small Ships left");
-			textSmallLeft.setStyle(font14);
-			textSmallLeft.setFill(Color.WHITE);
 			
-			
-			Text textMiddleLeft = new Text(" " + player1.getCountMiddle() + " middle Ships left");
-			textMiddleLeft.setStyle(font14);
-			textMiddleLeft.setFill(Color.WHITE);
-			
-			Text textBigLeft = new Text(" " + player1.getCountBig() + " big Ships left");
-			textBigLeft.setStyle(font14);
-			textBigLeft.setFill(Color.WHITE);
-			
-			gameLeft.getChildren().addAll(textLeft, textPlayerLeft, textSmallLeft,
-					textMiddleLeft, textBigLeft, resetLeft);
+			gameLeft.getChildren().addAll(textLeft, textPlayerLeft, resetLeft);
 
 			// if(alle schiffe gesetzt){ TODO:
 			// gameLeft.getChildren().remove(smallLeft);
