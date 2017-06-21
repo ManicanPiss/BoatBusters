@@ -485,7 +485,7 @@ public class Player implements IPlayer {
 
 			// Referenz wird gesetzt
 			for (int i = changingStart; i <= changingEnd; i++) {
-				board [staticInt][i] = ship;
+				board [i][staticInt] = ship;
 			}
 		} else { // Wenn X statisch ist
 			staticInt = yfirst;
@@ -499,7 +499,7 @@ public class Player implements IPlayer {
 
 			// Referenz wird gesetzt
 			for (int i = changingStart; i <= changingEnd; i++) {
-				board [i][staticInt] = ship;
+				board [staticInt][i] = ship;
 			}
 		}
 	}
