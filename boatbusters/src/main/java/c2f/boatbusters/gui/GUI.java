@@ -387,6 +387,14 @@ public class GUI extends Application {
 
 					String namePlayer1 = textfieldLoginPlayer1.getText();
 					String namePlayer2 = textfieldLoginPlayer2.getText();
+					game.startGame(game, namePlayer1, namePlayer2);
+						System.out.println("asdasd");
+					
+					 player1 = game.player1;
+					 player2 = game.player2;
+					 
+					 board1 = game.board1;
+					 board2 = game.board2;
 
 					TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
 					t1.setToX(menuPlayer2.getTranslateX() - offset);
