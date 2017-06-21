@@ -627,7 +627,7 @@ public class GUI extends Application {
 			});
 			GameButton resetLeft = new GameButton("reset Ships");
 			resetLeft.setOnMouseClicked(event -> {
-			// TODO: schiffe player1 zurücksetzen
+				game.setShipsBackBoard1(board1); 
 			});
 			
 
@@ -681,7 +681,8 @@ public class GUI extends Application {
 			});
 			GameButton resetRight = new GameButton("reset Ships");
 			resetLeft.setOnMouseClicked(event -> {
-			// TODO: schiffe player1 zurücksetzen
+				game.setShipsBackBoard2(board2);
+			
 			});
 
 			Text textRight = new Text(" Press Q to Surrender");
@@ -782,7 +783,7 @@ public class GUI extends Application {
 
 					gameFieldLEFT.add(button, row, column);
 				}
-
+				
 			}
 			// GameField westside //
 			for (int row = 0; row < 10; row++) {

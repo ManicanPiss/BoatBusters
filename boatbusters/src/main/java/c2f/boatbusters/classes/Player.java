@@ -19,7 +19,7 @@ public class Player implements IPlayer {
     
 	
 	private boolean secondClick = false;
-	private int xfirst = -5;
+	private int xfirst;
 	private int xlast;
 	private int yfirst;
 	private int ylast;
@@ -438,7 +438,7 @@ public class Player implements IPlayer {
 
 	// Anfangs- und Endteil des Schiffs setzen
 	// Bei falschen Eingaben: Brechstange, fang von vorne an!
-	public  void setShipPartsGui(int xlast, int ylast, WarShip[][] board) {
+	public void setShipPartsGui(int xlast, int ylast, WarShip[][] board) {
 
 		    int lengthOfShip = checkLength(xfirst, yfirst, xlast, ylast);
 		
@@ -459,11 +459,8 @@ public class Player implements IPlayer {
 						
 						//Test in Konsole Ausgabe ob es funktioniert hat
 						//Main.getLogger().info("Ships count variable: " + this.getShipsCount());
-						
 					}
-					
 			}
-
      }
 	
 

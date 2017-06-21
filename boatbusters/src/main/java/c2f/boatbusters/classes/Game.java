@@ -269,4 +269,21 @@ public class Game {
 		}
 	}
 	
+	//Felder zurücksetzen für die Spieler, falls sie sich entscheiden, ihre Schiffe nochmal neu zu setzen
+	public void setShipsBackBoard1 (WarShip board1[][]){
+		for (int i = 0; i < Board.fieldSizeX; i++) {
+			for (int x = 0; x < Board.fieldSizeY; x++) {
+				board1[i][x] = null;
+			}
+		}
+	}
+	
+	public void setShipsBackBoard2 (WarShip board2[][]){
+		for (int i = 0; i < Board.fieldSizeX; i++) {
+			for (int x = 0; x < Board.fieldSizeY; x++) {
+				board2[i][x] = null;
+			}
+		}
+	}
+	
 }
