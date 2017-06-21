@@ -731,12 +731,12 @@ public class GUI extends Application {
 			playerNames.setSpacing(100);
 			playerNames.setAlignment(Pos.CENTER);
 			Text textPlayer1 = new Text("Player 1: "+ player1.getName());
-			textPlayer1.setStyle(font20);
+			textPlayer1.setStyle(font30);
 			textPlayer1.setFill(Color.BEIGE);
 			
 
 			Text textPlayer2 = new Text("Player 2: " + player2.getName());
-			textPlayer2.setStyle(font20);
+			textPlayer2.setStyle(font30);
 			textPlayer2.setFill(Color.DARKSEAGREEN);
 
 			playerNames.getChildren().addAll(textPlayer1, textPlayer2);
