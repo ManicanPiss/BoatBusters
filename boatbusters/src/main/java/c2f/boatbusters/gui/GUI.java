@@ -746,7 +746,11 @@ public class GUI extends Application {
 							Main.getLogger().info("Zelle mit Endkoordinaten hat Referenz null\n"
 									+ "statt 'ship' oder 'warship', also anscheinend nein.");
 							}
+						else if (board1[x][y] != null){
+							Main.getLogger().info("#sotrue");
 						}
+						}
+						update(gameFieldLEFT, gameFieldRIGHT);
 
 					});
 					
@@ -792,7 +796,12 @@ public class GUI extends Application {
 							Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
 									+ "statt 'ship' oder 'warship', also anscheinend nein.");
 							}
+						else if (board2[x][y] != null){
+							Main.getLogger().info("#sotrue");
 						}
+						
+						}
+						update(gameFieldLEFT, gameFieldRIGHT);
 
 					});
 					
@@ -838,6 +847,24 @@ public class GUI extends Application {
 			// gameStage.setResizable(false);
 			gameStage.show();
 
+		}
+	}
+	
+	void update(GridPane feld1, GridPane feld2) {
+		for(int i = 0; i < 10; i++){
+			for(int j = 0; j < 10; j++){
+				if(board1[i][j] != null) {
+					feld1.getChildren().get(i*10 + j).setStyle("-fx-background-color: brown;");
+				}
+			}
+		}
+		
+		for(int i = 0; i < 10; i++){
+			for(int j = 0; j < 10; j++){
+				if(board2[i][j] != null) {
+					feld2.getChildren().get(i*10 + j).setStyle("-fx-background-color: brown;");
+				}
+			}
 		}
 	}
 
