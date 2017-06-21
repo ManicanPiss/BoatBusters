@@ -59,9 +59,9 @@ public class GUI extends Application {
 	final static int CELLBUTTON_SIZE_X_Y = 30;
 	final static int SHIPBUTTON_SIZE_X = 150;
 	final static int SHIPBUTTON_SIZE_Y = 30;
-	final String font14 = "-fx-font: italic 14px Verdana";
-	final String font20 = "-fx-font: italic 20px Verdana";
-	final String font30 = "-fx-font: italic 20px Verdana";
+	final static String font14 = "-fx-font: italic 14px Verdana";
+	final static String font20 = "-fx-font: italic 20px Verdana";
+	final static String font30 = "-fx-font: italic 30px Verdana";
 
 	String namePlayer1, namePlayer2;
 	Player player1;
@@ -74,13 +74,17 @@ public class GUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		Pane rootStart = new Pane();
+		BorderPane rootStart = new BorderPane();
 		rootStart.setPrefSize(WINDOW_SIZE_X, WINDOW_SIZE_Y);
 
-		VBox startBox = new VBox(10);
-
-		startBox.setTranslateX((WINDOW_SIZE_X / 2) - 350);
-		startBox.setTranslateY((WINDOW_SIZE_Y / 2) - MENUBUTTON_SIZE_Y);
+		GridPane startGridPane = new GridPane();
+		StackPane startBox = new StackPane();
+		
+		startBox.setTranslateX(-400);
+		startBox.setTranslateY(MENUBUTTON_SIZE_Y);
+		
+		startGridPane.setTranslateX((WINDOW_SIZE_X / 2));
+		startGridPane.setTranslateY((WINDOW_SIZE_Y / 2) - MENUBUTTON_SIZE_Y);
 
 		InputStream is = Files.newInputStream(Paths.get("src/main/resources/bg2.jpg"));
 		Image img = new Image(is);
@@ -89,10 +93,16 @@ public class GUI extends Application {
 		ImageView imgHome = new ImageView(img);
 		imgHome.setFitWidth(WINDOW_SIZE_X + 20);
 		imgHome.setFitHeight(WINDOW_SIZE_Y + 20);
-
-		MenuButton welcomeBtn = new MenuButton("PRESS ANY KEY TO CONTINUE");
-
-		welcomeBtn.setOnMousePressed(event -> {
+		
+		Rectangle bg = new Rectangle(MENUBUTTON_SIZE_X, MENUBUTTON_SIZE_Y);
+		bg.setOpacity(0.3);
+		bg.setFill(Color.DIMGREY);
+		bg.setStroke(Color.WHITE);
+		
+		Text welcomeText = new Text("PRESS ANY KEY TO CONTINUE");
+		welcomeText.setStyle(font14);
+		welcomeText.setFill(Color.WHITE);
+		welcomeText.setOnMouseReleased(event -> {
 
 			primaryStage.close();
 			try {
@@ -102,19 +112,36 @@ public class GUI extends Application {
 				e.printStackTrace();
 			}
 		});
+		
+		startBox.setOnMouseEntered(event -> {
+			bg.setOpacity(0.6);
+		});
+		startBox.setOnMousePressed(event->{
+			welcomeText.setFill(Color.ROYALBLUE);
+			bg.setFill(Color.WHITE);
+		});
+		startBox.setOnMouseReleased(event->{
+			welcomeText.setFill(Color.WHITE);
+			bg.setFill(Color.DIMGREY);
+		});
+		startBox.setOnMouseExited(event -> {
+			bg.setOpacity(0.3);
+			welcomeText.setFill(Color.WHITE);
+		});
 
 		Text welcomeMessage0 = new Text("WELCOME TO BOATBUSTERS");
-		welcomeMessage0.setStyle("-fx-font: normal bold 35px 'serif' ");
+		welcomeMessage0.setStyle(font30);
 		welcomeMessage0.setFill(Color.WHITE);
 		welcomeMessage0.setTranslateY(-50);
 		welcomeMessage0.setTranslateX(-400);
 
-		TranslateTransition t1 = new TranslateTransition(Duration.seconds(1.0), welcomeMessage0);
-		t1.setToX(welcomeMessage0.getTranslateX() + 400);
-		t1.play();
-
-		startBox.getChildren().addAll(welcomeMessage0, welcomeBtn);
-		rootStart.getChildren().addAll(imgHome, startBox);
+//		TranslateTransition t1 = new TranslateTransition(Duration.seconds(1.0), welcomeMessage0);
+//		t1.setToX(welcomeMessage0.getTranslateX() + 400);
+//		t1.play();
+		
+		startBox.getChildren().addAll(bg, welcomeText);
+		startGridPane.getChildren().addAll(welcomeMessage0, startBox);
+		rootStart.getChildren().addAll(imgHome, startGridPane);
 
 		Scene sceneStart = new Scene(rootStart);
 
@@ -143,13 +170,13 @@ public class GUI extends Application {
 
 		public MenuButton(String name) {
 			text = new Text(name);
-			text.setFont(text.getFont());
+			text.setStyle(font14);
 			text.setFill(Color.WHITE);
 
 			Rectangle bg = new Rectangle(MENUBUTTON_SIZE_X, MENUBUTTON_SIZE_Y);
 			bg.setOpacity(0.5);
 			bg.setFill(Color.BLACK);
-
+			bg.setStroke(Color.ROYALBLUE);
 			setAlignment(Pos.CENTER);
 			getChildren().addAll(bg, text);
 
@@ -157,16 +184,30 @@ public class GUI extends Application {
 			setOnMouseEntered(event -> {
 				bg.setTranslateX(10);
 				text.setTranslateX(10);
+				bg.setStroke(Color.TRANSPARENT);
+				bg.setFill(Color.ROYALBLUE);
+				
+
+			});
+			setOnMousePressed(event->{
+				bg.setOpacity(0.3);
 				bg.setFill(Color.WHITE);
 				text.setFill(Color.BLACK);
-
+				bg.setStroke(Color.ROYALBLUE);
+			});
+			setOnMouseReleased(event->{
+				bg.setOpacity(0.5);
+				bg.setFill(Color.ROYALBLUE);
+				text.setFill(Color.WHITE);
 			});
 			// Maus verlässt MenuButtonbereich
 			setOnMouseExited(event -> {
+				bg.setOpacity(0.5);
 				bg.setTranslateX(0);
 				text.setTranslateX(0);
+				bg.setStroke(Color.ROYALBLUE);
 				bg.setFill(Color.BLACK);
-				text.setFill(Color.WHITE);
+				
 			});
 
 		}
@@ -192,8 +233,8 @@ public class GUI extends Application {
 
 			// wenn maus über menupoint
 			setOnMouseEntered(event -> {
-				bg.setFill(Color.ORANGE);
-				bg.setOpacity(0.7);
+				bg.setFill(Color.DIMGREY);
+				bg.setOpacity(0.6);
 
 				// text.setFill(Color.TURQUOISE);
 				
@@ -806,7 +847,7 @@ public class GUI extends Application {
 			textWaitTopP2.setStyle(font14);
 			textWaitTopP2.setFill(Color.WHITE);
 			
-			Text textWaitTopP1 = new Text("wait for Player 1 ...");
+			Text textWaitTopP1 = new Text("wait for Player 1...");
 			textWaitTopP1.setStyle(font14);
 			textWaitTopP1.setFill(Color.WHITE);
 			
@@ -833,8 +874,8 @@ public class GUI extends Application {
 			textLeft.setFill(Color.WHITE);
 
 			Text textPlayerLeft = new Text(" Player 1:");
-			textPlayerLeft.setStyle(font14);
-			textPlayerLeft.setFill(Color.WHITE);
+			textPlayerLeft.setStyle(font20);
+			textPlayerLeft.setFill(Color.MEDIUMSPRINGGREEN);
 			
 			GameButton btnResetLeft = new GameButton("reset Ships");
 			btnResetLeft.setOnMouseClicked(event -> {
@@ -879,11 +920,11 @@ public class GUI extends Application {
 			
 			Text textRight = new Text(" Press Q to Surrender");
 			textRight.setStyle(font14);
-			textRight.setFill(Color.YELLOW);
+			textRight.setFill(Color.WHITE);
 
 			Text textPlayerRight = new Text(" Player 2:");
-			textPlayerRight.setStyle(font14);
-			textPlayerRight.setFill(Color.YELLOW);
+			textPlayerRight.setStyle(font20);
+			textPlayerRight.setFill(Color.BLUE);
 			
 			GameButton btnResetRight = new GameButton("reset Ships");
 			btnResetRight.setOnMouseClicked(event -> {
@@ -920,21 +961,21 @@ public class GUI extends Application {
 			
 			//////////// BOTTOM ////////////
 			Rectangle bgBottomBox = new Rectangle(WINDOW_SIZE_X, 100);
-			bgBottomBox.setOpacity(0.4);
+			bgBottomBox.setOpacity(0.5);
 			bgBottomBox.setFill(Color.DIMGRAY);
 			bgBottomBox.setStroke(Color.LIGHTGRAY);
 
 			
 			textHBoxBottom.setPadding(new Insets(0, 0, 50, 0));
-			textHBoxBottom.setSpacing(100);
-			textHBoxBottom.setAlignment(Pos.CENTER);
+			textHBoxBottom.setSpacing(250);
+			textHBoxBottom.setAlignment(Pos.BASELINE_CENTER);
 			Text textPlayer1 = new Text("Player 1: " + player1.getName());
 			textPlayer1.setStyle(font30);
-			textPlayer1.setFill(Color.BEIGE);
+			textPlayer1.setFill(Color.WHITE);
 
 			Text textPlayer2 = new Text("Player 2: " + player2.getName());
 			textPlayer2.setStyle(font30);
-			textPlayer2.setFill(Color.YELLOW);
+			textPlayer2.setFill(Color.WHITE);
 
 			textHBoxBottom.getChildren().addAll(textPlayer1, textPlayer2);
 			bottomStackPane.getChildren().addAll(bgBottomBox, textHBoxBottom);
@@ -992,7 +1033,7 @@ public class GUI extends Application {
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					if (board2[i][j] != null) {
-						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
+						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: #6A5ACD;");
 					}
 					//Zellen, die die Referenz null haben, werden transparent gemacht
 					else if(board2[i][j] == null){
