@@ -61,19 +61,17 @@ public class GUI extends Application {
 	final String font14 = "-fx-font: italic 14px Verdana";
 	final String font20 = "-fx-font: italic 20px Verdana";
 	final String font30 = "-fx-font: italic 20px Verdana";
-	
-//	String namePlayer1, namePlayer2;
+
+	String namePlayer1, namePlayer2;
 	Player player1;
 	Player player2;
 	Game game;
 	Highscore highscore;
 	WarShip[][] board1;
 	WarShip[][] board2;
-	
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
 
 		Pane rootStart = new Pane();
 		rootStart.setPrefSize(WINDOW_SIZE_X, WINDOW_SIZE_Y);
@@ -216,36 +214,36 @@ public class GUI extends Application {
 
 	public class GameButton extends StackPane {
 		Text text;
+
 		public GameButton(String name) {
 			text = new Text(name);
 			text.setStyle(font20);
 			text.setFill(Color.WHITE);
 			text.setTextAlignment(TextAlignment.RIGHT);
-			
-			Rectangle bg = new Rectangle(SHIPBUTTON_SIZE_X-10, SHIPBUTTON_SIZE_Y); // größe
-																				// der
+
+			Rectangle bg = new Rectangle(SHIPBUTTON_SIZE_X - 10, SHIPBUTTON_SIZE_Y); 
 			bg.setFill(Color.DIMGRAY);
 			bg.setOpacity(0.7);
 			bg.setStroke(Color.BLACK);
 			setAlignment(Pos.CENTER);
 
 			getChildren().addAll(bg, text);
-			setOnMousePressed(event ->{
+			setOnMousePressed(event -> {
 				text.setFill(Color.ORANGE);
 			});
-			
-			setOnMouseReleased(event ->{
+
+			setOnMouseReleased(event -> {
 				text.setFill(Color.WHITE);
 			});
-			
+
 			setOnMouseEntered(event -> {
-//				text.setFill(Color.ORANGE);
+				// text.setFill(Color.ORANGE);
 				bg.setStroke(Color.ORANGE);
 
 			});
-			
+
 			setOnMouseExited(event -> {
-//				text.setFill(Color.WHITE);
+				// text.setFill(Color.WHITE);
 				bg.setStroke(Color.BLACK);
 			});
 		}
@@ -253,8 +251,8 @@ public class GUI extends Application {
 
 	public class GameMenu {
 
-		public String namePlayer1;
-		public String namePlayer2;
+//		public String namePlayer1;
+//		public String namePlayer2;
 
 		public void GameMenu() throws Exception {
 
@@ -316,7 +314,7 @@ public class GUI extends Application {
 			});
 
 			///// HIGHSCORE BUTTON MAIN MENU /////
-			
+
 			MenuButton btnScore = new MenuButton("HIGHSCORE");
 
 			btnScore.setOnMouseClicked(event -> {
@@ -330,8 +328,6 @@ public class GUI extends Application {
 
 				t1.play();
 				t2.play();
-				
-				
 
 				t1.setOnFinished(evt -> {
 					rootMenu.getChildren().remove(mainMenu);
@@ -364,11 +360,8 @@ public class GUI extends Application {
 			// Login Player 1 Press-ENTER
 			textfieldLoginPlayer1.setOnKeyPressed(event -> {
 				if (event.getCode() == KeyCode.ENTER) {
-					
+
 					namePlayer1 = textfieldLoginPlayer1.getText();
-					Player player = new Player(namePlayer1, 0);
-					
-					player1 = player;
 
 					rootMenu.getChildren().add(menuPlayer2);
 
@@ -392,22 +385,22 @@ public class GUI extends Application {
 			TextField textfieldLoginPlayer2 = new TextField();
 			textfieldLoginPlayer2.setStyle(font20);
 			textfieldLoginPlayer2.setPromptText("Username");
-			
+
 			// Login Player 2 Press-ENTER (START GAME)
 			textfieldLoginPlayer2.setOnKeyPressed(event -> {
 				if (event.getCode() == KeyCode.ENTER) {
 
+					namePlayer1 = textfieldLoginPlayer1.getText();
 					namePlayer2 = textfieldLoginPlayer2.getText();
-					Player player = new Player(namePlayer2, 0);
-					
 					game.startGame(game, namePlayer1, namePlayer2);
-						System.out.println("asdasd");
 					
-					 player2 = player;
-					 
-					 
-					 board1 = game.board1;
-					 board2 = game.board2;
+					System.out.println("asdasd");
+					
+					player1 = game.getPlayer1();
+					player2 = game.getPlayer2();
+
+					board1 = game.board1;
+					board2 = game.board2;
 
 					TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
 					t1.setToX(menuPlayer2.getTranslateX() - offset);
@@ -427,13 +420,12 @@ public class GUI extends Application {
 						e.printStackTrace();
 					}
 
-//					System.out.println("hashda");
-//					 game.startGame(game, namePlayer1, namePlayer2);
-//					 player1 = game.player1;
-//					 player2 = game.player2;
+					// System.out.println("hashda");
+					// game.startGame(game, namePlayer1, namePlayer2);
+					// player1 = game.player1;
+					// player2 = game.player2;
 				}
 			});
-			
 
 			///// Login Player 1 bestätigen mit Maus /////
 			MenuButton btnLoginPlayer1 = new MenuButton("OK");
@@ -441,10 +433,6 @@ public class GUI extends Application {
 
 				rootMenu.getChildren().add(menuPlayer2);
 				
-				namePlayer1 = textfieldLoginPlayer1.getText();
-				Player player = new Player(namePlayer1, 0);
-				
-				player1 = player;
 
 				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer1);
 				tt.setToX(menuPlayer1.getTranslateX() - offset);
@@ -485,21 +473,19 @@ public class GUI extends Application {
 			///// Login Player 2 bestätigen mit Maus (Start Game) /////
 			MenuButton btnLoginPlayer2 = new MenuButton("OK. Start game!");
 			btnLoginPlayer2.setOnMouseClicked(event -> {
-
 				
-				
+				namePlayer1 = textfieldLoginPlayer1.getText();
 				namePlayer2 = textfieldLoginPlayer2.getText();
-				Player player = new Player(namePlayer2, 0);
+
 				game.startGame(game, namePlayer1, namePlayer2);
-					System.out.println("asdasd");
-				
-				 
-				 player2 = player;
-				 
-				 board1 = game.board1;
-				 board2 = game.board2;
-				
-				
+				System.out.println("asdasd");
+
+				player1 = game.getPlayer1();
+				player2 = game.getPlayer2();
+
+				board1 = game.board1;
+				board2 = game.board2;
+
 				TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
 				t1.setToX(menuPlayer2.getTranslateX() - offset);
 
@@ -566,10 +552,11 @@ public class GUI extends Application {
 
 			mainMenu.getChildren().addAll(btnStart, btnScore, btnExit); // Hauptmenu
 			scoreMenu.getChildren().addAll(highscoreText, btnBack2); // HighscoreMenu
-			menuPlayer1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, btnLoginPlayer1, btnBackPlayer1); // login1
-			menuPlayer2.getChildren().addAll(loginTextPlayer2, textfieldLoginPlayer2, btnLoginPlayer2, btnBackPlayer2); // login2
+			menuPlayer1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, 
+					btnLoginPlayer1, btnBackPlayer1); // login1
+			menuPlayer2.getChildren().addAll(loginTextPlayer2, textfieldLoginPlayer2, 
+					btnLoginPlayer2, btnBackPlayer2); // login2
 
-			// getChildren().addAll(bg, mainMenu);
 			rootMenu.getChildren().addAll(imgView, mainMenu);
 
 			Scene menuScene = new Scene(rootMenu);
@@ -589,8 +576,7 @@ public class GUI extends Application {
 
 			BorderPane rootGame = new BorderPane();
 			GameMenu z = new GameMenu();
-			
-			
+
 			InputStream is = Files.newInputStream(Paths.get("src/main/resources/bg2.jpg"));
 			Image img = new Image(is);
 			is.close();
@@ -634,41 +620,41 @@ public class GUI extends Application {
 			VBox gameLeft = new VBox();
 			gameLeft.setSpacing(5);
 			GameButton smallLeft = new GameButton("small Ship");
-			smallLeft.setOnMouseClicked(event->{
-				
+			smallLeft.setOnMouseClicked(event -> {
+
 			});
 			GameButton middleLeft = new GameButton("middle Ship");
-			middleLeft.setOnMouseClicked(event->{
-				
+			middleLeft.setOnMouseClicked(event -> {
+
 			});
 			GameButton bigLeft = new GameButton("big Ship");
-			bigLeft.setOnMouseClicked(event->{
-				
+			bigLeft.setOnMouseClicked(event -> {
+
 			});
-			
-			
+
 			Text textLeft = new Text(" Press Q to Surrender");
 			textLeft.setStyle(font14);
 			textLeft.setFill(Color.BEIGE);
-			
+
 			Text textPlayerLeft = new Text(" Player 1:");
 			textPlayerLeft.setStyle(font14);
 			textPlayerLeft.setFill(Color.BEIGE);
-			
+
 			Text textSmallLeft = new Text(" " + player1.getCountSmall() + " small Ships left");
 			textSmallLeft.setFill(Color.WHITE);
 			Text textMiddleLeft = new Text(" " + player1.getCountMiddle() + " middle Ships left");
 			textMiddleLeft.setFill(Color.WHITE);
 			Text textBigLeft = new Text(" " + player1.getCountBig() + " big Ships left");
 			textBigLeft.setFill(Color.WHITE);
-			gameLeft.getChildren().addAll(textLeft, textPlayerLeft, smallLeft, textSmallLeft, middleLeft, textMiddleLeft, bigLeft, textBigLeft);
-			
-//			if(alle schiffe gesetzt){ TODO:
-//				gameLeft.getChildren().remove(smallLeft);
-//				gameLeft.getChildren().remove(middleLeft);
-//				gameLeft.getChildren().remove(bigLeft);
-//			}
-			
+			gameLeft.getChildren().addAll(textLeft, textPlayerLeft, smallLeft, textSmallLeft, middleLeft,
+					textMiddleLeft, bigLeft, textBigLeft);
+
+			// if(alle schiffe gesetzt){ TODO:
+			// gameLeft.getChildren().remove(smallLeft);
+			// gameLeft.getChildren().remove(middleLeft);
+			// gameLeft.getChildren().remove(bigLeft);
+			// }
+
 			left.getChildren().addAll(bgLeftBox, gameLeft);
 			/////
 
@@ -683,39 +669,40 @@ public class GUI extends Application {
 			VBox gameRight = new VBox();
 			gameRight.setSpacing(5);
 			GameButton smallRight = new GameButton("small Ship");
-			smallRight.setOnMouseClicked(event->{
-				
+			smallRight.setOnMouseClicked(event -> {
+
 			});
 			GameButton middleRight = new GameButton("middle Ship");
-			middleRight.setOnMouseClicked(event->{
-				
+			middleRight.setOnMouseClicked(event -> {
+
 			});
 			GameButton bigRight = new GameButton("big Ship");
-			bigRight.setOnMouseClicked(event->{
-				
+			bigRight.setOnMouseClicked(event -> {
+
 			});
-			
+
 			Text textRight = new Text(" Press Q to Surrender");
 			textRight.setStyle(font14);
 			textRight.setFill(Color.DARKSEAGREEN);
-			
+
 			Text textPlayerRight = new Text(" Player 2:");
 			textPlayerRight.setStyle(font14);
 			textPlayerRight.setFill(Color.DARKSEAGREEN);
-			
+
 			Text textSmallRight = new Text(" " + player2.getCountSmall() + " small Ships left");
 			textSmallRight.setFill(Color.DARKSEAGREEN);
 			Text textMiddleRight = new Text(" " + player2.getCountMiddle() + " middle Ships left");
 			textMiddleRight.setFill(Color.DARKSEAGREEN);
 			Text textBigRight = new Text(" " + player2.getCountBig() + " big Ships left");
 			textBigRight.setFill(Color.DARKSEAGREEN);
-			gameRight.getChildren().addAll(textRight, textPlayerRight, smallRight, textSmallRight, middleRight, textMiddleRight, bigRight, textBigRight);
-			
-//			if(alle schiffe gesetzt){ TODO:
-//				gameRight.getChildren().remove(smallRight);
-//				gameRight.getChildren().remove(middleRight);
-//				gameRight.getChildren().remove(bigRight);
-//			}
+			gameRight.getChildren().addAll(textRight, textPlayerRight, smallRight, textSmallRight, middleRight,
+					textMiddleRight, bigRight, textBigRight);
+
+			// if(alle schiffe gesetzt){ TODO:
+			// gameRight.getChildren().remove(smallRight);
+			// gameRight.getChildren().remove(middleRight);
+			// gameRight.getChildren().remove(bigRight);
+			// }
 			right.getChildren().addAll(bgRightBox, gameRight);
 			/////
 
@@ -730,10 +717,9 @@ public class GUI extends Application {
 			playerNames.setPadding(new Insets(0, 0, 50, 0));
 			playerNames.setSpacing(100);
 			playerNames.setAlignment(Pos.CENTER);
-			Text textPlayer1 = new Text("Player 1: "+ player1.getName());
+			Text textPlayer1 = new Text("Player 1: " + player1.getName());
 			textPlayer1.setStyle(font30);
 			textPlayer1.setFill(Color.BEIGE);
-			
 
 			Text textPlayer2 = new Text("Player 2: " + player2.getName());
 			textPlayer2.setStyle(font30);
@@ -741,25 +727,24 @@ public class GUI extends Application {
 
 			playerNames.getChildren().addAll(textPlayer1, textPlayer2);
 			bottom.getChildren().addAll(bgBottomBox, playerNames);
-			
 
 			GridPane gameFieldLEFT = new GridPane();
 			GridPane gameFieldRIGHT = new GridPane();
 			gameBoards.setAlignment(Pos.BASELINE_CENTER);
 
 			gameBoards.getChildren().addAll(gameFieldLEFT, gameFieldRIGHT);
-			
-			
-			//TODO Text Feld machen mit dieser Anzeige eine pro Spieler, 
-			//also wie viele Schiffe jeder Spieler noch zu setzen hat:
-			//Aber eher erst die Anzeige über erstem Feld anzeigen lassen,
-			//solange Spieler 1 dran ist, und dann über zweiten Feld, solang Spieler 2 dran ist
-			
-//			Main.getLogger().info("Please put your ships on the field!\n"
-//			+ "You have left:"
-//			+ player.getCountSmall() +  "small ship(s) (3 cells long),\n"
-//			+ player.getCountMiddle() +  "middle ship(s) (4 cells long)\n"
-//			+ player.getCountBig() +  "big ship(s) (5 cells long)");
+
+			// TODO Text Feld machen mit dieser Anzeige eine pro Spieler,
+			// also wie viele Schiffe jeder Spieler noch zu setzen hat:
+			// Aber eher erst die Anzeige über erstem Feld anzeigen lassen,
+			// solange Spieler 1 dran ist, und dann über zweiten Feld, solang
+			// Spieler 2 dran ist
+
+			// Main.getLogger().info("Please put your ships on the field!\n"
+			// + "You have left:"
+			// + player.getCountSmall() + "small ship(s) (3 cells long),\n"
+			// + player.getCountMiddle() + "middle ship(s) (4 cells long)\n"
+			// + player.getCountBig() + "big ship(s) (5 cells long)");
 
 			// Gamefield eastside //
 			for (int row = 0; row < 10; row++) {
@@ -771,39 +756,38 @@ public class GUI extends Application {
 					button.setOnMouseClicked(event -> {
 						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
 
-						//	if (player1.getSecondIteration() == false) {
-						if (player1.getSecondClick() == false){
-								player1.setXfirst(x);
-								player1.setYfirst(y);
-								player1.setSecondClick(true);
-							}
-						else if (player1.getSecondClick() == true){
+						// if (player1.getSecondIteration() == false) {
+						if (player1.getSecondClick() == false) {
+							player1.setXfirst(x);
+							player1.setYfirst(y);
+							player1.setSecondClick(true);
+						} else if (player1.getSecondClick() == true) {
 							player1.setShipPartsGui(x, y, game.board1);
 							player1.setSecondClick(false);
-							
-						// TODO Eine Art update-Methode, in der der Spielstand
-						// aktualisiert und visualisiert wird;
-						Main.getLogger().info("Ist WarShip gesetzt auf Endkoordiante?\n" + board1[x][y]);
-						
-						if (board1[x][y] == null) {
-							Main.getLogger().info("Zelle mit Endkoordinaten hat Referenz null\n"
-									+ "statt 'ship' oder 'warship', also anscheinend nein.");
+
+							// TODO Eine Art update-Methode, in der der
+							// Spielstand
+							// aktualisiert und visualisiert wird;
+							Main.getLogger().info("Ist WarShip gesetzt auf Endkoordiante?\n" + board1[x][y]);
+
+							if (board1[x][y] == null) {
+								Main.getLogger().info("Zelle mit Endkoordinaten hat Referenz null\n"
+										+ "statt 'ship' oder 'warship', also anscheinend nein.");
+							} else if (board1[x][y] != null) {
+								Main.getLogger().info("#sotrue");
 							}
-						else if (board1[x][y] != null){
-							Main.getLogger().info("#sotrue");
-						}
 						}
 						update(gameFieldLEFT, gameFieldRIGHT);
 
 					});
-					
-//					button.setOnAction(new EventHandler<ActionEvent>() {
-//						public void handle(ActionEvent event) {
-//							
-//
-//				    	}
-//					});
-					
+
+					// button.setOnAction(new EventHandler<ActionEvent>() {
+					// public void handle(ActionEvent event) {
+					//
+					//
+					// }
+					// });
+
 					gameFieldLEFT.add(button, row, column);
 				}
 
@@ -816,43 +800,40 @@ public class GUI extends Application {
 					int x = column;
 					int y = row;
 
-
 					button.setOnMouseClicked(event -> {
 						Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
 
-						//	if (player1.getSecondIteration() == false) {
-						if (player2.getSecondClick() == false){
-								player2.setXfirst(x);
-								player2.setYfirst(y);
-								player2.setSecondClick(true);
-							}
-						else if (player2.getSecondClick() == true){
+						// if (player1.getSecondIteration() == false) {
+						if (player2.getSecondClick() == false) {
+							player2.setXfirst(x);
+							player2.setYfirst(y);
+							player2.setSecondClick(true);
+						} else if (player2.getSecondClick() == true) {
 							player2.setShipPartsGui(x, y, game.board2);
 							player2.setSecondClick(false);
-							
-						// TODO Eine Art update-Methode, in der der Spielstand
-						// aktualisiert und visualisiert wird;
-						Main.getLogger().info("Ist WarShip gesetzt auf Endkoordinate?\n" +
-						                        board2[x][y]);
-						
-						if (board2[x][y] == null) {
-							Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
-									+ "statt 'ship' oder 'warship', also anscheinend nein.");
+
+							// TODO Eine Art update-Methode, in der der
+							// Spielstand
+							// aktualisiert und visualisiert wird;
+							Main.getLogger().info("Ist WarShip gesetzt auf Endkoordinate?\n" + board2[x][y]);
+
+							if (board2[x][y] == null) {
+								Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
+										+ "statt 'ship' oder 'warship', also anscheinend nein.");
+							} else if (board2[x][y] != null) {
+								Main.getLogger().info("#sotrue");
 							}
-						else if (board2[x][y] != null){
-							Main.getLogger().info("#sotrue");
-						}
-						
+
 						}
 						update(gameFieldLEFT, gameFieldRIGHT);
 
 					});
-					
-//					button.setOnAction(new EventHandler<ActionEvent>() {
-//						public void handle(ActionEvent event) {
-//
-//						}
-//					});
+
+					// button.setOnAction(new EventHandler<ActionEvent>() {
+					// public void handle(ActionEvent event) {
+					//
+					// }
+					// });
 
 					gameFieldRIGHT.add(button, row, column);
 
@@ -892,20 +873,20 @@ public class GUI extends Application {
 
 		}
 	}
-	
+
 	void update(GridPane feld1, GridPane feld2) {
-		for(int i = 0; i < 10; i++){
-			for(int j = 0; j < 10; j++){
-				if(board1[i][j] != null) {
-					feld1.getChildren().get(i*10 + j).setStyle("-fx-background-color: green;");
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (board1[i][j] != null) {
+					feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
 				}
 			}
 		}
-		
-		for(int i = 0; i < 10; i++){
-			for(int j = 0; j < 10; j++){
-				if(board2[i][j] != null) {
-					feld2.getChildren().get(i*10 + j).setStyle("-fx-background-color: green;");
+
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (board2[i][j] != null) {
+					feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
 				}
 			}
 		}
