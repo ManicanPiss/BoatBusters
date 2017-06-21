@@ -276,7 +276,7 @@ public class Game {
 				board1[i][x] = null;
 			}
 		}
-		player1.setCountSmall(4);
+		player1.setCountSmall(2);
 		player1.setCountMiddle(3);
 		player1.setCountBig(2);
 	}
@@ -287,7 +287,7 @@ public class Game {
 				board2[i][x] = null;
 			}
 		}
-		player2.setCountSmall(4);
+		player2.setCountSmall(2);
 		player2.setCountMiddle(3);
 		player2.setCountBig(2);
 	}

@@ -72,4 +72,7 @@ public interface IPlayer {
 
 	void reduceShipCount(int i, Player player);
 
+
+	int getShipCountCheck();
+
 }

@@ -13,6 +13,7 @@ import c2f.boatbusters.classes.Highscore;
 import c2f.boatbusters.classes.Main;
 import c2f.boatbusters.classes.Player;
 import c2f.boatbusters.classes.WarShip;
+import c2f.boatbusters.interfaces.IPlayer;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -640,13 +641,16 @@ public class GUI extends Application {
 		}
 		
 		
+		
+		private boolean player1Ready = false;
+		private boolean player2Ready = false;
 
 		public void GameField() throws Exception {
+			
 			Stage gameStage = new Stage();
 
 			BorderPane rootGame = new BorderPane();
-			GameMenu z = new GameMenu();
-
+			
 			InputStream is = Files.newInputStream(Paths.get("src/main/resources/bg2.jpg"));
 			Image img = new Image(is);
 			is.close();
@@ -655,26 +659,30 @@ public class GUI extends Application {
 			imgGameBG.setFitWidth(WINDOW_SIZE_X);
 			imgGameBG.setFitHeight(WINDOW_SIZE_Y);
 
-			HBox gameBoards = new HBox();
-			gameBoards.setSpacing(100);
-			gameBoards.setPadding(new Insets(100, 0, 0, 0));
+			HBox gameBoardsHBox = new HBox();
+			gameBoardsHBox.setSpacing(100);
+			gameBoardsHBox.setPadding(new Insets(100, 0, 0, 0));
 			
-			GridPane gameFieldLeft = new GridPane();
-			GridPane gameFieldRight = new GridPane();
-			gameBoards.setAlignment(Pos.BASELINE_CENTER);
+			GridPane gamefieldLeft = new GridPane();
+			GridPane gamefieldRight = new GridPane();
+			gameBoardsHBox.setAlignment(Pos.BASELINE_CENTER);
 			
-			StackPane left = new StackPane();
-			VBox gameRight = new VBox();
+			StackPane leftStackPane = new StackPane();
+			VBox textVBoxRight = new VBox();
 			
-			StackPane right = new StackPane();
-			VBox gameLeft = new VBox();
+			StackPane rightStackPane = new StackPane();
+			VBox textVBoxLeft = new VBox();
 			
+			StackPane topStackPane = new StackPane();
+			VBox textVBoxTop = new VBox();
 			
+			StackPane bottomStackPane = new StackPane();
+			HBox textHBoxBottom = new HBox();
+			
+			gameBoardsHBox.getChildren().addAll(gamefieldLeft, gamefieldRight);
 
-			gameBoards.getChildren().addAll(gameFieldLeft, gameFieldRight);
-
 			
-			// Gamefield eastside //
+			//////////// Gamefield Right ////////////
 			for (int row = 0; row < 10; row++) {
 				for (int column = 0; column < 10; column++) {
 					CellButton button = new CellButton();
@@ -711,7 +719,7 @@ public class GUI extends Application {
 								Main.getLogger().info("#sotrue , Ja, hier ist ein Schiff");
 							}
 						}
-						update(gameFieldLeft, gameFieldRight, gameLeft, gameRight);
+						update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 
 					});
 
@@ -722,11 +730,14 @@ public class GUI extends Application {
 					// }
 					// });
 
-					gameFieldLeft.add(button, row, column);
+					gamefieldLeft.add(button, row, column);
 				}
 				
 			}
-			// GameField westside //
+			////////////////////////////////////////
+			
+			
+			//////////// GameField Left ////////////
 			for (int row = 0; row < 10; row++) {
 				for (int column = 0; column < 10; column++) {
 					CellButton button = new CellButton();
@@ -767,99 +778,105 @@ public class GUI extends Application {
 							}
 
 						}
-						update(gameFieldLeft, gameFieldRight, gameLeft, gameRight);
+						update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 
 					});
 
-					// button.setOnAction(new EventHandler<ActionEvent>() {
-					// public void handle(ActionEvent event) {
-					//
-					// }
-					// });
-
-					gameFieldRight.add(button, row, column);
+					gamefieldRight.add(button, row, column);
 
 				}
 
 			}
 
-			/// TOP ///
-			StackPane top = new StackPane();
-			top.setAlignment(Pos.CENTER);
+			//////////// TOP ////////////
 			Rectangle bgTopBox = new Rectangle(600, 100);
 
 			bgTopBox.setOpacity(0.4);
 			bgTopBox.setFill(Color.DIMGRAY);
 			bgTopBox.setStroke(Color.LIGHTGRAY);
 
-			VBox gameTextTop = new VBox();
-			gameTextTop.setTranslateX(WINDOW_SIZE_X / 2 - 180);
-			gameTextTop.setTranslateY(25);
+			textVBoxTop.setTranslateX(WINDOW_SIZE_X / 2 - 180);
+			textVBoxTop.setTranslateY(25);
 
-			Label textInfo = new Label("Test Text");
-			textInfo.setTextAlignment(TextAlignment.CENTER);
+			Text textInfo = new Text("Boat Busters");
 			textInfo.setStyle(font30);
-			textInfo.setTextFill(Color.ORANGE);
-			gameTextTop.getChildren().add(textInfo);
-			top.getChildren().addAll(bgTopBox, gameTextTop);
-			///////
-
-			// LEFTSIDE//
+			textInfo.setFill(Color.ORANGE);
 			
+			Text textWaitTopP2 = new Text("wait for Player 2...");
+			textWaitTopP2.setStyle(font14);
+			textWaitTopP2.setFill(Color.WHITE);
+			
+			Text textWaitTopP1 = new Text("wait for Player 1 ...");
+			textWaitTopP1.setStyle(font14);
+			textWaitTopP1.setFill(Color.WHITE);
+			
+			Text textBeginTop = new Text("LET THE GAMES BEGIN!");
+			textBeginTop.setStyle(font14);
+			textBeginTop.setFill(Color.WHITE);
+			
+			textVBoxTop.getChildren().add(textInfo);
+			topStackPane.getChildren().addAll(bgTopBox, textVBoxTop);
+			//////////////////////////////////
+
+			
+			
+			//////////// LEFTSIDE ////////////
 			Rectangle bgLeftBox = new Rectangle(150, 500);
 			bgLeftBox.setOpacity(0.4);
 			bgLeftBox.setFill(Color.DIMGREY);
 			bgLeftBox.setStroke(Color.LIGHTGRAY);
 
+			textVBoxLeft.setSpacing(10);
 			
-			gameLeft.setSpacing(10);
-			
-			GameButton resetLeft = new GameButton("reset Ships");
-			resetLeft.setOnMouseClicked(event -> {
-				game.setShipsBackBoard1(board1); 
-				update(gameFieldLeft, gameFieldRight, gameLeft, gameRight);
-				
-				
-			});
-			
-
 			Text textLeft = new Text(" Press Q to Surrender");
 			textLeft.setStyle(font14);
-			textLeft.setFill(Color.BEIGE);
+			textLeft.setFill(Color.WHITE);
 
 			Text textPlayerLeft = new Text(" Player 1:");
 			textPlayerLeft.setStyle(font14);
-			textPlayerLeft.setFill(Color.BEIGE);
+			textPlayerLeft.setFill(Color.WHITE);
+			
+			GameButton btnResetLeft = new GameButton("reset Ships");
+			btnResetLeft.setOnMouseClicked(event -> {
+				game.setShipsBackBoard1(board1); 
+				update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+			});
+			
+			GameButton btnReadyLeft = new GameButton("READY!");
+			btnReadyLeft.setOnMouseClicked(event->{
+				if(player1.getShipCountCheck() == 0){
+					player1Ready = true;
+					
+					if(player1Ready == true && player2Ready == false){
+						textVBoxTop.getChildren().add(textWaitTopP2);
+						textVBoxLeft.getChildren().removeAll(btnReadyLeft, btnResetLeft);
+					}
+					
+					if(player2Ready == true && player1Ready == true){
+						textVBoxLeft.getChildren().removeAll(btnReadyLeft, btnResetLeft, getTextSmallLeft(), 
+													getTextMiddleLeft(), getTextBigLeft());
+						
+						textVBoxRight.getChildren().removeAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
+						textVBoxTop.getChildren().remove(textWaitTopP1);
+						textVBoxTop.getChildren().add(textBeginTop);
+				}
+				}
+			});
+
+			textVBoxLeft.getChildren().addAll(textLeft, textPlayerLeft, btnResetLeft, btnReadyLeft);
+			leftStackPane.getChildren().addAll(bgLeftBox, textVBoxLeft);
+			//////////////////////////////////////////
 
 			
-			gameLeft.getChildren().addAll(textLeft, textPlayerLeft, resetLeft);
-
-			// if(alle schiffe gesetzt){ TODO:
-			// gameLeft.getChildren().remove(smallLeft);
-			// gameLeft.getChildren().remove(middleLeft);
-			// gameLeft.getChildren().remove(bigLeft);
-			// }
-
-			left.getChildren().addAll(bgLeftBox, gameLeft);
-			/////
-
-			/// RIGHTSIDE ///
 			
-			right.setAlignment(Pos.CENTER_RIGHT);
+			//////////// RIGHTSIDE ////////////
 			Rectangle bgRightBox = new Rectangle(150, 500);
 			bgRightBox.setOpacity(0.4);
 			bgRightBox.setFill(Color.DIMGREY);
 			bgRightBox.setStroke(Color.LIGHTGRAY);
 
+			textVBoxRight.setSpacing(10);
 			
-			gameRight.setSpacing(10);
-			
-			GameButton resetRight = new GameButton("reset Ships");
-			resetRight.setOnMouseClicked(event -> {
-				game.setShipsBackBoard2(board2);
-				update(gameFieldLeft, gameFieldRight, gameLeft, gameRight);
-			});
-
 			Text textRight = new Text(" Press Q to Surrender");
 			textRight.setStyle(font14);
 			textRight.setFill(Color.YELLOW);
@@ -868,27 +885,49 @@ public class GUI extends Application {
 			textPlayerRight.setStyle(font14);
 			textPlayerRight.setFill(Color.YELLOW);
 			
-			gameRight.getChildren().addAll(textRight, textPlayerRight, resetRight);
+			GameButton btnResetRight = new GameButton("reset Ships");
+			btnResetRight.setOnMouseClicked(event -> {
+				game.setShipsBackBoard1(board2); 
+				update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+			});
+			
+			GameButton btnReadyRight = new GameButton("READY!");
+			btnReadyRight.setOnMouseClicked(event->{
+				if(player2.getShipCountCheck() == 0){
+					player2Ready = true;
+					
+					if(player2Ready == true && player1Ready == false){
+						textVBoxTop.getChildren().add(textWaitTopP1);
+						textVBoxRight.getChildren().removeAll(btnReadyRight, btnResetRight);
+					}
+					
+					if(player2Ready == true && player1Ready == true){
+						textVBoxRight.getChildren().removeAll(btnReadyRight, btnResetRight, getTextSmallRight(), 
+													getTextMiddleRight(), getTextBigRight());
+						
+						textVBoxLeft.getChildren().removeAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
+						textVBoxTop.getChildren().remove(textWaitTopP2);
+						textVBoxTop.getChildren().add(textBeginTop);
+				}
+				}
+			});
+			
+			textVBoxRight.getChildren().addAll(textRight, textPlayerRight, btnResetRight, btnReadyRight);
+			rightStackPane.getChildren().addAll(bgRightBox, textVBoxRight);
+			//////////////////////////////////
 
-			// if(alle schiffe gesetzt){ TODO:
-			// gameRight.getChildren().remove(smallRight);
-			// gameRight.getChildren().remove(middleRight);
-			// gameRight.getChildren().remove(bigRight);
-			// }
-			right.getChildren().addAll(bgRightBox, gameRight);
-			/////
-
-			///// BOTTOM ///////
-			StackPane bottom = new StackPane();
+			
+			
+			//////////// BOTTOM ////////////
 			Rectangle bgBottomBox = new Rectangle(WINDOW_SIZE_X, 100);
 			bgBottomBox.setOpacity(0.4);
 			bgBottomBox.setFill(Color.DIMGRAY);
 			bgBottomBox.setStroke(Color.LIGHTGRAY);
 
-			HBox playerNames = new HBox();
-			playerNames.setPadding(new Insets(0, 0, 50, 0));
-			playerNames.setSpacing(100);
-			playerNames.setAlignment(Pos.CENTER);
+			
+			textHBoxBottom.setPadding(new Insets(0, 0, 50, 0));
+			textHBoxBottom.setSpacing(100);
+			textHBoxBottom.setAlignment(Pos.CENTER);
 			Text textPlayer1 = new Text("Player 1: " + player1.getName());
 			textPlayer1.setStyle(font30);
 			textPlayer1.setFill(Color.BEIGE);
@@ -897,20 +936,21 @@ public class GUI extends Application {
 			textPlayer2.setStyle(font30);
 			textPlayer2.setFill(Color.YELLOW);
 
-			playerNames.getChildren().addAll(textPlayer1, textPlayer2);
-			bottom.getChildren().addAll(bgBottomBox, playerNames);
-
+			textHBoxBottom.getChildren().addAll(textPlayer1, textPlayer2);
+			bottomStackPane.getChildren().addAll(bgBottomBox, textHBoxBottom);
+			//////////////////////////////////
 			
-
+			
+			
 			rootGame.getChildren().add(imgGameBG);
-			// rootGame.setTop(new ToolBar());
-			rootGame.setCenter(gameBoards);
-			rootGame.setBottom(bottom);
-			rootGame.setTop(top);
-			rootGame.setLeft(left);
-			rootGame.setRight(right);
+			rootGame.setCenter(gameBoardsHBox);
+			rootGame.setBottom(bottomStackPane);
+			rootGame.setTop(topStackPane);
+			rootGame.setLeft(leftStackPane);
+			rootGame.setRight(rightStackPane);
 
-			update(gameFieldLeft, gameFieldRight, gameLeft, gameRight);
+			update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+			
 			Scene gameScene = new Scene(rootGame);
 			gameScene.setOnKeyPressed(event -> {
 				if (event.getCode() == KeyCode.Q) {
@@ -922,18 +962,18 @@ public class GUI extends Application {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-
 				}
-
 			});
+			
 			gameStage.setTitle("BoatBusters");
 			gameStage.setWidth(WINDOW_SIZE_X);
 			gameStage.setHeight(WINDOW_SIZE_Y);
 			gameStage.setScene(gameScene);
 			// gameStage.setResizable(false);
 			gameStage.show();
-
 		}
+		
+		
 		
 		void update(GridPane feld1, GridPane feld2, VBox left, VBox right) {
 			//Zellen, auf die eine Referenz gesetzt ist, werden eingefärbt
@@ -961,13 +1001,17 @@ public class GUI extends Application {
 				}
 			}
 			//Anzeigetexte in GUI, wie viele Schiffe noch gesetzt werden müssen, werden aktualisiert (VBox links Player1)
+			
 			left.getChildren().removeAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
 			setTextSmallLeft();
 			setTextMiddleLeft();
 			setTextBigLeft();
 			left.getChildren().addAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
 			
+			
 			//Anzeigetexte in GUI, wie viele Schiffe noch gesetzt werden müssen, werden aktualisiert (VBox rechts Player2)
+			
+			
 			right.getChildren().removeAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
 			setTextSmallRight();
 			setTextMiddleRight();
@@ -975,9 +1019,6 @@ public class GUI extends Application {
 			right.getChildren().addAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
 			
 		}
-
-		
-		
 	}
 }
 

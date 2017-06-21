@@ -11,7 +11,7 @@ public class Player implements IPlayer {
 
 	private int score = 0;
 	private int choice;
-	private int countSmall = 4;
+	private int countSmall = 2;
 	private int countMiddle = 3;
 	private int countBig = 2;
 	private int shipsCount = countSmall + countMiddle + countBig;
@@ -184,6 +184,7 @@ public class Player implements IPlayer {
 			return false;
 		}
 	}
+	
 
 	// in der X-Koordinate ueberhaupt was frei?
 	/* (non-Javadoc)
@@ -610,15 +611,22 @@ public class Player implements IPlayer {
 		return name + ";" + numberOfWins + ";\n";
 	}
 	@Override
-	public boolean areShipsLeftToPut() {
-		// TODO Auto-generated method stub
-		return false;
+	public int getShipCountCheck() {
+		int ShipsLeft = getCountBig() + getCountMiddle() + getCountSmall();
+		
+		return ShipsLeft;
 	}
 	@Override
 	public void reduceShipCount(int i, IPlayer player) {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public boolean areShipsLeftToPut() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 
 	
 
