@@ -205,11 +205,6 @@ public class GUI extends Application {
 			});
 		}
 
-		public void setOnAction(EventHandler<ActionEvent> eventHandler) { // TODO:
-			// TODO Auto-generated method stub
-
-		}
-
 	}
 
 	public class GameButton extends StackPane {
@@ -221,7 +216,7 @@ public class GUI extends Application {
 			text.setFill(Color.WHITE);
 			text.setTextAlignment(TextAlignment.RIGHT);
 
-			Rectangle bg = new Rectangle(SHIPBUTTON_SIZE_X - 10, SHIPBUTTON_SIZE_Y); 
+			Rectangle bg = new Rectangle(SHIPBUTTON_SIZE_X - 10, SHIPBUTTON_SIZE_Y);
 			bg.setFill(Color.DIMGRAY);
 			bg.setOpacity(0.7);
 			bg.setStroke(Color.BLACK);
@@ -251,8 +246,8 @@ public class GUI extends Application {
 
 	public class GameMenu {
 
-//		public String namePlayer1;
-//		public String namePlayer2;
+		// public String namePlayer1;
+		// public String namePlayer2;
 
 		public void GameMenu() throws Exception {
 
@@ -393,9 +388,9 @@ public class GUI extends Application {
 					namePlayer1 = textfieldLoginPlayer1.getText();
 					namePlayer2 = textfieldLoginPlayer2.getText();
 					game.startGame(game, namePlayer1, namePlayer2);
-					
+
 					System.out.println("asdasd");
-					
+
 					player1 = game.getPlayer1();
 					player2 = game.getPlayer2();
 
@@ -432,7 +427,6 @@ public class GUI extends Application {
 			btnLoginPlayer1.setOnMouseClicked(event -> {
 
 				rootMenu.getChildren().add(menuPlayer2);
-				
 
 				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer1);
 				tt.setToX(menuPlayer1.getTranslateX() - offset);
@@ -473,7 +467,7 @@ public class GUI extends Application {
 			///// Login Player 2 bestätigen mit Maus (Start Game) /////
 			MenuButton btnLoginPlayer2 = new MenuButton("OK. Start game!");
 			btnLoginPlayer2.setOnMouseClicked(event -> {
-				
+
 				namePlayer1 = textfieldLoginPlayer1.getText();
 				namePlayer2 = textfieldLoginPlayer2.getText();
 
@@ -552,10 +546,8 @@ public class GUI extends Application {
 
 			mainMenu.getChildren().addAll(btnStart, btnScore, btnExit); // Hauptmenu
 			scoreMenu.getChildren().addAll(highscoreText, btnBack2); // HighscoreMenu
-			menuPlayer1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, 
-					btnLoginPlayer1, btnBackPlayer1); // login1
-			menuPlayer2.getChildren().addAll(loginTextPlayer2, textfieldLoginPlayer2, 
-					btnLoginPlayer2, btnBackPlayer2); // login2
+			menuPlayer1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, btnLoginPlayer1, btnBackPlayer1); // login1
+			menuPlayer2.getChildren().addAll(loginTextPlayer2, textfieldLoginPlayer2, btnLoginPlayer2, btnBackPlayer2); // login2
 
 			rootMenu.getChildren().addAll(imgView, mainMenu);
 
@@ -621,15 +613,16 @@ public class GUI extends Application {
 			gameLeft.setSpacing(5);
 			GameButton smallLeft = new GameButton("small Ship");
 			smallLeft.setOnMouseClicked(event -> {
+			//	TODO: kleines schiff auswahl
 
 			});
 			GameButton middleLeft = new GameButton("middle Ship");
 			middleLeft.setOnMouseClicked(event -> {
-
+			// TODO: mittleres schiff button auswahl
 			});
 			GameButton bigLeft = new GameButton("big Ship");
 			bigLeft.setOnMouseClicked(event -> {
-
+			// TODO: großes schiff button auswahl
 			});
 
 			Text textLeft = new Text(" Press Q to Surrender");
@@ -670,15 +663,15 @@ public class GUI extends Application {
 			gameRight.setSpacing(5);
 			GameButton smallRight = new GameButton("small Ship");
 			smallRight.setOnMouseClicked(event -> {
-
+			// TODO: kleines schiff button
 			});
 			GameButton middleRight = new GameButton("middle Ship");
 			middleRight.setOnMouseClicked(event -> {
-
+			// TODO: mittleres schiff button auswahl
 			});
 			GameButton bigRight = new GameButton("big Ship");
 			bigRight.setOnMouseClicked(event -> {
-
+			// TODO: großes schiff button auswahl
 			});
 
 			Text textRight = new Text(" Press Q to Surrender");
@@ -734,18 +727,7 @@ public class GUI extends Application {
 
 			gameBoards.getChildren().addAll(gameFieldLEFT, gameFieldRIGHT);
 
-			// TODO Text Feld machen mit dieser Anzeige eine pro Spieler,
-			// also wie viele Schiffe jeder Spieler noch zu setzen hat:
-			// Aber eher erst die Anzeige über erstem Feld anzeigen lassen,
-			// solange Spieler 1 dran ist, und dann über zweiten Feld, solang
-			// Spieler 2 dran ist
-
-			// Main.getLogger().info("Please put your ships on the field!\n"
-			// + "You have left:"
-			// + player.getCountSmall() + "small ship(s) (3 cells long),\n"
-			// + player.getCountMiddle() + "middle ship(s) (4 cells long)\n"
-			// + player.getCountBig() + "big ship(s) (5 cells long)");
-
+			
 			// Gamefield eastside //
 			for (int row = 0; row < 10; row++) {
 				for (int column = 0; column < 10; column++) {
@@ -878,7 +860,7 @@ public class GUI extends Application {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				if (board1[i][j] != null) {
-					feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
+					feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: white;");
 				}
 			}
 		}
