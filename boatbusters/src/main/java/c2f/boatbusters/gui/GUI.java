@@ -613,13 +613,19 @@ public class GUI extends Application {
 							// TODO Eine Art update-Methode, in der der
 							// Spielstand
 							// aktualisiert und visualisiert wird;
-							Main.getLogger().info("Ist WarShip gesetzt auf Endkoordiante?\n" + board1[x][y]);
 
+							Main.getLogger().info("Player 1 Count Small Variable:" + player1.getCountSmall());
+							Main.getLogger().info("Player 1 Count Middle Variable:" + player1.getCountMiddle());
+							Main.getLogger().info("Player 1 Big Variable:" + player1.getCountBig());
+							
+							Main.getLogger().info("Ist WarShip gesetzt auf Endkoordiante?\n" +
+							                        "Speicheradresse: " + board1[x][y]);
+							
 							if (board1[x][y] == null) {
 								Main.getLogger().info("Zelle mit Endkoordinaten hat Referenz null\n"
 										+ "statt 'ship' oder 'warship', also anscheinend nein.");
 							} else if (board1[x][y] != null) {
-								Main.getLogger().info("#sotrue");
+								Main.getLogger().info("#sotrue , Ja, hier ist ein Schiff");
 							}
 						}
 						update(gameFieldLeft, gameFieldRight);
@@ -660,13 +666,19 @@ public class GUI extends Application {
 							// TODO Eine Art update-Methode, in der der
 							// Spielstand
 							// aktualisiert und visualisiert wird;
-							Main.getLogger().info("Ist WarShip gesetzt auf Endkoordinate?\n" + board2[x][y]);
+
+							Main.getLogger().info("Player 2 Count Small Variable:" + player2.getCountSmall());
+							Main.getLogger().info("Player 2  Middle Variable:" + player2.getCountMiddle());
+							Main.getLogger().info("Player 2 Big Variable:" + player2.getCountBig());
+							
+							Main.getLogger().info("Ist WarShip gesetzt auf Endkoordinate?\n"
+									+ "Speicheradresse: " + board2[x][y]);
 
 							if (board2[x][y] == null) {
 								Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
 										+ "statt 'ship' oder 'warship', also anscheinend nein.");
 							} else if (board2[x][y] != null) {
-								Main.getLogger().info("#sotrue");
+								Main.getLogger().info("#sotrue , Ja, hier ist ein Schiff");
 							}
 
 						}

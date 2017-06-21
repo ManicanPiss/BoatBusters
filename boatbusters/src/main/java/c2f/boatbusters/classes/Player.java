@@ -227,13 +227,13 @@ public class Player implements IPlayer {
 	 * @see c2f.boatbusters.classes.IPlayer#reduceShipCount(int, c2f.boatbusters.classes.IPlayer)
 	 */
 	@Override
-	public void reduceShipCount (int i, IPlayer player) {
+	public void reduceShipCount (int i, Player player) {
 		switch (i) {
-		case 1: player.decreaseCountSmall();
+		case 2: player.decreaseCountSmall();
 		break;
-		case 2: player.decreaseCountMiddle();
+		case 3: player.decreaseCountMiddle();
 		break;
-		case 3: player.decreaseCountBig();
+		case 4: player.decreaseCountBig();
 		break;
 
 		default:
@@ -603,6 +603,13 @@ public class Player implements IPlayer {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	@Override
+	public void reduceShipCount(int i, IPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 
 	//Sachen für Bestenliste/ Highscore: Ende
 

@@ -1,5 +1,6 @@
 package c2f.boatbusters.interfaces;
 
+import c2f.boatbusters.classes.Player;
 import c2f.boatbusters.classes.WarShip;
 
 public interface IPlayer {
@@ -68,5 +69,7 @@ public interface IPlayer {
 	String toString();
 
 	boolean areShipsLeftToPut(IPlayer player);
+
+	void reduceShipCount(int i, Player player);
 
 }
