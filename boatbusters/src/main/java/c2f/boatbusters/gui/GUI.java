@@ -758,6 +758,8 @@ public class GUI extends Application {
 			textSmallLeft.setStyle(font14);
 			textSmallLeft.setFill(Color.WHITE);
 			
+
+			
 			Text textMiddleLeft = new Text(" " + player1.getCountMiddle() + " middle Ships left");
 			textMiddleLeft.setStyle(font14);
 			textMiddleLeft.setFill(Color.WHITE);
@@ -908,8 +910,21 @@ public class GUI extends Application {
 			}
 		}
 		
-//		left.getChildren().addAll(textSmallLeft, textMiddleLeft, textBigLeft);
+		left.getChildren().addAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
 		
 	}
 
+	
+	
+	public Text getTextSmallLeft() {
+		return new Text(" " + player1.getCountSmall() + " small Ships left");	
+	}
+	
+	public Text getTextMiddleLeft() {
+		return new Text(" " + player1.getCountMiddle() + " small Ships left");	
+	}
+	
+	public Text getTextBigLeft() {
+		return new Text(" " + player1.getCountBig() + " small Ships left");	
+	}
 }
