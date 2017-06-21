@@ -673,6 +673,8 @@ public class GUI extends Application {
 							
 							Main.getLogger().info("Ist WarShip gesetzt auf Endkoordinate?\n"
 									+ "Speicheradresse: " + board2[x][y]);
+							
+							
 
 							if (board2[x][y] == null) {
 								Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
@@ -745,6 +747,8 @@ public class GUI extends Application {
 			resetLeft.setOnMouseClicked(event -> {
 				game.setShipsBackBoard1(board1); 
 				update(gameFieldLeft, gameFieldRight);
+				
+				
 			});
 			
 

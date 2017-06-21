@@ -65,6 +65,9 @@ public class Player implements IPlayer {
 	/* (non-Javadoc)
 	 * @see c2f.boatbusters.classes.IPlayer#decreaseCountSmall()
 	 */
+	
+	public void setCountSmall(int countSmall){ this.countSmall = countSmall;}
+	
 	@Override
 	public void decreaseCountSmall() { countSmall -= 1; }
 
@@ -78,6 +81,10 @@ public class Player implements IPlayer {
 	/* (non-Javadoc)
 	 * @see c2f.boatbusters.classes.IPlayer#decreaseCountMiddle()
 	 */
+	
+	public void setCountMiddle(int countMiddle){ this.countMiddle = countMiddle; }
+	
+
 	@Override
 	public void decreaseCountMiddle() { countMiddle -= 1; }
 
@@ -91,6 +98,10 @@ public class Player implements IPlayer {
 	/* (non-Javadoc)
 	 * @see c2f.boatbusters.classes.IPlayer#decreaseCountBig()
 	 */
+	
+	public void setCountBig(int countBig) { this.countBig = countBig; }
+	
+	
 	@Override
 	public void decreaseCountBig() { countBig -= 1; }
 
@@ -310,97 +321,97 @@ public class Player implements IPlayer {
 
 	// Anfangs- und Endteil des Schiffs setzen
 	// Bei falschen Eingaben: Brechstange, fang von vorne an!
-	private void setShipParts(int choice, WarShip board[][], IPlayer player, Game game, Scanner scan) {
-
-		// X- und Y-Koordinaten der Anfangs- und Endpunkte der Schiffe
-		int xfirst, yfirst, xlast, ylast;
-
-		// TODO log System.out.println("type in the x coordinate of the first part!");
-		Main.getLogger().info("Type in the x coordinate of the first part!");
-		String input = scan.next();
-
-		// "m" -> ins Menu, "b" -> Abbrechen, Schiffsteile neu setzen
-		if (input.equals("m")) {
-			game.showMenu(game);
-		} else if (input.equals("b")) {
-			setShip(player, board, game, scan);
-		}
-
-		// Ist input eine Zahl? Ist auf der X-Koordiante noch was frei?
-		if (checkNumber(input) && checkXcoord(Integer.parseInt(input), board)) {
-			xfirst = Integer.parseInt(input);
-			// TODO log System.out.println("Now type in the Y-Coordinate and press Enter!\n");
-			Main.getLogger().info("Now type in the Y-Coordinate and press Enter!\n");
-			input = scan.next();
-
-			// Selber Ablauf fuer die folgenden Koordinaten-Eingaben
-			if (input.equals("m")) {
-				game.showMenu(game);
-			} else if (input.equals("b")) {
-				setShip(player, board, game, scan);
-			}
-
-			// input = Zahl? Position im Brett frei?
-			if (checkNumber(input) && checkFree(xfirst, Integer.parseInt(input), board)) {
-				yfirst = Integer.parseInt(input);
-				// TODO log System.out.println("Now type in the X-Coordinate of
-				// the last part of the Ship and press Enter!\n");
-				Main.getLogger().info("Now type in the X-Coordinate of the last part of the Ship and press Enter!\n");
-				input = scan.next();
-
-				if (input.equals("m")) {
-					game.showMenu(game);
-				} else if (input.equals("b")) {
-					setShip(player, board, game, scan);
-				}
-
-				if (checkNumber(input) && checkXcoord(xfirst, board)) {
-					xlast = Integer.parseInt(input);
-					// TODO log System.out.println("Now type in the Y-Coordinate
-					// of the last part of the Ship!\n");
-					Main.getLogger().info("Now type in the Y-Coordinate of the last part of the Ship!\n");
-					input = scan.next();
-
-					if (input.equals("m")) {
-						game.showMenu(game);
-					} else if (input.equals("b")) {
-						setShip(player, board, game, scan);
-					}
-
-					// Checkt input, Freiheit der Endposition, Freiheit der
-					// Linie und Laenge des Schiffs.
-					// Setzt erst dann die Referenzen in das Feld.
-					if (checkNumber(input) && checkFree(xlast, Integer.parseInt(input), board)
-							&& checkIfLineIsFreeAndLengthCorrect(xfirst, yfirst, xlast, Integer.parseInt(input), choice,
-									board)) {
-						ylast = Integer.parseInt(input);
-
-						// Schiff wird gesetzt, Anzahl der verfuegbaren Schiffe
-						// diesen Typs verringert
-						setShipOnBoard(xfirst, yfirst, xlast, ylast, board, choice);
-						reduceShipCount(choice, player);
-
-					} else {
-						// TODO log System.out.println("Invalid Input, we will
-						// start over again.\n");
-						setShipParts(choice, board, player, game, scan);
-					}
-				} else {
-					// TODO log System.out.println("Invalid Input, we will start
-					// over again.\n");
-					setShipParts(choice, board, player, game, scan);
-				}
-			} else {
-				// TODO log System.out.println("Invalid Input, we will start
-				// over again.\n");
-				setShipParts(choice, board, player, game, scan);
-			}
-		} else {
-			// TODO log System.out.println("Invalid Input, we will start over
-			// again.\n");
-			setShipParts(choice, board, player, game, scan);
-		}
-	}
+//	private void setShipParts(int choice, WarShip board[][], IPlayer player, Game game, Scanner scan) {
+//
+//		// X- und Y-Koordinaten der Anfangs- und Endpunkte der Schiffe
+//		int xfirst, yfirst, xlast, ylast;
+//
+//		// TODO log System.out.println("type in the x coordinate of the first part!");
+//		Main.getLogger().info("Type in the x coordinate of the first part!");
+//		String input = scan.next();
+//
+//		// "m" -> ins Menu, "b" -> Abbrechen, Schiffsteile neu setzen
+//		if (input.equals("m")) {
+//			game.showMenu(game);
+//		} else if (input.equals("b")) {
+//			setShip(player, board, game, scan);
+//		}
+//
+//		// Ist input eine Zahl? Ist auf der X-Koordiante noch was frei?
+//		if (checkNumber(input) && checkXcoord(Integer.parseInt(input), board)) {
+//			xfirst = Integer.parseInt(input);
+//			// TODO log System.out.println("Now type in the Y-Coordinate and press Enter!\n");
+//			Main.getLogger().info("Now type in the Y-Coordinate and press Enter!\n");
+//			input = scan.next();
+//
+//			// Selber Ablauf fuer die folgenden Koordinaten-Eingaben
+//			if (input.equals("m")) {
+//				game.showMenu(game);
+//			} else if (input.equals("b")) {
+//				setShip(player, board, game, scan);
+//			}
+//
+//			// input = Zahl? Position im Brett frei?
+//			if (checkNumber(input) && checkFree(xfirst, Integer.parseInt(input), board)) {
+//				yfirst = Integer.parseInt(input);
+//				// TODO log System.out.println("Now type in the X-Coordinate of
+//				// the last part of the Ship and press Enter!\n");
+//				Main.getLogger().info("Now type in the X-Coordinate of the last part of the Ship and press Enter!\n");
+//				input = scan.next();
+//
+//				if (input.equals("m")) {
+//					game.showMenu(game);
+//				} else if (input.equals("b")) {
+//					setShip(player, board, game, scan);
+//				}
+//
+//				if (checkNumber(input) && checkXcoord(xfirst, board)) {
+//					xlast = Integer.parseInt(input);
+//					// TODO log System.out.println("Now type in the Y-Coordinate
+//					// of the last part of the Ship!\n");
+//					Main.getLogger().info("Now type in the Y-Coordinate of the last part of the Ship!\n");
+//					input = scan.next();
+//
+//					if (input.equals("m")) {
+//						game.showMenu(game);
+//					} else if (input.equals("b")) {
+//						setShip(player, board, game, scan);
+//					}
+//
+//					// Checkt input, Freiheit der Endposition, Freiheit der
+//					// Linie und Laenge des Schiffs.
+//					// Setzt erst dann die Referenzen in das Feld.
+//					if (checkNumber(input) && checkFree(xlast, Integer.parseInt(input), board)
+//							&& checkIfLineIsFreeAndLengthCorrect(xfirst, yfirst, xlast, Integer.parseInt(input), choice,
+//									board)) {
+//						ylast = Integer.parseInt(input);
+//
+//						// Schiff wird gesetzt, Anzahl der verfuegbaren Schiffe
+//						// diesen Typs verringert
+//						setShipOnBoard(xfirst, yfirst, xlast, ylast, board, choice);
+//						reduceShipCount(choice, player);
+//
+//					} else {
+//						// TODO log System.out.println("Invalid Input, we will
+//						// start over again.\n");
+//						setShipParts(choice, board, player, game, scan);
+//					}
+//				} else {
+//					// TODO log System.out.println("Invalid Input, we will start
+//					// over again.\n");
+//					setShipParts(choice, board, player, game, scan);
+//				}
+//			} else {
+//				// TODO log System.out.println("Invalid Input, we will start
+//				// over again.\n");
+//				setShipParts(choice, board, player, game, scan);
+//			}
+//		} else {
+//			// TODO log System.out.println("Invalid Input, we will start over
+//			// again.\n");
+//			setShipParts(choice, board, player, game, scan);
+//		}
+//	}
 	
 	
 	
@@ -503,38 +514,38 @@ public class Player implements IPlayer {
 	
 	
 
-	protected void setShip (IPlayer player, WarShip[][] board1, Game game, Scanner scan) {
-
-		// TODO sysout ERSETZEN!
-		// Welcher Schiffstyp? Zeigt Anzahl der noch vefuegbaren Schiffe jeden Typs an
-		Main.getLogger().info("What kind of Ship do you want to put? Type: \n"
-				+ "1 for a small Ship (" + player.getCountSmall() + " left to put) \n"
-				+ "2 for a middle Ship (" + player.getCountMiddle() + " left to put) \n"
-				+ "3 for a big Ship (" + player.getCountBig() + " left to put) \n");
-
-		String wahl;
-
-		wahl = scan.next();
-		if (checkIfValidInput(wahl)) {
-			// Wenn der Spieler ins Menu zurueck will
-			if (wahl.equals("m")) {
-				game.showMenu(game);
-			} 
-
-			int choice = Integer.parseInt(wahl);
-
-			// Wenn noch ein Schiff diesen Typs verfuegbar ist 
-			if (checkIfShipAvailable(choice, player)) {
-				setShipParts(choice, board1, player, game, scan);
-			} else {
-				// TODO log System.out.println("Sorry, there's no ship of this type left!\n\n");
-				setShip(player, board1, game, scan);
-			}
-		} else {
-			// TODO log System.out.println("Invalid Input: We will start over again.\n\n");
-			setShip(player, board1, game, scan);
-		}
-	} 
+//	protected void setShip (IPlayer player, WarShip[][] board1, Game game, Scanner scan) {
+//
+//		// TODO sysout ERSETZEN!
+//		// Welcher Schiffstyp? Zeigt Anzahl der noch vefuegbaren Schiffe jeden Typs an
+//		Main.getLogger().info("What kind of Ship do you want to put? Type: \n"
+//				+ "1 for a small Ship (" + player.getCountSmall() + " left to put) \n"
+//				+ "2 for a middle Ship (" + player.getCountMiddle() + " left to put) \n"
+//				+ "3 for a big Ship (" + player.getCountBig() + " left to put) \n");
+//
+//		String wahl;
+//
+//		wahl = scan.next();
+//		if (checkIfValidInput(wahl)) {
+//			// Wenn der Spieler ins Menu zurueck will
+//			if (wahl.equals("m")) {
+//				game.showMenu(game);
+//			} 
+//
+//			int choice = Integer.parseInt(wahl);
+//
+//			// Wenn noch ein Schiff diesen Typs verfuegbar ist 
+//			if (checkIfShipAvailable(choice, player)) {
+//				setShipParts(choice, board1, player, game, scan);
+//			} else {
+//				// TODO log System.out.println("Sorry, there's no ship of this type left!\n\n");
+//				setShip(player, board1, game, scan);
+//			}
+//		} else {
+//			// TODO log System.out.println("Invalid Input: We will start over again.\n\n");
+//			setShip(player, board1, game, scan);
+//		}
+//	} 
 
 
 	//Sachen für Bestenliste/Highschore: Anfang:
