@@ -860,7 +860,7 @@ public class GUI extends Application {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				if (board1[i][j] != null) {
-					feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: white;");
+					feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
 				}
 			}
 		}
