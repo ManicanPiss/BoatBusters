@@ -563,6 +563,37 @@ public class GUI extends Application {
 	}
 
 	public class GameField extends Parent {
+		
+		
+		Text textSmallLeft = new Text();
+		Text textMiddleLeft = new Text();
+		Text textBigLeft = new Text();		
+		
+		public void setTextSmallLeft(){
+			this.textSmallLeft = new Text(" " + player1.getCountSmall() + " small Ships left");
+		}
+		
+		public void setTextMiddleLeft(){
+			this.textMiddleLeft = new Text(" " + player1.getCountMiddle() + " small Ships left");
+		}
+		
+		public void setTextBigLeft(){
+			this.textBigLeft = new Text(" " + player1.getCountBig() + " small Ships left");
+		}
+		
+		public Text getTextSmallLeft() {
+			return textSmallLeft;
+		}
+
+		public Text getTextMiddleLeft() {
+			return textMiddleLeft;
+		}
+
+		public Text getTextBigLeft() {
+			return textBigLeft;
+		}
+		
+		
 
 		public void GameField() throws Exception {
 			Stage gameStage = new Stage();
@@ -758,7 +789,6 @@ public class GUI extends Application {
 			textSmallLeft.setStyle(font14);
 			textSmallLeft.setFill(Color.WHITE);
 			
-
 			
 			Text textMiddleLeft = new Text(" " + player1.getCountMiddle() + " middle Ships left");
 			textMiddleLeft.setStyle(font14);
@@ -885,46 +915,40 @@ public class GUI extends Application {
 			gameStage.show();
 
 		}
-	}
-
-	void update(GridPane feld1, GridPane feld2, VBox left, VBox right) {
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (board1[i][j] != null) {
-					feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
-				}
-				else if(board1[i][j] == null){
-					feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
+		
+		void update(GridPane feld1, GridPane feld2, VBox left, VBox right) {
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					if (board1[i][j] != null) {
+						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
+					}
+					else if(board1[i][j] == null){
+						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
+					}
 				}
 			}
-		}
 
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (board2[i][j] != null) {
-					feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
-				}
-				else if(board2[i][j] == null){
-					feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					if (board2[i][j] != null) {
+						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
+					}
+					else if(board2[i][j] == null){
+						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
+					}
 				}
 			}
+			left.getChildren().removeAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
+			setTextSmallLeft();
+			setTextMiddleLeft();
+			setTextBigLeft();
+			left.getChildren().addAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
+			
 		}
-		
-		left.getChildren().addAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
-		
-	}
 
-	
-	
-	public Text getTextSmallLeft() {
-		return new Text(" " + player1.getCountSmall() + " small Ships left");	
-	}
-	
-	public Text getTextMiddleLeft() {
-		return new Text(" " + player1.getCountMiddle() + " small Ships left");	
-	}
-	
-	public Text getTextBigLeft() {
-		return new Text(" " + player1.getCountBig() + " small Ships left");	
+		
+		
 	}
 }
+
+
