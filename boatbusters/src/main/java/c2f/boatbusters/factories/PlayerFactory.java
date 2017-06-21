@@ -6,9 +6,8 @@ import c2f.boatbusters.interfaces.IPlayer;
 public class PlayerFactory {
 
 
-	public Player createPlayer(String name, String numberOfWins) {
-		    Player player = new Player (name, numberOfWins);    
-			return player;
+	public Player createPlayer(String name, String numberOfWins) {  
+			return new Player(name, numberOfWins);
 			
 	}
 }

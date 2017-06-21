@@ -40,8 +40,8 @@ public class Player implements IPlayer {
 	
 	public boolean getSecondClick(){ return secondClick;}
 	
-	public void setSecondClickOnFalse(){ this.secondClick = false;}
-	public void setSecondClickOnTrue(){ this.secondClick = true;}
+	public void setSecondClick(boolean value){ this.secondClick = value;}
+
 	
 
 	/* (non-Javadoc)

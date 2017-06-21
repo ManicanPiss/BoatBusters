@@ -12,6 +12,7 @@ import c2f.boatbusters.classes.Game;
 import c2f.boatbusters.classes.Highscore;
 import c2f.boatbusters.classes.Main;
 import c2f.boatbusters.classes.Player;
+import c2f.boatbusters.classes.WarShip;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -62,6 +63,8 @@ public class GUI extends Application {
 	Player player2;
 	Game game;
 	Highscore highscore;
+	WarShip[][] board1;
+	WarShip[][] board2;
 	
 
 	@Override
@@ -403,9 +406,10 @@ public class GUI extends Application {
 						e.printStackTrace();
 					}
 
-					 game.startGame(game, namePlayer1, namePlayer2);
-					 player1 = game.getPlayer1();
-					 player2 = game.getPlayer2();
+//					System.out.println("hashda");
+//					 game.startGame(game, namePlayer1, namePlayer2);
+//					 player1 = game.player1;
+//					 player2 = game.player2;
 				}
 			});
 
@@ -458,6 +462,13 @@ public class GUI extends Application {
 				String namePlayer1 = textfieldLoginPlayer1.getText();
 				String namePlayer2 = textfieldLoginPlayer2.getText();
 				game.startGame(game, namePlayer1, namePlayer2);
+					System.out.println("asdasd");
+				
+				 player1 = game.player1;
+				 player2 = game.player2;
+				 
+				 board1 = game.board1;
+				 board2 = game.board2;
 				
 				
 				TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
@@ -721,11 +732,11 @@ public class GUI extends Application {
 						if (player1.getSecondClick() == false){
 								player1.setXfirst(x);
 								player1.setYfirst(y);
-								player1.setSecondClickOnTrue();
+								player1.setSecondClick(true);
 							}
 						else if (player1.getSecondClick() == true){
 							player1.setShipPartsGui(x, y, game.board1);
-							player1.setSecondClickOnFalse();
+							player1.setSecondClick(false);
 							
 						// TODO Eine Art update-Methode, in der der Spielstand
 						// aktualisiert und visualisiert wird;
@@ -766,11 +777,11 @@ public class GUI extends Application {
 						if (player2.getSecondClick() == false){
 								player2.setXfirst(x);
 								player2.setYfirst(y);
-								player2.setSecondClickOnTrue();
+								player2.setSecondClick(true);
 							}
 						else if (player2.getSecondClick() == true){
 							player2.setShipPartsGui(x, y, game.board1);
-							player2.setSecondClickOnFalse();
+							player2.setSecondClick(false);
 							
 						// TODO Eine Art update-Methode, in der der Spielstand
 						// aktualisiert und visualisiert wird;

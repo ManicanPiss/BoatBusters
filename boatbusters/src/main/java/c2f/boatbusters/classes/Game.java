@@ -24,8 +24,8 @@ import org.apache.logging.log4j.core.util.Loader;
 
 public class Game {
 	
-	Player player1 = null;
-	Player player2 = null;
+	public Player player1;
+	public Player player2;
 	public WarShip[][] board1;
 	public WarShip[][] board2;
 	Highscore highscore;
@@ -106,63 +106,63 @@ public class Game {
 		return player2;
 	}
 
-	public void startGameOld (Game game, String namePlayer1, String namePlayer2, Scanner scan) {
-
-
-		//Erstellung der Factories um Spieler und Bretter zu erstellen
-		PlayerFactory pf = new PlayerFactory();
-
-		
-		player1 = pf.createPlayer(namePlayer1, Highscore.checkIfArrayListContainsName(namePlayer1));
-		player2 = pf.createPlayer(namePlayer2, Highscore.checkIfArrayListContainsName(namePlayer2));
-		
-
-        if (Highscore.checkIfArrayListContainsName(namePlayer1).equals("0")){
-		Highscore.getBestenliste().add(player1);
-		}
-        if (Highscore.checkIfArrayListContainsName(namePlayer2).equals("0")){
-		Highscore.getBestenliste().add(player2);
-        }
-		
-
-		Highscore.sortArrayList();
-		
-
-		BoardFactory bf = new BoardFactory();
-
-		board1 = bf.createBoard(1);
-		board2 = bf.createBoard(2);
-
-		
-		// "Shooter" werden benoetigt, um auf die Methoden der WarShipKlasse zugreifen zu koennen, ohne diese static zu machen
-
-		WarShip shooterPlayer1 = new WarShip(1);
-		WarShip shooterPlayer2 = new WarShip(1);
-
-		setShipsBack (board1, board2);
-		
-		player1.setShip(player1, board1, game, scan);
-		startFiring(player2, board1, shooterPlayer2, game);
-
-//		 Setzen der Schiffe solange noch Schiffe zu setzen sind, Spieler fuer Spieler
-		while (player1.areShipsLeftToPut()) {
-			player1.setShip(player1, board1, game, scan);
-		}
-
-		while (player2.areShipsLeftToPut()) {
-			player2.setShip(player2, board2, game, scan);
-		}
-
-		Main.getLogger().info("Let's bust some boats! \n"); //TODO log
-
-		//Solange kein Spieler gewonnen hat, wird weiter gespielt; Runden werden innerhalb der startFiring() Methode gezaehlt
-		while (player1.getScore() < IPlayer.maxScore && player2.getScore() < IPlayer.maxScore) {
-			startFiring(player1, board2, shooterPlayer1, game);
-			startFiring(player2, board1, shooterPlayer2, game);
-		}
-	}
-	
-	
+//	public void startGameOld (Game game, String namePlayer1, String namePlayer2, Scanner scan) {
+//
+//
+//		//Erstellung der Factories um Spieler und Bretter zu erstellen
+//		PlayerFactory pf = new PlayerFactory();
+//
+//		
+//		player1 = pf.createPlayer(namePlayer1, Highscore.checkIfArrayListContainsName(namePlayer1));
+//		player2 = pf.createPlayer(namePlayer2, Highscore.checkIfArrayListContainsName(namePlayer2));
+//		
+//
+//        if (Highscore.checkIfArrayListContainsName(namePlayer1).equals("0")){
+//		Highscore.getBestenliste().add(player1);
+//		}
+//        if (Highscore.checkIfArrayListContainsName(namePlayer2).equals("0")){
+//		Highscore.getBestenliste().add(player2);
+//        }
+//		
+//
+//		Highscore.sortArrayList();
+//		
+//
+//		BoardFactory bf = new BoardFactory();
+//
+//		board1 = bf.createBoard(1);
+//		board2 = bf.createBoard(2);
+//
+//		
+//		// "Shooter" werden benoetigt, um auf die Methoden der WarShipKlasse zugreifen zu koennen, ohne diese static zu machen
+//
+//		WarShip shooterPlayer1 = new WarShip(1);
+//		WarShip shooterPlayer2 = new WarShip(1);
+//
+//		setShipsBack (board1, board2);
+//		
+//		player1.setShip(player1, board1, game, scan);
+//		startFiring(player2, board1, shooterPlayer2, game);
+//
+////		 Setzen der Schiffe solange noch Schiffe zu setzen sind, Spieler fuer Spieler
+//		while (player1.areShipsLeftToPut()) {
+//			player1.setShip(player1, board1, game, scan);
+//		}
+//
+//		while (player2.areShipsLeftToPut()) {
+//			player2.setShip(player2, board2, game, scan);
+//		}
+//
+//		Main.getLogger().info("Let's bust some boats! \n"); //TODO log
+//
+//		//Solange kein Spieler gewonnen hat, wird weiter gespielt; Runden werden innerhalb der startFiring() Methode gezaehlt
+//		while (player1.getScore() < IPlayer.maxScore && player2.getScore() < IPlayer.maxScore) {
+//			startFiring(player1, board2, shooterPlayer1, game);
+//			startFiring(player2, board1, shooterPlayer2, game);
+//		}
+//	}
+//	
+//	
 	public void startGame (Game game, String namePlayer1, String namePlayer2) {
 
 		
