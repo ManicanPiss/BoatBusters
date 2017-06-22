@@ -47,6 +47,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
+import javafx.scene.effect.*;
 
 public class GUI extends Application {
 
@@ -70,6 +71,8 @@ public class GUI extends Application {
 	Highscore highscore;
 	WarShip[][] board1;
 	WarShip[][] board2;
+	WarShip shooterPlayer1;
+	WarShip shooterPlayer2;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -90,12 +93,19 @@ public class GUI extends Application {
 		Image img = new Image(is);
 		is.close();
 
+	    ColorAdjust colorAdjust = new ColorAdjust();
+		colorAdjust.setContrast(0.1);
+		colorAdjust.setHue(-0.05);
+		colorAdjust.setBrightness(0.1);
+		colorAdjust.setSaturation(0.2);
+		
 		ImageView imgHome = new ImageView(img);
 		imgHome.setFitWidth(WINDOW_SIZE_X + 20);
 		imgHome.setFitHeight(WINDOW_SIZE_Y + 20);
+		imgHome.setEffect(colorAdjust);
 
 		Rectangle bg = new Rectangle(MENUBUTTON_SIZE_X, MENUBUTTON_SIZE_Y);
-		bg.setOpacity(0.3);
+		bg.setOpacity(0.5);
 		bg.setFill(Color.DIMGREY);
 		bg.setStroke(Color.WHITE);
 
@@ -286,10 +296,16 @@ public class GUI extends Application {
 			InputStream is = Files.newInputStream(Paths.get("src/main/resources/ShipBg.jpg"));
 			Image imgShip = new Image(is);
 			is.close();
+			
+
+			ColorAdjust colorAdjust = new ColorAdjust();
+			colorAdjust.setContrast(0.001);
+			colorAdjust.setBrightness(0.001);
 
 			ImageView imgView = new ImageView(imgShip);
 			imgView.setFitWidth(WINDOW_SIZE_X + 20);
 			imgView.setFitHeight(WINDOW_SIZE_Y + 20);
+			imgView.setEffect(colorAdjust);
 
 			VBox mainMenu = new VBox(10); // main menu
 			VBox scoreMenu = new VBox(10); // highscore menu
@@ -667,8 +683,6 @@ public class GUI extends Application {
 			return textBigRight;
 		}
 
-		private boolean player1Ready = false;
-		private boolean player2Ready = false;
 
 		public void GameField() throws Exception {
 
@@ -680,9 +694,19 @@ public class GUI extends Application {
 			Image img = new Image(is);
 			is.close();
 
+
+		    ColorAdjust colorAdjust = new ColorAdjust();
+			colorAdjust.setContrast(0.001);
+			colorAdjust.setHue(-0.05);
+			colorAdjust.setBrightness(0.001);
+			colorAdjust.setSaturation(0.2);
+			 
+
 			ImageView imgGameBG = new ImageView(img);
 			imgGameBG.setFitWidth(WINDOW_SIZE_X);
 			imgGameBG.setFitHeight(WINDOW_SIZE_Y);
+		    imgGameBG.setEffect(colorAdjust);
+
 
 			HBox gameBoardsHBox = new HBox();
 			gameBoardsHBox.setSpacing(100);
@@ -716,33 +740,46 @@ public class GUI extends Application {
 					button.setOnMouseClicked(event -> {
 						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
 
-						// if (player1.getSecondIteration() == false) {
-						if (player1.getSecondClick() == false) {
-							player1.setXfirst(x);
-							player1.setYfirst(y);
-							player1.setSecondClick(true);
-						} else if (player1.getSecondClick() == true) {
-							player1.setShipPartsGui(x, y, game.board1, player1);
-							player1.setSecondClick(false);
+						// Wenn die Spieler noch nicht alle Schiffe gesetzt
+						// haben sowie noch nicht auf ready geklickt haben
+						if (player1.getReady() == false) {
 
-							// TODO Eine Art update-Methode, in der der
-							// Spielstand
-							// aktualisiert und visualisiert wird;
+							// if (player1.getSecondIteration() == false) {
+							if (player1.getSecondClick() == false) {
+								player1.setXfirst(x);
+								player1.setYfirst(y);
+								player1.setSecondClick(true);
+							} else if (player1.getSecondClick() == true) {
+								player1.setShipPartsGui(x, y, game.board1, player1);
+								player1.setSecondClick(false);
 
-							Main.getLogger().info("Player 1 Count Small Variable:" + player1.getCountSmall());
-							Main.getLogger().info("Player 1 Count Middle Variable:" + player1.getCountMiddle());
-							Main.getLogger().info("Player 1 Big Variable:" + player1.getCountBig());
+								// TODO Eine Art update-Methode, in der der
+								// Spielstand
+								// aktualisiert und visualisiert wird;
 
-							Main.getLogger().info(
-									"Ist WarShip gesetzt auf Endkoordiante?\n" + "Speicheradresse: " + board1[x][y]);
+								Main.getLogger().info("Player 1 Count Small Variable:" + player1.getCountSmall());
+								Main.getLogger().info("Player 1 Count Middle Variable:" + player1.getCountMiddle());
+								Main.getLogger().info("Player 1 Big Variable:" + player1.getCountBig());
 
-							if (board1[x][y] == null) {
-								Main.getLogger().info("Zelle mit Endkoordinaten hat Referenz null\n"
-										+ "statt 'ship' oder 'warship', also anscheinend nein.");
-							} else if (board1[x][y] != null) {
-								Main.getLogger().info("#sotrue , Ja, hier ist ein Schiff");
+								Main.getLogger().info("Ist WarShip gesetzt auf Endkoordiante?\n" + "Speicheradresse: "
+										+ board1[x][y]);
+
 							}
 						}
+						if (player2.getReady() == true && player1.getReady() == true) {
+
+							player2.fire(x, y, player2, game);
+							update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+
+						}
+
+						if (board1[x][y] == null) {
+							Main.getLogger().info("Zelle mit Endkoordinaten hat Referenz null\n"
+									+ "statt 'ship' oder 'warship', also anscheinend nein.");
+						} else if (board1[x][y] != null) {
+							Main.getLogger().info("#sotrue , Ja, hier ist ein Schiff");
+						}
+
 						update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 
 					});
@@ -764,34 +801,45 @@ public class GUI extends Application {
 					button.setOnMouseClicked(event -> {
 						Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
 
-						// if (player1.getSecondIteration() == false) {
-						if (player2.getSecondClick() == false) {
-							player2.setXfirst(x);
-							player2.setYfirst(y);
-							player2.setSecondClick(true);
-						} else if (player2.getSecondClick() == true) {
-							player2.setShipPartsGui(x, y, game.board2, player2);
-							player2.setSecondClick(false);
+						// Wenn die Spieler noch nicht alle Schiffe gesetzt
+						// haben sowie noch nicht auf ready geklickt haben
+						if (player2.getReady() == false) {
 
-							// TODO Eine Art update-Methode, in der der
-							// Spielstand
-							// aktualisiert und visualisiert wird;
+							if (player2.getSecondClick() == false) {
+								player2.setXfirst(x);
+								player2.setYfirst(y);
+								player2.setSecondClick(true);
+							} else if (player2.getSecondClick() == true) {
+								player2.setShipPartsGui(x, y, game.board2, player2);
+								player2.setSecondClick(false);
 
-							Main.getLogger().info("Player 2 Count Small Variable:" + player2.getCountSmall());
-							Main.getLogger().info("Player 2  Middle Variable:" + player2.getCountMiddle());
-							Main.getLogger().info("Player 2 Big Variable:" + player2.getCountBig());
+								// TODO Eine Art update-Methode, in der der
+								// Spielstand
+								// aktualisiert und visualisiert wird;
 
-							Main.getLogger().info(
-									"Ist WarShip gesetzt auf Endkoordinate?\n" + "Speicheradresse: " + board2[x][y]);
+								Main.getLogger().info("Player 2 Count Small Variable:" + player2.getCountSmall());
+								Main.getLogger().info("Player 2  Middle Variable:" + player2.getCountMiddle());
+								Main.getLogger().info("Player 2 Big Variable:" + player2.getCountBig());
 
-							if (board2[x][y] == null) {
-								Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
-										+ "statt 'ship' oder 'warship', also anscheinend nein.");
-							} else if (board2[x][y] != null) {
-								Main.getLogger().info("#sotrue , Ja, hier ist ein Schiff");
+								Main.getLogger().info("Ist WarShip gesetzt auf Endkoordinate?\n" + "Speicheradresse: "
+										+ board2[x][y]);
+
 							}
-
 						}
+						
+						if (player2.getReady() && player1.getReady()) {
+
+							player1.fire(x, y, player1, game);
+							update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+						}
+
+						if (board2[x][y] == null) {
+							Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
+									+ "statt 'ship' oder 'warship', also anscheinend nein.");
+						} else if (board2[x][y] != null) {
+							Main.getLogger().info("#sotrue , Ja, hier ist ein Schiff");
+						}
+
 						update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 
 					});
@@ -800,12 +848,12 @@ public class GUI extends Application {
 
 				}
 
-			}
+		}
 
 			//////////// TOP ////////////
 			Rectangle bgTopBox = new Rectangle(600, 100);
 
-			bgTopBox.setOpacity(0.4);
+			bgTopBox.setOpacity(0.5);
 			bgTopBox.setFill(Color.DIMGRAY);
 			bgTopBox.setStroke(Color.LIGHTGRAY);
 
@@ -857,14 +905,14 @@ public class GUI extends Application {
 			GameButton btnReadyLeft = new GameButton("READY!");
 			btnReadyLeft.setOnMouseClicked(event -> {
 				if (player1.getShipCountCheck() == 0) {
-					player1Ready = true;
+					player1.setReady(true);
 
-					if (player1Ready == true && player2Ready == false) {
+					if (player1.getReady() == true && player2.getReady() == false) {
 						textVBoxTop.getChildren().add(textWaitTopP2);
 						textVBoxLeft.getChildren().removeAll(btnReadyLeft, btnResetLeft);
 					}
 
-					if (player2Ready == true && player1Ready == true) {
+					if (player2.getReady() == true && player1.getReady() == true) {
 						textVBoxLeft.getChildren().removeAll(btnReadyLeft, btnResetLeft, getTextSmallLeft(),
 								getTextMiddleLeft(), getTextBigLeft());
 
@@ -905,14 +953,14 @@ public class GUI extends Application {
 			GameButton btnReadyRight = new GameButton("READY!");
 			btnReadyRight.setOnMouseClicked(event -> {
 				if (player2.getShipCountCheck() == 0) {
-					player2Ready = true;
+					player2.setReady(true);
 
-					if (player2Ready == true && player1Ready == false) {
+					if (player2.getReady() == true && player1.getReady() == false) {
 						textVBoxTop.getChildren().add(textWaitTopP1);
 						textVBoxRight.getChildren().removeAll(btnReadyRight, btnResetRight);
 					}
 
-					if (player2Ready == true && player1Ready == true) {
+					if (player2.getReady() == true && player1.getReady() == true) {
 						textVBoxRight.getChildren().removeAll(btnReadyRight, btnResetRight, getTextSmallRight(),
 								getTextMiddleRight(), getTextBigRight());
 
@@ -984,7 +1032,7 @@ public class GUI extends Application {
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					if (board1[i][j] != null) {
-						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
+						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
 					}
 					// Zellen, die die Referenz null haben, werden transparent
 					// gemacht
@@ -997,7 +1045,8 @@ public class GUI extends Application {
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					if (board2[i][j] != null) {
-						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: #6A5ACD;");
+						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
+						
 					}
 					// Zellen, die die Referenz null haben, werden transparent
 					// gemacht
@@ -1008,22 +1057,26 @@ public class GUI extends Application {
 			}
 			// Anzeigetexte in GUI, wie viele Schiffe noch gesetzt werden
 			// müssen, werden aktualisiert (VBox links Player1)
-
+            if(player1.getReady() == false){
 			left.getChildren().removeAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
 			setTextSmallLeft();
 			setTextMiddleLeft();
 			setTextBigLeft();
 			left.getChildren().addAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
-
+            }
 			// Anzeigetexte in GUI, wie viele Schiffe noch gesetzt werden
 			// müssen, werden aktualisiert (VBox rechts Player2)
-
+            if (player2.getReady() == false){
 			right.getChildren().removeAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
 			setTextSmallRight();
 			setTextMiddleRight();
 			setTextBigRight();
 			right.getChildren().addAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
-
+            }
 		}
+		
 	}
 }
+
+	
+

@@ -16,6 +16,7 @@ public class Player implements IPlayer {
 	private int countBig = 2;
 	private int shipsCount = countSmall + countMiddle + countBig;
 	private boolean shipsLeftToPut = (shipsCount > 0);
+
     
 	
 	private boolean secondClick = false;
@@ -24,7 +25,11 @@ public class Player implements IPlayer {
 	private int yfirst;
 	private int ylast;
 	
+	private boolean ready = false;
+	
 
+	
+	
 	// GETTER AND SETTER
 	
 	public int getXfirst(){ return xfirst;}
@@ -41,7 +46,15 @@ public class Player implements IPlayer {
 	public boolean getSecondClick(){ return secondClick;}
 	
 	public void setSecondClick(boolean value){ this.secondClick = value;}
-
+	
+	public void setReady(boolean ready){
+		this.ready = ready;
+	}
+	
+	public boolean getReady(){
+		return ready;
+	}
+	
 	
 
 	/* (non-Javadoc)
@@ -119,8 +132,9 @@ public class Player implements IPlayer {
 	/* (non-Javadoc)
 	 * @see c2f.boatbusters.classes.IPlayer#areShipsLeftToPut()
 	 */
+	
 	@Override
-	public boolean areShipsLeftToPut(IPlayer player) { 
+	public boolean areShipsLeftToPut(Player player) { 
 		shipsLeftToPut = (shipsCount > 0);
 		return shipsLeftToPut; 
 	}
@@ -230,7 +244,7 @@ public class Player implements IPlayer {
 	}
 
 	// Position frei?
-	public static boolean checkFree (int x, int y, WarShip[][] board) {
+	public boolean checkFree (int x, int y, WarShip[][] board) {
 		return (board [x][y] == null);
 	}
 
@@ -515,6 +529,39 @@ public class Player implements IPlayer {
 	
 	
 
+	public void fire(int x, int y, Player player, Game game) {
+		// TODO wenn man nicht getroffen hat: Kreuz ins Feld zeichnen
+		if (player == game.getPlayer1()) {
+			if (!player.checkFree(x, y, game.getBoard2())) {
+				// TODO log System.out.println("HIT! \n");
+				Main.getLogger().info("HIT! \n");
+				player.increaseScore();
+				destroy(x, y, game.getBoard2());
+			} else {
+				// TODO log System.out.println("Missed! \n");
+				Main.getLogger().info("Missed! \n");
+				// Feld kennzeichnen!
+			}
+		} else if (player == game.getPlayer2()) {
+
+			if (!player.checkFree(x, y, game.getBoard1())) {
+				// TODO log System.out.println("HIT! \n");
+				Main.getLogger().info("HIT! \n");
+				player.increaseScore();
+				destroy(x, y, game.getBoard1());
+			} else {
+				// TODO log System.out.println("Missed! \n");
+				Main.getLogger().info("Missed! \n");
+				// Feld kennzeichnen!
+			}
+		}
+	}
+
+	private void destroy(int x, int y, WarShip[][] board) {
+		board[x][y] = null;
+	}
+	
+
 //	protected void setShip (IPlayer player, WarShip[][] board1, Game game, Scanner scan) {
 //
 //		// TODO sysout ERSETZEN!
@@ -623,12 +670,10 @@ public class Player implements IPlayer {
 	}
 	@Override
 	public boolean areShipsLeftToPut() {
-		// TODO Auto-generated method stub
-		return false;
+		shipsLeftToPut = (shipsCount > 0);
+		return shipsLeftToPut; 
 	}
-	
 
-	
 
 	//Sachen für Bestenliste/ Highscore: Ende
 

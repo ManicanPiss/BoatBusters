@@ -44,6 +44,32 @@ public class Game {
 	private void increaseRound() {
 		round += 1;
 	}
+	
+	
+	public Player getPlayer1() {
+		return player1;
+	}
+	
+	public Player getPlayer2() {
+		return player2;
+	}
+	
+	public void setPlayer1(Player player){
+		this.player1 = player;
+	}
+	
+	public void setPlayer2(Player player){
+		this.player2 = player;
+	}
+	
+	public WarShip[][] getBoard1(){
+		return board1;
+	}
+	
+	public WarShip[][] getBoard2(){	
+		return board2;
+	}
+
 
 	private boolean checkNumber (String s) {
 
@@ -87,7 +113,7 @@ public class Game {
 			if (checkNumber(input)) {
 				int y = Integer.parseInt(input);
 				increaseRound();
-				shooter.fire(x, y, board, player, shooter, game);
+				//shooter.fire(x, y, board, player, shooter, game);
 			} else {
 				Main.getLogger().info("invalid input."); // TODO LOG!
 				startFiring(player, board, shooter, game);
@@ -98,13 +124,9 @@ public class Game {
 		}
 	}
 	
-	public Player getPlayer1() {
-		return player1;
-	}
 	
-	public Player getPlayer2() {
-		return player2;
-	}
+	
+	
 
 //	public void startGameOld (Game game, String namePlayer1, String namePlayer2, Scanner scan) {
 //
@@ -173,6 +195,10 @@ public class Game {
 		player1 = pf.createPlayer(namePlayer1, Highscore.checkIfArrayListContainsName(namePlayer1));
 		player2 = pf.createPlayer(namePlayer2, Highscore.checkIfArrayListContainsName(namePlayer2));
 		
+		
+		setPlayer1(player1);
+		setPlayer2(player2);
+		
 
         if (Highscore.checkIfArrayListContainsName(namePlayer1).equals("0")){
 		Highscore.getBestenliste().add(player1);
@@ -186,6 +212,7 @@ public class Game {
 		
 
 		BoardFactory bf = new BoardFactory();
+		ShipFactory sf = new ShipFactory();
 
 		board1 = bf.createBoard(1);
 		board2 = bf.createBoard(2);
@@ -193,8 +220,8 @@ public class Game {
 		
 		// "Shooter" werden benoetigt, um auf die Methoden der WarShipKlasse zugreifen zu koennen, ohne diese static zu machen
 
-		WarShip shooterPlayer1 = new WarShip(1);
-		WarShip shooterPlayer2 = new WarShip(1);
+		WarShip shooterPlayer1 =  sf.getType (2);
+		WarShip shooterPlayer2 = sf.getType(2);
 
 		setShipsBack (board1, board2);
 		

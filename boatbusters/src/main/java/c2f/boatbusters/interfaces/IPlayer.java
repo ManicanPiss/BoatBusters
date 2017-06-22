@@ -68,11 +68,14 @@ public interface IPlayer {
 	//Länge des Spielernamens
 	String toString();
 
-	boolean areShipsLeftToPut(IPlayer player);
 
 	void reduceShipCount(int i, Player player);
 
 
 	int getShipCountCheck();
+
+	boolean areShipsLeftToPut(Player player);
+
+
 
 }
