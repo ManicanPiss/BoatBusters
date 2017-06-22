@@ -536,7 +536,7 @@ public class Player implements IPlayer {
 				// TODO log System.out.println("HIT! \n");
 				Main.getLogger().info("HIT! \n");
 				player.increaseScore();
-				destroy(x, y, game.getBoard2());
+				destroy(game.getBoard2()[x][y]);
 			} else {
 				// TODO log System.out.println("Missed! \n");
 				Main.getLogger().info("Missed! \n");
@@ -548,7 +548,7 @@ public class Player implements IPlayer {
 				// TODO log System.out.println("HIT! \n");
 				Main.getLogger().info("HIT! \n");
 				player.increaseScore();
-				destroy(x, y, game.getBoard1());
+				destroy(game.getBoard1()[x][y]);
 			} else {
 				// TODO log System.out.println("Missed! \n");
 				Main.getLogger().info("Missed! \n");
@@ -557,8 +557,8 @@ public class Player implements IPlayer {
 		}
 	}
 
-	private void destroy(int x, int y, WarShip[][] board) {
-		board[x][y] = null;
+	private void destroy(WarShip warship) {
+		warship.setShipDestroyed(true);
 	}
 	
 

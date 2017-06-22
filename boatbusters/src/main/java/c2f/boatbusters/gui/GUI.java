@@ -1033,8 +1033,14 @@ public class GUI extends Application {
 			// Zellen, auf die eine Referenz gesetzt ist, werden eingefärbt
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
-					if (board1[i][j] != null) {
+					//Zellen, auf denen noch unversehrte Schiffe sind, werden blau dargestellt
+					if (board1[i][j] != null && board1[i][j].getShipDestroyed() == false) {
 						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
+						
+					}
+					//Zellen, auf denen ein Schiff ist, das aber versenkt, also getroffen wurde, werden rot dargestellt
+					else if (board1[i][j] != null && board1[i][j].getShipDestroyed() == true){
+						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: red;");
 					}
 					// Zellen, die die Referenz null haben, werden transparent
 					// gemacht
@@ -1046,8 +1052,14 @@ public class GUI extends Application {
 			// Zellen, auf die eine Referenz gesetzt ist, werden eingefärbt
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
-					if (board2[i][j] != null) {
+					//Zellen, auf denen noch unversehrte Schiffe sind, werden blau dargestellt
+					if (board2[i][j] != null && board2[i][j].getShipDestroyed() == false) {
 						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
+						
+					}
+					//Zellen, auf denen ein Schiff ist, das aber versenkt, also getroffen wurde, werden rot dargestellt
+					else if (board2[i][j] != null && board2[i][j].getShipDestroyed() == true){
+						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: red;");
 						
 					}
 					// Zellen, die die Referenz null haben, werden transparent

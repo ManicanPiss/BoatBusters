@@ -12,7 +12,7 @@ import org.apache.logging.log4j.core.Logger;
 public class WarShip extends Ship {
 
 	private int shipSize;
-	
+
 
 	public WarShip (int i) {
 
