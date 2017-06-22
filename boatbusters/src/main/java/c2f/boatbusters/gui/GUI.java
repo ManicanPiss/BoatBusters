@@ -135,11 +135,6 @@ public class GUI extends Application {
 		welcomeMessage0.setTranslateY(-50);
 		welcomeMessage0.setTranslateX(-400);
 
-		// TranslateTransition t1 = new
-		// TranslateTransition(Duration.seconds(1.0), welcomeMessage0);
-		// t1.setToX(welcomeMessage0.getTranslateX() + 400);
-		// t1.play();
-
 		startBox.getChildren().addAll(bg, welcomeText);
 		startGridPane.getChildren().addAll(welcomeMessage0, startBox);
 		rootStart.getChildren().addAll(imgHome, startGridPane);
@@ -222,7 +217,7 @@ public class GUI extends Application {
 			// text.setFill(Color.BLACK);
 
 			Rectangle bg = new Rectangle(CELLBUTTON_SIZE_X_Y, CELLBUTTON_SIZE_X_Y);
-			
+
 			bg.setFill(Color.GHOSTWHITE);
 			bg.setOpacity(0.6);
 			bg.setStroke(Color.TRANSPARENT);
@@ -262,7 +257,7 @@ public class GUI extends Application {
 			setOnMousePressed(event -> {
 				text.setFill(Color.ORANGE);
 			});
-			
+
 			setOnMouseReleased(event -> {
 				text.setFill(Color.WHITE);
 			});
@@ -270,11 +265,11 @@ public class GUI extends Application {
 			setOnMouseEntered(event -> {
 				bg.setStroke(Color.ORANGE);
 			});
-			
+
 			setOnMouseExited(event -> {
 				bg.setStroke(Color.BLACK);
 			});
-			
+
 			getChildren().addAll(bg, text);
 		}
 	}
@@ -339,7 +334,6 @@ public class GUI extends Application {
 					rootMenu.getChildren().remove(mainMenu);
 				});
 			});
-			
 
 			//////////// HIGHSCORE BUTTON MAIN MENU ////////////
 			MenuButton btnScore = new MenuButton("HIGHSCORE");
@@ -361,8 +355,7 @@ public class GUI extends Application {
 				});
 
 			});
-			
-			
+
 			//////////// EXIT BUTTON MAIN MENU ////////////
 			MenuButton btnExit = new MenuButton("EXIT");
 			btnExit.setOnMouseClicked(event -> {
@@ -415,7 +408,7 @@ public class GUI extends Application {
 			textfieldLoginPlayer2.setStyle(font20);
 			textfieldLoginPlayer2.setPromptText("Username");
 
-			//////////// Login Player 2 ENTER (START GAME) ////////////
+			//////////// Login Player 2 ENTER (START GAME) ////////
 			textfieldLoginPlayer2.setOnKeyPressed(event -> {
 				if (event.getCode() == KeyCode.ENTER) {
 
@@ -472,7 +465,6 @@ public class GUI extends Application {
 				});
 			});
 			////////////////////////////////////////////////////////
-			
 
 			//////////// Back to MainMenu from Login 1 ////////////
 			MenuButton btnBackPlayer1 = new MenuButton("BACK");
@@ -495,8 +487,6 @@ public class GUI extends Application {
 				});
 			});
 			//////////////////////////////////////////////////////////
-			
-			
 
 			//////////// Login Player 2 MAUS (Start Game) ////////////
 			MenuButton btnLoginPlayer2 = new MenuButton("OK. Start game!");
@@ -535,7 +525,6 @@ public class GUI extends Application {
 				}
 			});
 			//////////////////////////////////////////////////////
-			
 
 			//////////// Back to Login 1 from Login 2 ////////////
 			MenuButton btnBackPlayer2 = new MenuButton("BACK");
@@ -559,7 +548,6 @@ public class GUI extends Application {
 			});
 			/////////////////////////////////////////////////////////
 
-			
 			//////////// Back to MainMenu from HIGHSCORE ////////////
 			MenuButton btnBack2 = new MenuButton("BACK");
 			btnBack2.setOnMouseClicked(event -> {
@@ -581,8 +569,7 @@ public class GUI extends Application {
 				});
 			});
 			/////////////////////////////////////////////////////////
-			
-			
+
 			mainMenu.getChildren().addAll(btnStart, btnScore, btnExit); // Hauptmenu
 			scoreMenu.getChildren().addAll(highscoreText, btnBack2); // HighscoreMenu
 			menuPlayer1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, btnLoginPlayer1, btnBackPlayer1); // login1
@@ -759,13 +746,6 @@ public class GUI extends Application {
 						update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 
 					});
-
-					// button.setOnAction(new EventHandler<ActionEvent>() {
-					// public void handle(ActionEvent event) {
-					//
-					//
-					// }
-					// });
 
 					gamefieldLeft.add(button, row, column);
 				}
