@@ -494,7 +494,7 @@ public class Player implements IPlayer {
 		int staticInt, changingStart, changingEnd;
 
 		ShipFactory fact = new ShipFactory();
-		WarShip ship = fact.getType(length);
+
 
 		if (xfirst == xlast) { // Wenn X statisch ist
 			staticInt = xfirst;
@@ -508,6 +508,7 @@ public class Player implements IPlayer {
 
 			// Referenz wird gesetzt
 			for (int i = changingStart; i <= changingEnd; i++) {
+				WarShip ship = fact.getType(length);
 				board [staticInt][i] = ship;
 			}
 		} else { // Wenn X statisch ist
@@ -522,6 +523,7 @@ public class Player implements IPlayer {
 
 			// Referenz wird gesetzt
 			for (int i = changingStart; i <= changingEnd; i++) {
+				WarShip ship = fact.getType(length);
 				board [i][staticInt] = ship;
 			}
 		}
