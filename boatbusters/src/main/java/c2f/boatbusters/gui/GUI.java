@@ -766,11 +766,12 @@ public class GUI extends Application {
 
 							}
 						}
-						if (player2.getReady() == true && player1.getReady() == true) {
-
+						//Wenn beide Spieler alle Schiffe gesetzt haben und Spieler 2 mit feuern dran ist (Runde 1, 3, 5, 7 ...)
+						if (player2.getReady() == true && player1.getReady() == true && (game.getRound() % 2) != 0) {
+						
 							player2.fire(x, y, player2, game);
-							update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
-
+							game.increaseRound();
+							update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);	
 						}
 
 						if (board1[x][y] == null) {
@@ -826,11 +827,12 @@ public class GUI extends Application {
 
 							}
 						}
-						
-						if (player2.getReady() && player1.getReady()) {
-
+						//Wenn beide Spieler alle Schiffe gesetzt haben und Spieler 1 mit feuern dran ist (Runde 2, 4, 6, 8, ...)
+						if (player2.getReady() && player1.getReady() && game.getRound() % 2 == 0) {
+							
 							player1.fire(x, y, player1, game);
-							update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+                            game.increaseRound();
+							update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);	
 						}
 
 						if (board2[x][y] == null) {

@@ -41,7 +41,7 @@ public class Game {
 		return round;
 	}
 
-	private void increaseRound() {
+	public void increaseRound() {
 		round += 1;
 	}
 	
