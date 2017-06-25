@@ -16,7 +16,7 @@ public class Player implements IPlayer {
 	private int countBig = 2;
 	private int shipsCount = countSmall + countMiddle + countBig;
 	private boolean shipsLeftToPut = (shipsCount > 0);
-
+    private boolean shipSetMode;
     
 	
 	private boolean secondClick = false;
@@ -53,6 +53,14 @@ public class Player implements IPlayer {
 	
 	public boolean getReady(){
 		return ready;
+	}
+	
+	public boolean getShipSetMode(){
+		return shipSetMode;
+	}
+	
+	public void setShipSetMode(boolean ShipSetMode){
+		this.shipSetMode = ShipSetMode;
 	}
 	
 	

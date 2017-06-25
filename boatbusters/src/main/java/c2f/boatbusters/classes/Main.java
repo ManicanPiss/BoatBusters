@@ -43,8 +43,6 @@ import javafx.scene.input.MouseEvent;
 
 public class Main{
 	
-	Highscore highscore;
-	
 	static final Scanner scan = new Scanner(System.in);
 	
 	private final static Logger logger = LogManager.getRootLogger();

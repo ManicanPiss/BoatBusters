@@ -68,7 +68,6 @@ public class GUI extends Application {
 	Player player1;
 	Player player2;
 	Game game;
-	Highscore highscore;
 	WarShip[][] board1;
 	WarShip[][] board2;
 	WarShip shooterPlayer1;
@@ -229,7 +228,7 @@ public class GUI extends Application {
 			Rectangle bg = new Rectangle(CELLBUTTON_SIZE_X_Y, CELLBUTTON_SIZE_X_Y);
 
 			bg.setFill(Color.GHOSTWHITE);
-			bg.setOpacity(0.6);
+			bg.setOpacity(0.4);
 			bg.setStroke(Color.TRANSPARENT);
 
 			getChildren().addAll(bg);
@@ -237,13 +236,13 @@ public class GUI extends Application {
 			// wenn maus über menupoint
 			setOnMouseEntered(event -> {
 				bg.setFill(Color.DIMGREY);
-				bg.setOpacity(0.6);
+				bg.setOpacity(0.4);
 
 			});
 			// wenn maus menupoint verlässt
 			setOnMouseExited(event -> {
 				bg.setFill(Color.GHOSTWHITE);
-				bg.setOpacity(0.6);
+				bg.setOpacity(0.4);
 			});
 		}
 
@@ -260,7 +259,7 @@ public class GUI extends Application {
 
 			Rectangle bg = new Rectangle(SHIPBUTTON_SIZE_X - 10, SHIPBUTTON_SIZE_Y);
 			bg.setFill(Color.DIMGRAY);
-			bg.setOpacity(0.7);
+			bg.setOpacity(0.4);
 			bg.setStroke(Color.BLACK);
 			setAlignment(Pos.CENTER);
 
@@ -752,6 +751,7 @@ public class GUI extends Application {
 							} else if (player1.getSecondClick() == true) {
 								player1.setShipPartsGui(x, y, game.board1, player1);
 								player1.setSecondClick(false);
+								updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 
 								// TODO Eine Art update-Methode, in der der
 								// Spielstand
@@ -771,7 +771,7 @@ public class GUI extends Application {
 						
 							player2.fire(x, y, player2, game);
 							game.increaseRound();
-							update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);	
+							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);	
 						}
 
 						if (board1[x][y] == null) {
@@ -780,8 +780,6 @@ public class GUI extends Application {
 						} else if (board1[x][y] != null) {
 							Main.getLogger().info("#sotrue , Ja, hier ist ein Schiff");
 						}
-
-						update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 
 					});
 
@@ -804,7 +802,7 @@ public class GUI extends Application {
 
 						// Wenn die Spieler noch nicht alle Schiffe gesetzt
 						// haben sowie noch nicht auf ready geklickt haben
-						if (player2.getReady() == false) {
+						if (player1.getReady() && player2.getReady() == false) {
 
 							if (player2.getSecondClick() == false) {
 								player2.setXfirst(x);
@@ -813,6 +811,7 @@ public class GUI extends Application {
 							} else if (player2.getSecondClick() == true) {
 								player2.setShipPartsGui(x, y, game.board2, player2);
 								player2.setSecondClick(false);
+								updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 
 								// TODO Eine Art update-Methode, in der der
 								// Spielstand
@@ -824,7 +823,6 @@ public class GUI extends Application {
 
 								Main.getLogger().info("Ist WarShip gesetzt auf Endkoordinate?\n" + "Speicheradresse: "
 										+ board2[x][y]);
-
 							}
 						}
 						//Wenn beide Spieler alle Schiffe gesetzt haben und Spieler 1 mit feuern dran ist (Runde 2, 4, 6, 8, ...)
@@ -832,7 +830,7 @@ public class GUI extends Application {
 							
 							player1.fire(x, y, player1, game);
                             game.increaseRound();
-							update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);	
+							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);	
 						}
 
 						if (board2[x][y] == null) {
@@ -842,7 +840,7 @@ public class GUI extends Application {
 							Main.getLogger().info("#sotrue , Ja, hier ist ein Schiff");
 						}
 
-						update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+
 
 					});
 
@@ -901,11 +899,12 @@ public class GUI extends Application {
 			GameButton btnResetLeft = new GameButton("reset Ships");
 			btnResetLeft.setOnMouseClicked(event -> {
 				game.setShipsBackBoard1(board1);
-				update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+				updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 			});
 
 			GameButton btnReadyLeft = new GameButton("READY!");
 			btnReadyLeft.setOnMouseClicked(event -> {
+				
 				if (player1.getShipCountCheck() == 0) {
 					player1.setReady(true);
 
@@ -922,9 +921,15 @@ public class GUI extends Application {
 								getTextBigRight());
 						textVBoxTop.getChildren().remove(textWaitTopP1);
 						textVBoxTop.getChildren().add(textBeginTop);
+		
 					}
+					darkenField(gamefieldLeft);
 				}
+
 			});
+			
+				
+			
 
 			textVBoxLeft.getChildren().addAll(textLeft, textPlayerLeft, btnResetLeft, btnReadyLeft);
 			leftStackPane.getChildren().addAll(bgLeftBox, textVBoxLeft);
@@ -949,7 +954,7 @@ public class GUI extends Application {
 			GameButton btnResetRight = new GameButton("reset Ships");
 			btnResetRight.setOnMouseClicked(event -> {
 				game.setShipsBackBoard1(board2);
-				update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+				updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 			});
 
 			GameButton btnReadyRight = new GameButton("READY!");
@@ -970,8 +975,13 @@ public class GUI extends Application {
 						textVBoxTop.getChildren().remove(textWaitTopP2);
 						textVBoxTop.getChildren().add(textBeginTop);
 					}
+					if (player1.getReady()){
+						darkenField(gamefieldRight);
+					}
 				}
+
 			});
+
 
 			textVBoxRight.getChildren().addAll(textRight, textPlayerRight, btnResetRight, btnReadyRight);
 			rightStackPane.getChildren().addAll(bgRightBox, textVBoxRight);
@@ -1005,7 +1015,7 @@ public class GUI extends Application {
 			rootGame.setLeft(leftStackPane);
 			rootGame.setRight(rightStackPane);
 
-			update(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+			updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 
 			Scene gameScene = new Scene(rootGame);
 			gameScene.setOnKeyPressed(event -> {
@@ -1029,12 +1039,13 @@ public class GUI extends Application {
 			gameStage.show();
 		}
 
-		void update(GridPane feld1, GridPane feld2, VBox left, VBox right) {
+		void updateFields(GridPane feld1, GridPane feld2, VBox left, VBox right) {
+			
 			// Zellen, auf die eine Referenz gesetzt ist, werden eingefärbt
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					//Zellen, auf denen noch unversehrte Schiffe sind, werden blau dargestellt
-					if (board1[i][j] != null && board1[i][j].getShipDestroyed() == false) {
+					if (board1[i][j] != null && board1[i][j].getShipDestroyed() == false && player1.getReady() == false) {
 						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
 						
 					}
@@ -1044,7 +1055,7 @@ public class GUI extends Application {
 					}
 					// Zellen, die die Referenz null haben, werden transparent
 					// gemacht
-					else if (board1[i][j] == null) {
+					else if (board1[i][j] == null && player1.getReady() == false && player2.getReady() == false) {
 						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
 					}
 				}
@@ -1053,7 +1064,7 @@ public class GUI extends Application {
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					//Zellen, auf denen noch unversehrte Schiffe sind, werden blau dargestellt
-					if (board2[i][j] != null && board2[i][j].getShipDestroyed() == false) {
+					if (board2[i][j] != null && board2[i][j].getShipDestroyed() == false && player2.getReady() == false) {
 						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
 						
 					}
@@ -1064,7 +1075,7 @@ public class GUI extends Application {
 					}
 					// Zellen, die die Referenz null haben, werden transparent
 					// gemacht
-					else if (board2[i][j] == null) {
+					else if (board2[i][j] == null && player2.getReady() == false) {
 						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
 					}
 				}
@@ -1089,6 +1100,20 @@ public class GUI extends Application {
             }
 		}
 		
+		
+		void darkenField(GridPane feld) {
+
+			// Feld 2 wird komplett schwarz gefärbt, da die Spieler im
+			// Feuer/Kampf Modus nicht sehen sollen
+			// wo die Schiffe des anderen sind
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					feld.getChildren().get(i * 10 + j).setStyle("-fx-background-color: black;");
+				}
+
+			}
+
+		}
 	}
 }
 
