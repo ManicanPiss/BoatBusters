@@ -865,20 +865,20 @@ public class GUI extends Application {
 			Text textInfo = new Text("Boat Busters");
 			textInfo.setStyle(font30);
 			textInfo.setFill(Color.ORANGE);
+			
+			Text textP1Set = new Text("Player 1: set your Ships!");
+			textP1Set.setStyle(font14);
+			textP1Set.setFill(Color.WHITE);
 
-			Text textWaitTopP2 = new Text("wait for Player 2...");
-			textWaitTopP2.setStyle(font14);
-			textWaitTopP2.setFill(Color.WHITE);
-
-			Text textWaitTopP1 = new Text("wait for Player 1...");
-			textWaitTopP1.setStyle(font14);
-			textWaitTopP1.setFill(Color.WHITE);
+			Text textP2Set = new Text("Player 2: set your Ships!");
+			textP2Set.setStyle(font14);
+			textP2Set.setFill(Color.WHITE);
 
 			Text textBeginTop = new Text("LET THE GAMES BEGIN!");
 			textBeginTop.setStyle(font14);
 			textBeginTop.setFill(Color.WHITE);
 
-			textVBoxTop.getChildren().add(textInfo);
+			textVBoxTop.getChildren().addAll(textInfo, textP1Set);
 			topStackPane.getChildren().addAll(bgTopBox, textVBoxTop);
 			//////////////////////////////////
 
@@ -911,20 +911,22 @@ public class GUI extends Application {
 					player1.setReady(true);
 
 					if (player1.getReady() == true && player2.getReady() == false) {
-						textVBoxTop.getChildren().add(textWaitTopP2);
+						
 						textVBoxLeft.getChildren().removeAll(btnReadyLeft, btnResetLeft);
+						textVBoxTop.getChildren().removeAll(textP1Set);
+						textVBoxTop.getChildren().add(textP2Set);
 					}
-
-					if (player2.getReady() == true && player1.getReady() == true) {
-						textVBoxLeft.getChildren().removeAll(btnReadyLeft, btnResetLeft, getTextSmallLeft(),
-								getTextMiddleLeft(), getTextBigLeft());
-
-						textVBoxRight.getChildren().removeAll(getTextSmallRight(), getTextMiddleRight(),
-								getTextBigRight());
-						textVBoxTop.getChildren().remove(textWaitTopP1);
-						textVBoxTop.getChildren().add(textBeginTop);
-		
-					}
+					// TODO: kann man glaub entfernen da es jetzt rundenbasiert ist und nichtmehr egal ist wer anfängt
+//					if (player2.getReady() == true && player1.getReady() == true) {
+//						textVBoxLeft.getChildren().removeAll(btnReadyLeft, btnResetLeft, getTextSmallLeft(),
+//								getTextMiddleLeft(), getTextBigLeft());
+//
+//						textVBoxRight.getChildren().removeAll(getTextSmallRight(), getTextMiddleRight(),
+//								getTextBigRight());
+//						textVBoxTop.getChildren().remove(textP2Set);
+//						textVBoxTop.getChildren().add(textBeginTop);
+//		
+//					}
 					darkenField(gamefieldLeft);
 				}
 
@@ -965,7 +967,6 @@ public class GUI extends Application {
 					player2.setReady(true);
 
 					if (player2.getReady() == true && player1.getReady() == false) {
-						textVBoxTop.getChildren().add(textWaitTopP1);
 						textVBoxRight.getChildren().removeAll(btnReadyRight, btnResetRight);
 					}
 
@@ -974,7 +975,7 @@ public class GUI extends Application {
 								getTextMiddleRight(), getTextBigRight());
 
 						textVBoxLeft.getChildren().removeAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
-						textVBoxTop.getChildren().remove(textWaitTopP2);
+						textVBoxTop.getChildren().remove(textP2Set);
 						textVBoxTop.getChildren().add(textBeginTop);
 					}
 					if (player1.getReady()){
