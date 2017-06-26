@@ -17,6 +17,10 @@ public class WarShip extends Ship {
 	public boolean getEmpty(){
 		return empty;
 	}
+	
+	public void setEmpty(boolean empty){
+		this.empty = empty;
+	}
 
 
 	public WarShip (int i) {

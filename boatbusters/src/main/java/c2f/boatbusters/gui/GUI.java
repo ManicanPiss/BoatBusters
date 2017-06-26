@@ -1062,8 +1062,7 @@ public class GUI extends Application {
 					}
 					else if (board1[i][j] != null && board1[i][j].getEmpty()){
 						
-						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
-						
+						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");	
 					}
 				}
 			}
@@ -1086,8 +1085,7 @@ public class GUI extends Application {
 						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
 					}
 					else if (board2[i][j] != null && board2[i][j].getEmpty()){
-						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
-						
+						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");		
 					}
 				}
 			}

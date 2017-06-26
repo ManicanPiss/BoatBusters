@@ -552,6 +552,8 @@ public class Player implements IPlayer {
 				Main.getLogger().info("Missed! \n");
 				ShipFactory sf = new ShipFactory();
 				WarShip empty = sf.getType(0);
+				game.board2[x][y] = empty;
+				empty.setEmpty(true);
 			}
 		} else if (player == game.getPlayer2()) {
 
@@ -564,6 +566,8 @@ public class Player implements IPlayer {
 				Main.getLogger().info("Missed! \n");
 				ShipFactory sf = new ShipFactory();
 				WarShip empty = sf.getType(0);
+				game.board1[x][y] = empty;
+				empty.setEmpty(true);
 			}
 		}
 	}

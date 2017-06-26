@@ -69,15 +69,6 @@ public class Game {
 		return board2;
 	}
 	
-	public void setBoard1(int x, int y){
-		this.board1 = new WarShip[x][y];
-	}
-	
-	public void setBoard2(int x, int y){
-		this.board2 = new WarShip[x][y];
-	}
-	
-	
 
 	private boolean checkNumber (String s) {
 
