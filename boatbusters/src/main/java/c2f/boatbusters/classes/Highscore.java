@@ -1,6 +1,7 @@
 package c2f.boatbusters.classes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.apache.logging.log4j.core.Logger;
 
@@ -12,33 +13,32 @@ public class Highscore {
 	
 	
 	private static final ArrayList<Player> bestenliste = new ArrayList <>();
-	
 
-	public static ArrayList<Player> getBestenliste(){
+
+	public static ArrayList<Player> getBestenliste() {
 		return bestenliste;
 	}
-	
-	public static void printBestenliste (){
-		Main.getLogger().info("Player            | NumberOfWins\n                  "
-				+ "                                                                "
-				+ "                ------------------+---------------");
-		for (int i = 0; i < Highscore.bestenliste.size(); i++){
-			Main.getLogger().info(Highscore.bestenliste.get(i).toString2());
+
+	//Gibt die bestenliste in einem bestimmten Format (gewährleistet durch die toString2-Methode aus.
+	public static void printBestenliste() {
+		Main.getLogger()
+				.info("Player            | NumberOfWins\n                  "
+						+ "                                                                "
+						+ "                ------------------+---------------");
+		Iterator<Player> itr = bestenliste.iterator();
+		while (itr.hasNext()) {
+			Main.getLogger().info(itr.next().toString2());
 		}
 	}
 	
-   // public static int searchForPlayerWithMostWins(){
-   //	   int mostWins = Integer.parseInt((String) bestenliste.get(0).numberOfWins());
-   //	   int indexOfPlayerWithMostWins = 0;
-   // for (int i = 1; i < bestenliste.size(); i++){
-   //   if  (Integer.parseInt((String) bestenliste.get(i).numberOfWins()) >  mostWins){
-   //	   mostWins = Integer.parseInt((String) bestenliste.get(i).numberOfWins());
-   //	   indexOfPlayerWithMostWins = i;
-   // } 
-   //}
-   //return indexOfPlayerWithMostWins;
-   //}
-
+	
+    //Wenn die Methode einen Spieler findet, der mehr Siege (numberOfWins) hat, als die Person, die vor ihm in der
+	//ArrayList bestenliste gelistet ist, vertauscht sie die beiden Spieler in bestenliste, und gibt die Information,
+	//dass es eine Stelle mit falscher Reihenfolge gab, über den boolean wrongOrder weiter. Der Boolean sortOn wird
+	//gesetzt auf den Wert von wrongOrder, also true, und es findet noch ein Schleifendurchlauf statt.
+	//Am Anfang der Schleife wird der boolean wrongOrder erstmal auf false gesetzt. Und wenn dann kein Spieler mehr
+	//gefunden wird, der falsch platziert ist, wird eben auch sortOn am Ende der Schleife auf false gesetzt und es findet
+	//kein weiterer Schleifendurchlauf statt.
     public static void sortArrayList(){
     
     	boolean sortOn = true;
@@ -57,12 +57,16 @@ public class Highscore {
     	  sortOn = wrongOrder;
        }
   } 
-
     
-    public static String checkIfArrayListContainsName(String namePlayer1){
-    	for (int i = 0; i < bestenliste.size(); i++){
-    		if (bestenliste.get(i).getName().equals(namePlayer1)){
-    			return (String) bestenliste.get(i).numberOfWins();   			
+
+    //Geht mit dem Iterator die ArrayList bestenliste durch und checkt, ob diese den in der GUI eingegebenen
+    //Spielernamen schon enthält. Wenn ja, gibt sie dessen Anzahl an Siegen als String zurück. Wenn nein,
+    //gibt sie "0" Siege als String zurüc
+    public static String checkIfArrayListContainsName(String namePlayer){
+		Iterator<Player> itr = bestenliste.iterator();
+    	while (itr.hasNext()){
+    		if (itr.next().getName().equals(namePlayer)){
+    			return (String) itr.next().numberOfWins();   			
     		}   		
     	}
     	return "0";

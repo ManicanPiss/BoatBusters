@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 
 import c2f.boatbusters.abstractClasses.Board;
+import c2f.boatbusters.abstractClasses.Ship;
 import c2f.boatbusters.factories.ShipFactory;
 import c2f.boatbusters.interfaces.IPlayer;
 
@@ -17,7 +18,7 @@ public class Player implements IPlayer {
 	private int shipsCount = countSmall + countMiddle + countBig;
 	private boolean shipsLeftToPut = (shipsCount > 0);
     private boolean shipSetMode;
-    
+
 	
 	private boolean secondClick = false;
 	private int xfirst;
@@ -540,7 +541,7 @@ public class Player implements IPlayer {
 	
 
 	public void fire(int x, int y, Player player, Game game) {
-		// TODO wenn man nicht getroffen hat: Kreuz ins Feld zeichnen
+
 		if (player == game.getPlayer1()) {
 			if (!player.checkFree(x, y, game.getBoard2())) {
 				// TODO log System.out.println("HIT! \n");
@@ -548,9 +549,9 @@ public class Player implements IPlayer {
 				player.increaseScore();
 				destroy(game.getBoard2()[x][y]);
 			} else {
-				// TODO log System.out.println("Missed! \n");
 				Main.getLogger().info("Missed! \n");
-				// Feld kennzeichnen!
+				ShipFactory sf = new ShipFactory();
+				WarShip empty = sf.getType(0);
 			}
 		} else if (player == game.getPlayer2()) {
 
@@ -560,9 +561,9 @@ public class Player implements IPlayer {
 				player.increaseScore();
 				destroy(game.getBoard1()[x][y]);
 			} else {
-				// TODO log System.out.println("Missed! \n");
 				Main.getLogger().info("Missed! \n");
-				// Feld kennzeichnen!
+				ShipFactory sf = new ShipFactory();
+				WarShip empty = sf.getType(0);
 			}
 		}
 	}
@@ -570,6 +571,7 @@ public class Player implements IPlayer {
 	private void destroy(WarShip warship) {
 		warship.setShipDestroyed(true);
 	}
+	
 	
 
 //	protected void setShip (IPlayer player, WarShip[][] board1, Game game, Scanner scan) {

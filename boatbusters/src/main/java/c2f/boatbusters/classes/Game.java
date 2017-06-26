@@ -29,7 +29,7 @@ public class Game {
 	public WarShip[][] board1;
 	public WarShip[][] board2;
 	Highscore highscore;
-
+	
 	private int round = 1;
 	
 
@@ -44,7 +44,6 @@ public class Game {
 	public void increaseRound() {
 		round += 1;
 	}
-	
 	
 	public Player getPlayer1() {
 		return player1;
@@ -69,7 +68,16 @@ public class Game {
 	public WarShip[][] getBoard2(){	
 		return board2;
 	}
-
+	
+	public void setBoard1(int x, int y){
+		this.board1 = new WarShip[x][y];
+	}
+	
+	public void setBoard2(int x, int y){
+		this.board2 = new WarShip[x][y];
+	}
+	
+	
 
 	private boolean checkNumber (String s) {
 
@@ -216,12 +224,6 @@ public class Game {
 
 		board1 = bf.createBoard(1);
 		board2 = bf.createBoard(2);
-
-		
-		// "Shooter" werden benoetigt, um auf die Methoden der WarShipKlasse zugreifen zu koennen, ohne diese static zu machen
-
-		WarShip shooterPlayer1 =  sf.getType (2);
-		WarShip shooterPlayer2 = sf.getType(2);
 
 		setShipsBack (board1, board2);
 		

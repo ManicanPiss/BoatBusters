@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 
 
 public class BoardFactory {
+	
 
 	public WarShip[][] createBoard(int i) {
 		

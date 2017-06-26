@@ -11,6 +11,7 @@ public class ShipFactory {
 
 	public WarShip getType (int type){
 		switch (type) {
+		case 0: return new WarShip(0);
 		case 2 : return new WarShip(2);
 		case 3 : return new WarShip(3);
 		case 4 : return new WarShip(4);

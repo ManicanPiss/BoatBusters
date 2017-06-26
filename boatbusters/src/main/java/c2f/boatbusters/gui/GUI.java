@@ -367,6 +367,8 @@ public class GUI extends Application {
 
 				t1.setOnFinished(evt -> {
 					rootMenu.getChildren().remove(mainMenu);
+					
+				Highscore.printBestenliste();
 				});
 
 			});
@@ -830,7 +832,7 @@ public class GUI extends Application {
 							
 							player1.fire(x, y, player1, game);
                             game.increaseRound();
-							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);	
+							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 						}
 
 						if (board2[x][y] == null) {
@@ -1046,7 +1048,7 @@ public class GUI extends Application {
 				for (int j = 0; j < 10; j++) {
 					//Zellen, auf denen noch unversehrte Schiffe sind, werden blau dargestellt
 					if (board1[i][j] != null && board1[i][j].getShipDestroyed() == false && player1.getReady() == false) {
-						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
+						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
 						
 					}
 					//Zellen, auf denen ein Schiff ist, das aber versenkt, also getroffen wurde, werden rot dargestellt
@@ -1055,8 +1057,13 @@ public class GUI extends Application {
 					}
 					// Zellen, die die Referenz null haben, werden transparent
 					// gemacht
-					else if (board1[i][j] == null && player1.getReady() == false && player2.getReady() == false) {
+					else if (board2[i][j] == null && player1.getReady() == false && player2.getReady() == false) {
 						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
+					}
+					else if (board1[i][j] != null && board1[i][j].getEmpty()){
+						
+						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
+						
 					}
 				}
 			}
@@ -1065,7 +1072,7 @@ public class GUI extends Application {
 				for (int j = 0; j < 10; j++) {
 					//Zellen, auf denen noch unversehrte Schiffe sind, werden blau dargestellt
 					if (board2[i][j] != null && board2[i][j].getShipDestroyed() == false && player2.getReady() == false) {
-						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
+						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
 						
 					}
 					//Zellen, auf denen ein Schiff ist, das aber versenkt, also getroffen wurde, werden rot dargestellt
@@ -1075,8 +1082,12 @@ public class GUI extends Application {
 					}
 					// Zellen, die die Referenz null haben, werden transparent
 					// gemacht
-					else if (board2[i][j] == null && player2.getReady() == false) {
+					else if (board2[i][j] == null && player1.getReady() == false && player2.getReady() == false) {
 						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
+					}
+					else if (board2[i][j] != null && board2[i][j].getEmpty()){
+						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
+						
 					}
 				}
 			}

@@ -12,10 +12,16 @@ import org.apache.logging.log4j.core.Logger;
 public class WarShip extends Ship {
 
 	private int shipSize;
+	private boolean empty;
+	
+	public boolean getEmpty(){
+		return empty;
+	}
 
 
 	public WarShip (int i) {
 
+		if (i == 0){ this.empty = true;}
 		if (i == getShortShipLength()) {
 			this.shipSize = i;
 		} else if (i == getMiddleShipLength()) {
