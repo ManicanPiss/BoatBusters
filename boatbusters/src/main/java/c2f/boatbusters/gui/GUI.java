@@ -1,30 +1,21 @@
 package c2f.boatbusters.gui;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Scanner;
 
 import c2f.boatbusters.classes.Game;
 import c2f.boatbusters.classes.Highscore;
 import c2f.boatbusters.classes.Main;
 import c2f.boatbusters.classes.Player;
 import c2f.boatbusters.classes.WarShip;
-import c2f.boatbusters.interfaces.IPlayer;
-import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,20 +24,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.ToolBar;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
 import javafx.scene.effect.*;
 
 public class GUI extends Application {
@@ -61,6 +46,7 @@ public class GUI extends Application {
 	final static int SHIPBUTTON_SIZE_X = 150;
 	final static int SHIPBUTTON_SIZE_Y = 30;
 	final static String font14 = "-fx-font: italic 14px Verdana";
+	final static String font16 = "-fx-font: italic 16px Verdana";
 	final static String font20 = "-fx-font: italic 20px Verdana";
 	final static String font30 = "-fx-font: italic 30px Verdana";
 
@@ -604,6 +590,8 @@ public class GUI extends Application {
 	}
 
 	public class GameField extends Parent {
+		
+		Text textQuit = new Text();
 
 		// Anzeigetexte für linke Spielhälfte, d.h. Spieler 1, wieviele Schiffe
 		// er/sie noch setzen muss
@@ -621,17 +609,22 @@ public class GUI extends Application {
 		Text textWhosNextTop = new Text();
 		Text textHitTop = new Text();
 		Text textMissedTop = new Text();
-
+		
+		public void setTextQuit(){
+			this.textQuit = new Text(" Press Q to Quit");
+			textQuit.setStyle(font14);
+			textQuit.setFill(Color.WHITE);
+		}
 		public void setTextHitTop() {
 			this.textHitTop = new Text("HIT!");
-			textHitTop.setStyle(font14);
-			textHitTop.setFill(Color.RED);
+			textHitTop.setStyle(font16);
+			textHitTop.setFill(Color.LIGHTCORAL);
 		}
 		
 		public void setTextMissedTop() {
 			this.textMissedTop = new Text("You Missed!");
-			textMissedTop.setStyle(font14);
-			textMissedTop.setFill(Color.BLUE);
+			textMissedTop.setStyle(font16);
+			textMissedTop.setFill(Color.ROYALBLUE);
 		}
 
 		public void setTextTurnTop() {
@@ -640,7 +633,7 @@ public class GUI extends Application {
 			textTurnTop.setFill(Color.WHITE);
 		}
 
-		public void setTextWhosNext() {
+		public void setTextWhosNextTop() {
 			this.textWhosNextTop = new Text("Your Turn: " + game.textWhosNext());
 			textWhosNextTop.setStyle(font14);
 			textWhosNextTop.setFill(Color.WHITE);
@@ -667,6 +660,9 @@ public class GUI extends Application {
 			textBigLeft.setFill(Color.WHITE);
 		}
 		
+		public Text getTextQuit(){
+			return textQuit;
+		}
 
 		public Text getTextTurnTop() {
 			return textTurnTop;
@@ -739,16 +735,16 @@ public class GUI extends Application {
 			Image img = new Image(is);
 			is.close();
 
-			ColorAdjust colorAdjust = new ColorAdjust();
-			colorAdjust.setContrast(0.001);
-			colorAdjust.setHue(-0.05);
-			colorAdjust.setBrightness(0.001);
-			colorAdjust.setSaturation(0.2);
+//			ColorAdjust colorAdjust = new ColorAdjust();
+//			colorAdjust.setContrast(0.001);
+//			colorAdjust.setHue(-0.05);
+//			colorAdjust.setBrightness(0.001);
+//			colorAdjust.setSaturation(0.2);
 
 			ImageView imgGameBG = new ImageView(img);
 			imgGameBG.setFitWidth(WINDOW_SIZE_X);
 			imgGameBG.setFitHeight(WINDOW_SIZE_Y);
-			imgGameBG.setEffect(colorAdjust);
+//			imgGameBG.setEffect(colorAdjust);
 
 			HBox gameBoardsHBox = new HBox();
 			gameBoardsHBox.setSpacing(100);
@@ -768,8 +764,10 @@ public class GUI extends Application {
 			VBox textVBoxTop = new VBox();
 
 			StackPane bottomStackPane = new StackPane();
+			VBox textVBoxBottom = new VBox();
 			HBox textHBoxBottom = new HBox();
-
+			
+			setTextQuit();
 			gameBoardsHBox.getChildren().addAll(gamefieldLeft, gamefieldRight);
 
 			//////////// Gamefield Right ////////////
@@ -898,30 +896,36 @@ public class GUI extends Application {
 			}
 
 			//////////// TOP ////////////
-			Rectangle bgTopBox = new Rectangle(500, 120);
+			Rectangle bgTopBox1 = new Rectangle(500, 100);
+			Rectangle bgTopBox2 = new Rectangle(800, 120);
 
-			bgTopBox.setOpacity(0.8);
-			bgTopBox.setFill(Color.BLACK);
-			bgTopBox.setStroke(Color.LIGHTGRAY);
+			bgTopBox1.setOpacity(0.5);
+			bgTopBox1.setFill(Color.DIMGREY);
+			bgTopBox1.setStroke(Color.LIGHTGRAY);
+			
+			bgTopBox2.setOpacity(0.5);
+			bgTopBox2.setFill(Color.DIMGRAY);
+			bgTopBox2.setStroke(Color.ROYALBLUE);
 
-			textVBoxTop.setTranslateX(WINDOW_SIZE_X / 2 - 180);
-			textVBoxTop.setTranslateY(25);
-
-			Text textInfo = new Text("Boat Busters");
-			textInfo.setStyle(font30);
-			textInfo.setFill(Color.ORANGE);
+//			textVBoxTop.setTranslateX(WINDOW_SIZE_X / 2);
+//			textVBoxTop.setTranslateY(25);
+			textVBoxTop.setAlignment(Pos.CENTER);
+			
+			Text textInfoTop = new Text("Boat Busters");
+			textInfoTop.setStyle(font30);
+			textInfoTop.setFill(Color.ORANGE);
 
 			Text textP1Set = new Text("Player 1: set your Ships and press READY!");
-			textP1Set.setStyle(font14);
+			textP1Set.setStyle(font16);
 			textP1Set.setFill(Color.WHITE);
 
 			Text textP2Set = new Text("Player 2: set your Ships and press READY!");
-			textP2Set.setStyle(font14);
+			textP2Set.setStyle(font16);
 			textP2Set.setFill(Color.WHITE);
 
 
-			textVBoxTop.getChildren().addAll(textInfo, textP1Set);
-			topStackPane.getChildren().addAll(bgTopBox, textVBoxTop);
+			textVBoxTop.getChildren().addAll(textInfoTop, textP1Set);
+			topStackPane.getChildren().addAll(bgTopBox1, textVBoxTop);
 			//////////////////////////////////
 
 			//////////// LEFTSIDE ////////////
@@ -931,10 +935,6 @@ public class GUI extends Application {
 			bgLeftBox.setStroke(Color.LIGHTGRAY);
 
 			textVBoxLeft.setSpacing(10);
-
-			Text textLeft = new Text(" Press Q to Surrender");
-			textLeft.setStyle(font14);
-			textLeft.setFill(Color.WHITE);
 
 			Text textPlayerLeft = new Text(" Player 1:");
 			textPlayerLeft.setStyle(font20);
@@ -958,27 +958,12 @@ public class GUI extends Application {
 						textVBoxTop.getChildren().removeAll(textP1Set);
 						textVBoxTop.getChildren().add(textP2Set);
 					}
-					// TODO: kann man glaub entfernen da es jetzt rundenbasiert
-					// ist und nichtmehr egal ist wer anfängt
-					// if (player2.getReady() == true && player1.getReady() ==
-					// true) {
-					// textVBoxLeft.getChildren().removeAll(btnReadyLeft,
-					// btnResetLeft, getTextSmallLeft(),
-					// getTextMiddleLeft(), getTextBigLeft());
-					//
-					// textVBoxRight.getChildren().removeAll(getTextSmallRight(),
-					// getTextMiddleRight(),
-					// getTextBigRight());
-					// textVBoxTop.getChildren().remove(textP2Set);
-					// textVBoxTop.getChildren().add(textBeginTop);
-					//
-					// }
 					darkenField(gamefieldLeft);
 				}
 
 			});
-
-			textVBoxLeft.getChildren().addAll(textLeft, textPlayerLeft, btnResetLeft, btnReadyLeft);
+			
+			textVBoxLeft.getChildren().addAll(textPlayerLeft, btnResetLeft, btnReadyLeft);
 			leftStackPane.getChildren().addAll(bgLeftBox, textVBoxLeft);
 			//////////////////////////////////////////
 
@@ -989,10 +974,6 @@ public class GUI extends Application {
 			bgRightBox.setStroke(Color.LIGHTGRAY);
 
 			textVBoxRight.setSpacing(10);
-
-			Text textRight = new Text(" Press Q to Surrender");
-			textRight.setStyle(font14);
-			textRight.setFill(Color.WHITE);
 
 			Text textPlayerRight = new Text(" Player 2:");
 			textPlayerRight.setStyle(font20);
@@ -1012,8 +993,11 @@ public class GUI extends Application {
 					if (player2.getReady() == true && player1.getReady() == true) {
 						textVBoxRight.getChildren().removeAll(btnReadyRight, btnResetRight, getTextSmallRight(),
 								getTextMiddleRight(), getTextBigRight());
-
-						textVBoxLeft.getChildren().removeAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
+						rightStackPane.getChildren().removeAll(textVBoxRight, bgRightBox);
+						leftStackPane.getChildren().removeAll(textVBoxLeft, bgLeftBox);
+						topStackPane.getChildren().removeAll(bgTopBox1, textVBoxTop);
+						topStackPane.getChildren().addAll(bgTopBox2, textVBoxTop);
+						
 						textVBoxTop.getChildren().remove(textP2Set);
 						textVBoxTop.getChildren().addAll(getTextWhosNextTop());
 						gameUpdate(textVBoxTop);
@@ -1025,7 +1009,7 @@ public class GUI extends Application {
 
 			});
 
-			textVBoxRight.getChildren().addAll(textRight, textPlayerRight, btnResetRight, btnReadyRight);
+			textVBoxRight.getChildren().addAll(textPlayerRight, btnResetRight, btnReadyRight);
 			rightStackPane.getChildren().addAll(bgRightBox, textVBoxRight);
 			//////////////////////////////////
 
@@ -1034,8 +1018,7 @@ public class GUI extends Application {
 			bgBottomBox.setOpacity(0.5);
 			bgBottomBox.setFill(Color.DIMGRAY);
 			bgBottomBox.setStroke(Color.LIGHTGRAY);
-
-			textHBoxBottom.setPadding(new Insets(0, 0, 50, 0));
+		
 			textHBoxBottom.setSpacing(250);
 			textHBoxBottom.setAlignment(Pos.BASELINE_CENTER);
 			Text textPlayer1 = new Text("Player 1: " + player1.getName());
@@ -1047,7 +1030,8 @@ public class GUI extends Application {
 			textPlayer2.setFill(Color.WHITE);
 
 			textHBoxBottom.getChildren().addAll(textPlayer1, textPlayer2);
-			bottomStackPane.getChildren().addAll(bgBottomBox, textHBoxBottom);
+			textVBoxBottom.getChildren().addAll(textHBoxBottom, getTextQuit());
+			bottomStackPane.getChildren().addAll(bgBottomBox, textVBoxBottom);
 			//////////////////////////////////
 
 			rootGame.getChildren().add(imgGameBG);
@@ -1187,7 +1171,7 @@ public class GUI extends Application {
 					top.getChildren().add(getTextMissedTop());
 				}
 				setTextTurnTop();
-				setTextWhosNext();
+				setTextWhosNextTop();
 				top.getChildren().addAll(getTextTurnTop(), getTextWhosNextTop());
 			}
 		}
