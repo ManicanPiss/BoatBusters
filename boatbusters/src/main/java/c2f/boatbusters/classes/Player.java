@@ -7,6 +7,7 @@ import c2f.boatbusters.abstractClasses.Board;
 import c2f.boatbusters.abstractClasses.Ship;
 import c2f.boatbusters.factories.ShipFactory;
 import c2f.boatbusters.interfaces.IPlayer;
+import javafx.scene.text.Text;
 
 public class Player implements IPlayer {
 
@@ -27,6 +28,8 @@ public class Player implements IPlayer {
 	private int ylast;
 	
 	private boolean ready = false;
+	private boolean hit = false;
+	private boolean missed = false;
 	
 
 	
@@ -37,6 +40,7 @@ public class Player implements IPlayer {
 	public int getXlast(){ return xlast;}
 	public int getYfirst(){ return xfirst;}
 	public int getYlast(){ return ylast;}
+	
 	
 	public void setXfirst(int xfirst) { this.xfirst = xfirst;}
 	public void setXlast(int xlast) { this.xlast = xlast;}
@@ -50,6 +54,21 @@ public class Player implements IPlayer {
 	
 	public void setReady(boolean ready){
 		this.ready = ready;
+	}
+	
+	public void setHit(boolean hit){
+		this.hit = hit;
+	}
+	
+	public void setMissed(boolean missed){
+		this.missed = missed;
+	}
+	
+	public boolean getHit(){
+		return hit;
+	}
+	public boolean getMissed(){
+		return missed;
 	}
 	
 	public boolean getReady(){
@@ -538,7 +557,6 @@ public class Player implements IPlayer {
 		}
 	}
 	
-	
 
 	public void fire(int x, int y, Player player, Game game) {
 
@@ -547,9 +565,13 @@ public class Player implements IPlayer {
 				// TODO log System.out.println("HIT! \n");
 				Main.getLogger().info("HIT! \n");
 				player.increaseScore();
+				setHit(true);
+				setMissed(false);
 				destroy(game.getBoard2()[x][y]);
 			} else {
 				Main.getLogger().info("Missed! \n");
+				setMissed(true);
+				setHit(false);
 				ShipFactory sf = new ShipFactory();
 				WarShip empty = sf.getType(0);
 				game.board2[x][y] = empty;
@@ -559,11 +581,15 @@ public class Player implements IPlayer {
 
 			if (!player.checkFree(x, y, game.getBoard1())) {
 				// TODO log System.out.println("HIT! \n");
+				setHit(true);
+				setMissed(false);
 				Main.getLogger().info("HIT! \n");
 				player.increaseScore();
 				destroy(game.getBoard1()[x][y]);
 			} else {
 				Main.getLogger().info("Missed! \n");
+				setMissed(true);
+				setHit(false);
 				ShipFactory sf = new ShipFactory();
 				WarShip empty = sf.getType(0);
 				game.board1[x][y] = empty;

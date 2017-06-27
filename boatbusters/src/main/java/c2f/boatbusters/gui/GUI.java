@@ -92,19 +92,19 @@ public class GUI extends Application {
 		Image img = new Image(is);
 		is.close();
 
-	    ColorAdjust colorAdjust = new ColorAdjust();
+		ColorAdjust colorAdjust = new ColorAdjust();
 		colorAdjust.setContrast(0.1);
 		colorAdjust.setHue(-0.05);
 		colorAdjust.setBrightness(0.1);
 		colorAdjust.setSaturation(0.2);
-		
+
 		ImageView imgHome = new ImageView(img);
 		imgHome.setFitWidth(WINDOW_SIZE_X + 20);
 		imgHome.setFitHeight(WINDOW_SIZE_Y + 20);
 		imgHome.setEffect(colorAdjust);
 
 		Rectangle bg = new Rectangle(MENUBUTTON_SIZE_X, MENUBUTTON_SIZE_Y);
-		bg.setOpacity(0.5);
+		bg.setOpacity(0.4);
 		bg.setFill(Color.DIMGREY);
 		bg.setStroke(Color.WHITE);
 
@@ -295,7 +295,6 @@ public class GUI extends Application {
 			InputStream is = Files.newInputStream(Paths.get("src/main/resources/ShipBg.jpg"));
 			Image imgShip = new Image(is);
 			is.close();
-			
 
 			ColorAdjust colorAdjust = new ColorAdjust();
 			colorAdjust.setContrast(0.001);
@@ -367,8 +366,8 @@ public class GUI extends Application {
 
 				t1.setOnFinished(evt -> {
 					rootMenu.getChildren().remove(mainMenu);
-					
-				Highscore.printBestenliste();
+
+					Highscore.printBestenliste();
 				});
 
 			});
@@ -618,6 +617,35 @@ public class GUI extends Application {
 		Text textMiddleRight = new Text();
 		Text textBigRight = new Text();
 
+		Text textTurnTop = new Text();
+		Text textWhosNextTop = new Text();
+		Text textHitTop = new Text();
+		Text textMissedTop = new Text();
+
+		public void setTextHitTop() {
+			this.textHitTop = new Text("HIT!");
+			textHitTop.setStyle(font14);
+			textHitTop.setFill(Color.RED);
+		}
+		
+		public void setTextMissedTop() {
+			this.textMissedTop = new Text("You Missed!");
+			textMissedTop.setStyle(font14);
+			textMissedTop.setFill(Color.BLUE);
+		}
+
+		public void setTextTurnTop() {
+			this.textTurnTop = new Text("Turn: " + game.getRound());
+			textTurnTop.setStyle(font14);
+			textTurnTop.setFill(Color.WHITE);
+		}
+
+		public void setTextWhosNext() {
+			this.textWhosNextTop = new Text("Your Turn: " + game.textWhosNext());
+			textWhosNextTop.setStyle(font14);
+			textWhosNextTop.setFill(Color.WHITE);
+		}
+
 		// Getter und Setter der Texte, wie viele Schiffe noch gesetzt werden
 		// müssen
 		// für linke Spielhälfte, d.h. die von Spieler 1
@@ -637,6 +665,23 @@ public class GUI extends Application {
 			this.textBigLeft = new Text(" " + player1.getCountBig() + " big Ships left");
 			textBigLeft.setStyle(font14);
 			textBigLeft.setFill(Color.WHITE);
+		}
+		
+
+		public Text getTextTurnTop() {
+			return textTurnTop;
+		}
+
+		public Text getTextWhosNextTop() {
+			return textWhosNextTop;
+		}
+
+		public Text getTextHitTop() {
+			return textHitTop;
+		}
+
+		public Text getTextMissedTop() {
+			return textMissedTop;
 		}
 
 		public Text getTextSmallLeft() {
@@ -684,7 +729,6 @@ public class GUI extends Application {
 			return textBigRight;
 		}
 
-
 		public void GameField() throws Exception {
 
 			Stage gameStage = new Stage();
@@ -695,19 +739,16 @@ public class GUI extends Application {
 			Image img = new Image(is);
 			is.close();
 
-
-		    ColorAdjust colorAdjust = new ColorAdjust();
+			ColorAdjust colorAdjust = new ColorAdjust();
 			colorAdjust.setContrast(0.001);
 			colorAdjust.setHue(-0.05);
 			colorAdjust.setBrightness(0.001);
 			colorAdjust.setSaturation(0.2);
-			 
 
 			ImageView imgGameBG = new ImageView(img);
 			imgGameBG.setFitWidth(WINDOW_SIZE_X);
 			imgGameBG.setFitHeight(WINDOW_SIZE_Y);
-		    imgGameBG.setEffect(colorAdjust);
-
+			imgGameBG.setEffect(colorAdjust);
 
 			HBox gameBoardsHBox = new HBox();
 			gameBoardsHBox.setSpacing(100);
@@ -754,6 +795,7 @@ public class GUI extends Application {
 								player1.setShipPartsGui(x, y, game.board1, player1);
 								player1.setSecondClick(false);
 								updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+								gameUpdate(textVBoxTop);
 
 								// TODO Eine Art update-Methode, in der der
 								// Spielstand
@@ -768,12 +810,14 @@ public class GUI extends Application {
 
 							}
 						}
-						//Wenn beide Spieler alle Schiffe gesetzt haben und Spieler 2 mit feuern dran ist (Runde 1, 3, 5, 7 ...)
+						// Wenn beide Spieler alle Schiffe gesetzt haben und
+						// Spieler 2 mit feuern dran ist (Runde 1, 3, 5, 7 ...)
 						if (player2.getReady() == true && player1.getReady() == true && (game.getRound() % 2) != 0) {
-						
+
 							player2.fire(x, y, player2, game);
 							game.increaseRound();
-							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);	
+							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+							gameUpdate(textVBoxTop);
 						}
 
 						if (board1[x][y] == null) {
@@ -814,6 +858,7 @@ public class GUI extends Application {
 								player2.setShipPartsGui(x, y, game.board2, player2);
 								player2.setSecondClick(false);
 								updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+								gameUpdate(textVBoxTop);
 
 								// TODO Eine Art update-Methode, in der der
 								// Spielstand
@@ -827,12 +872,14 @@ public class GUI extends Application {
 										+ board2[x][y]);
 							}
 						}
-						//Wenn beide Spieler alle Schiffe gesetzt haben und Spieler 1 mit feuern dran ist (Runde 2, 4, 6, 8, ...)
+						// Wenn beide Spieler alle Schiffe gesetzt haben und
+						// Spieler 1 mit feuern dran ist (Runde 2, 4, 6, 8, ...)
 						if (player2.getReady() && player1.getReady() && game.getRound() % 2 == 0) {
-							
+
 							player1.fire(x, y, player1, game);
-                            game.increaseRound();
+							game.increaseRound();
 							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+							gameUpdate(textVBoxTop);
 						}
 
 						if (board2[x][y] == null) {
@@ -842,21 +889,19 @@ public class GUI extends Application {
 							Main.getLogger().info("#sotrue , Ja, hier ist ein Schiff");
 						}
 
-
-
 					});
 
 					gamefieldRight.add(button, row, column);
 
 				}
 
-		}
+			}
 
 			//////////// TOP ////////////
-			Rectangle bgTopBox = new Rectangle(600, 100);
+			Rectangle bgTopBox = new Rectangle(500, 120);
 
-			bgTopBox.setOpacity(0.5);
-			bgTopBox.setFill(Color.DIMGRAY);
+			bgTopBox.setOpacity(0.8);
+			bgTopBox.setFill(Color.BLACK);
 			bgTopBox.setStroke(Color.LIGHTGRAY);
 
 			textVBoxTop.setTranslateX(WINDOW_SIZE_X / 2 - 180);
@@ -865,18 +910,15 @@ public class GUI extends Application {
 			Text textInfo = new Text("Boat Busters");
 			textInfo.setStyle(font30);
 			textInfo.setFill(Color.ORANGE);
-			
-			Text textP1Set = new Text("Player 1: set your Ships!");
+
+			Text textP1Set = new Text("Player 1: set your Ships and press READY!");
 			textP1Set.setStyle(font14);
 			textP1Set.setFill(Color.WHITE);
 
-			Text textP2Set = new Text("Player 2: set your Ships!");
+			Text textP2Set = new Text("Player 2: set your Ships and press READY!");
 			textP2Set.setStyle(font14);
 			textP2Set.setFill(Color.WHITE);
 
-			Text textBeginTop = new Text("LET THE GAMES BEGIN!");
-			textBeginTop.setStyle(font14);
-			textBeginTop.setFill(Color.WHITE);
 
 			textVBoxTop.getChildren().addAll(textInfo, textP1Set);
 			topStackPane.getChildren().addAll(bgTopBox, textVBoxTop);
@@ -906,34 +948,35 @@ public class GUI extends Application {
 
 			GameButton btnReadyLeft = new GameButton("READY!");
 			btnReadyLeft.setOnMouseClicked(event -> {
-				
+
 				if (player1.getShipCountCheck() == 0) {
 					player1.setReady(true);
 
 					if (player1.getReady() == true && player2.getReady() == false) {
-						
+
 						textVBoxLeft.getChildren().removeAll(btnReadyLeft, btnResetLeft);
 						textVBoxTop.getChildren().removeAll(textP1Set);
 						textVBoxTop.getChildren().add(textP2Set);
 					}
-					// TODO: kann man glaub entfernen da es jetzt rundenbasiert ist und nichtmehr egal ist wer anfängt
-//					if (player2.getReady() == true && player1.getReady() == true) {
-//						textVBoxLeft.getChildren().removeAll(btnReadyLeft, btnResetLeft, getTextSmallLeft(),
-//								getTextMiddleLeft(), getTextBigLeft());
-//
-//						textVBoxRight.getChildren().removeAll(getTextSmallRight(), getTextMiddleRight(),
-//								getTextBigRight());
-//						textVBoxTop.getChildren().remove(textP2Set);
-//						textVBoxTop.getChildren().add(textBeginTop);
-//		
-//					}
+					// TODO: kann man glaub entfernen da es jetzt rundenbasiert
+					// ist und nichtmehr egal ist wer anfängt
+					// if (player2.getReady() == true && player1.getReady() ==
+					// true) {
+					// textVBoxLeft.getChildren().removeAll(btnReadyLeft,
+					// btnResetLeft, getTextSmallLeft(),
+					// getTextMiddleLeft(), getTextBigLeft());
+					//
+					// textVBoxRight.getChildren().removeAll(getTextSmallRight(),
+					// getTextMiddleRight(),
+					// getTextBigRight());
+					// textVBoxTop.getChildren().remove(textP2Set);
+					// textVBoxTop.getChildren().add(textBeginTop);
+					//
+					// }
 					darkenField(gamefieldLeft);
 				}
 
 			});
-			
-				
-			
 
 			textVBoxLeft.getChildren().addAll(textLeft, textPlayerLeft, btnResetLeft, btnReadyLeft);
 			leftStackPane.getChildren().addAll(bgLeftBox, textVBoxLeft);
@@ -966,25 +1009,21 @@ public class GUI extends Application {
 				if (player2.getShipCountCheck() == 0) {
 					player2.setReady(true);
 
-					if (player2.getReady() == true && player1.getReady() == false) {
-						textVBoxRight.getChildren().removeAll(btnReadyRight, btnResetRight);
-					}
-
 					if (player2.getReady() == true && player1.getReady() == true) {
 						textVBoxRight.getChildren().removeAll(btnReadyRight, btnResetRight, getTextSmallRight(),
 								getTextMiddleRight(), getTextBigRight());
 
 						textVBoxLeft.getChildren().removeAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
 						textVBoxTop.getChildren().remove(textP2Set);
-						textVBoxTop.getChildren().add(textBeginTop);
+						textVBoxTop.getChildren().addAll(getTextWhosNextTop());
+						gameUpdate(textVBoxTop);
 					}
-					if (player1.getReady()){
+					if (player1.getReady()) {
 						darkenField(gamefieldRight);
 					}
 				}
 
 			});
-
 
 			textVBoxRight.getChildren().addAll(textRight, textPlayerRight, btnResetRight, btnReadyRight);
 			rightStackPane.getChildren().addAll(bgRightBox, textVBoxRight);
@@ -1019,6 +1058,7 @@ public class GUI extends Application {
 			rootGame.setRight(rightStackPane);
 
 			updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
+			gameUpdate(textVBoxTop);
 
 			Scene gameScene = new Scene(rootGame);
 			gameScene.setOnKeyPressed(event -> {
@@ -1043,74 +1083,77 @@ public class GUI extends Application {
 		}
 
 		void updateFields(GridPane feld1, GridPane feld2, VBox left, VBox right) {
-			
+
 			// Zellen, auf die eine Referenz gesetzt ist, werden eingefärbt
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
-					//Zellen, auf denen noch unversehrte Schiffe sind, werden blau dargestellt
-					if (board1[i][j] != null && board1[i][j].getShipDestroyed() == false && player1.getReady() == false) {
+					// Zellen, auf denen noch unversehrte Schiffe sind, werden
+					// blau dargestellt
+					if (board1[i][j] != null && board1[i][j].getShipDestroyed() == false
+							&& player1.getReady() == false) {
 						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
-						
+
 					}
-					//Zellen, auf denen ein Schiff ist, das aber versenkt, also getroffen wurde, werden rot dargestellt
-					else if (board1[i][j] != null && board1[i][j].getShipDestroyed() == true){
+					// Zellen, auf denen ein Schiff ist, das aber versenkt, also
+					// getroffen wurde, werden rot dargestellt
+					else if (board1[i][j] != null && board1[i][j].getShipDestroyed() == true) {
 						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: red;");
 					}
 					// Zellen, die die Referenz null haben, werden transparent
 					// gemacht
 					else if (board2[i][j] == null && player1.getReady() == false && player2.getReady() == false) {
 						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
-					}
-					else if (board1[i][j] != null && board1[i][j].getEmpty()){
-						
-						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");	
+					} else if (board1[i][j] != null && board1[i][j].getEmpty()) {
+
+						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
 					}
 				}
 			}
 			// Zellen, auf die eine Referenz gesetzt ist, werden eingefärbt
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
-					//Zellen, auf denen noch unversehrte Schiffe sind, werden blau dargestellt
-					if (board2[i][j] != null && board2[i][j].getShipDestroyed() == false && player2.getReady() == false) {
+					// Zellen, auf denen noch unversehrte Schiffe sind, werden
+					// blau dargestellt
+					if (board2[i][j] != null && board2[i][j].getShipDestroyed() == false
+							&& player2.getReady() == false) {
 						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
-						
+
 					}
-					//Zellen, auf denen ein Schiff ist, das aber versenkt, also getroffen wurde, werden rot dargestellt
-					else if (board2[i][j] != null && board2[i][j].getShipDestroyed() == true){
+					// Zellen, auf denen ein Schiff ist, das aber versenkt, also
+					// getroffen wurde, werden rot dargestellt
+					else if (board2[i][j] != null && board2[i][j].getShipDestroyed() == true) {
 						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: red;");
-						
+
 					}
 					// Zellen, die die Referenz null haben, werden transparent
 					// gemacht
 					else if (board2[i][j] == null && player1.getReady() == false && player2.getReady() == false) {
 						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
-					}
-					else if (board2[i][j] != null && board2[i][j].getEmpty()){
-						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");		
+					} else if (board2[i][j] != null && board2[i][j].getEmpty()) {
+						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
 					}
 				}
 			}
 			// Anzeigetexte in GUI, wie viele Schiffe noch gesetzt werden
 			// müssen, werden aktualisiert (VBox links Player1)
-            if(player1.getReady() == false){
-			left.getChildren().removeAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
-			setTextSmallLeft();
-			setTextMiddleLeft();
-			setTextBigLeft();
-			left.getChildren().addAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
-            }
+			if (player1.getReady() == false) {
+				left.getChildren().removeAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
+				setTextSmallLeft();
+				setTextMiddleLeft();
+				setTextBigLeft();
+				left.getChildren().addAll(getTextSmallLeft(), getTextMiddleLeft(), getTextBigLeft());
+			}
 			// Anzeigetexte in GUI, wie viele Schiffe noch gesetzt werden
 			// müssen, werden aktualisiert (VBox rechts Player2)
-            if (player2.getReady() == false){
-			right.getChildren().removeAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
-			setTextSmallRight();
-			setTextMiddleRight();
-			setTextBigRight();
-			right.getChildren().addAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
-            }
+			if (player2.getReady() == false) {
+				right.getChildren().removeAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
+				setTextSmallRight();
+				setTextMiddleRight();
+				setTextBigRight();
+				right.getChildren().addAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
+			}
 		}
-		
-		
+
 		void darkenField(GridPane feld) {
 
 			// Feld 2 wird komplett schwarz gefärbt, da die Spieler im
@@ -1124,8 +1167,29 @@ public class GUI extends Application {
 			}
 
 		}
+
+		void gameUpdate(VBox top) {
+			if (player1.getReady() == true && player2.getReady() == true) {
+
+				
+				top.getChildren().removeAll(getTextWhosNextTop(), getTextTurnTop(), getTextHitTop(),
+						getTextMissedTop());
+				if ((player1.getHit() == true && game.intWhosNext() != 1)
+						|| (player2.getHit() == true && game.intWhosNext() != 2)) {
+					setTextHitTop();
+					top.getChildren().remove(getTextMissedTop());
+					top.getChildren().add(getTextHitTop());
+				}
+				if ((player1.getMissed() == true && game.intWhosNext() != 1)
+						|| (player2.getMissed() == true && game.intWhosNext() != 2)) {
+					setTextMissedTop();
+					top.getChildren().remove(getTextHitTop());
+					top.getChildren().add(getTextMissedTop());
+				}
+				setTextTurnTop();
+				setTextWhosNext();
+				top.getChildren().addAll(getTextTurnTop(), getTextWhosNextTop());
+			}
+		}
 	}
 }
-
-	
-

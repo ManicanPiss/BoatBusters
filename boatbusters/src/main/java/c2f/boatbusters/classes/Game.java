@@ -311,5 +311,19 @@ public class Game {
 		player2.setCountMiddle(3);
 		player2.setCountBig(2);
 	}
+	
+	public String textWhosNext(){
+	String player1 = "Player 1";
+	String player2 = "Player 2";
+	int round =	getRound();
+	if(round % 2 == 0) {return player1;} // auf Player 1 wird geschossen
+	else{ return player2;}				// auf Player 2 wird geschossen
+	
+	}
+	public int intWhosNext(){
+		int round = getRound();
+		if(round % 2 == 0){return 1;} // Player 2 ist dran
+		else{ return 2;} // Player 1 ist dran
+	}
 
 }
