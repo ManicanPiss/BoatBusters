@@ -37,14 +37,20 @@ public class Player implements IPlayer {
 	// GETTER AND SETTER
 	
 	public int getXfirst(){ return xfirst;}
+	
 	public int getXlast(){ return xlast;}
+	
 	public int getYfirst(){ return xfirst;}
+	
 	public int getYlast(){ return ylast;}
 	
 	
 	public void setXfirst(int xfirst) { this.xfirst = xfirst;}
+	
 	public void setXlast(int xlast) { this.xlast = xlast;}
+	
 	public void setYfirst(int yfirst) { this.yfirst = yfirst;}
+	
 	public void setYlast(int ylast) { this.ylast = ylast;}
 	
 	
@@ -93,6 +99,9 @@ public class Player implements IPlayer {
 	/* (non-Javadoc)
 	 * @see c2f.boatbusters.classes.IPlayer#increaseScore()
 	 */
+	
+	
+	
 	@Override
 	public void increaseScore() { score += 1; }
 
@@ -651,8 +660,8 @@ public class Player implements IPlayer {
 	 * @see c2f.boatbusters.classes.IPlayer#getName()
 	 */
 	@Override
-	public Object getName(){
-		return name;
+	public String getName(){
+		return (String) name;
 	}
 
 	/* (non-Javadoc)

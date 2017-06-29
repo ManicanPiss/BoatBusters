@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import c2f.boatbusters.classes.Game;
+import c2f.boatbusters.classes.GameLog;
 import c2f.boatbusters.classes.Highscore;
 import c2f.boatbusters.classes.Main;
 import c2f.boatbusters.classes.Player;
@@ -1001,6 +1002,10 @@ public class GUI extends Application {
 						textVBoxTop.getChildren().remove(textP2Set);
 						textVBoxTop.getChildren().addAll(getTextWhosNextTop());
 						gameUpdate(textVBoxTop);
+						//Thread wird erstellt, der durch Logs den aktuellen Spielstand, d.h. die Scores von Spieler 1
+						//und von Spieler 2 sowie die aktuelle Runde ausgibt
+					    //GameLog gamelog = new GameLog(game);
+					    //gamelog.run();
 					}
 					if (player1.getReady()) {
 						darkenField(gamefieldRight);
@@ -1067,7 +1072,6 @@ public class GUI extends Application {
 		}
 
 		void updateFields(GridPane feld1, GridPane feld2, VBox left, VBox right) {
-
 			// Zellen, auf die eine Referenz gesetzt ist, werden eingefärbt
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
@@ -1136,10 +1140,10 @@ public class GUI extends Application {
 				setTextBigRight();
 				right.getChildren().addAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
 			}
-		}
+		  }
+		
 
 		void darkenField(GridPane feld) {
-
 			// Feld 2 wird komplett schwarz gefärbt, da die Spieler im
 			// Feuer/Kampf Modus nicht sehen sollen
 			// wo die Schiffe des anderen sind
@@ -1147,9 +1151,7 @@ public class GUI extends Application {
 				for (int j = 0; j < 10; j++) {
 					feld.getChildren().get(i * 10 + j).setStyle("-fx-background-color: black;");
 				}
-
-			}
-
+			  }
 		}
 
 		void gameUpdate(VBox top) {
@@ -1173,7 +1175,8 @@ public class GUI extends Application {
 				setTextTurnTop();
 				setTextWhosNextTop();
 				top.getChildren().addAll(getTextTurnTop(), getTextWhosNextTop());
-			}
+			
+		  }
 		}
 	}
 }

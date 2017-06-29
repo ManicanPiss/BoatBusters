@@ -29,6 +29,7 @@ public class Game {
 	public WarShip[][] board1;
 	public WarShip[][] board2;
 	Highscore highscore;
+	public Object threadLock = new Object();
 	
 	private int round = 1;
 	
@@ -87,42 +88,42 @@ public class Game {
 		}
 	}
 
-	protected void startFiring(IPlayer player, WarShip[][] board, WarShip shooter, Game game) {
-
-		Main.getLogger().info("Type in the field you want to shoot at: \n" + "X-Coordinate: \n");
-		@SuppressWarnings("resource")
-		Scanner scan = new Scanner(System.in);
-
-		String input = scan.next();
-
-		//Wenn der Spieler abbrechen moechte
-		if (input.equals("m")) {
-			game.showMenu(game);
-		}
-
-		if (checkNumber(input)) {
-			int x = Integer.parseInt(input);
-			Main.getLogger().info("Now the Y-Coordinate: \n");
-			input = scan.next();
-
+//	protected void startFiring(IPlayer player, WarShip[][] board, WarShip shooter, Game game) {
+//
+//		Main.getLogger().info("Type in the field you want to shoot at: \n" + "X-Coordinate: \n");
+//		@SuppressWarnings("resource")
+//		Scanner scan = new Scanner(System.in);
+//
+//		String input = scan.next();
+//
+//		//Wenn der Spieler abbrechen moechte
+//		if (input.equals("m")) {
+//			game.showMenu(game);
+//		}
+//
+//		if (checkNumber(input)) {
+//			int x = Integer.parseInt(input);
+//			Main.getLogger().info("Now the Y-Coordinate: \n");
+//			input = scan.next();
+//
 //			if (input.equals("m")) {
 //				game.showMenu(game);
 //			}
-
-			if (checkNumber(input)) {
-				int y = Integer.parseInt(input);
-				increaseRound();
-				//shooter.fire(x, y, board, player, shooter, game);
-			} else {
-				Main.getLogger().info("invalid input."); // TODO LOG!
-				startFiring(player, board, shooter, game);
-			}
-		} else {
-			Main.getLogger().info("invalid input."); // TODO LOG!
-			startFiring(player, board, shooter, game);
-		}
-	}
-	
+//
+//			if (checkNumber(input)) {
+//				int y = Integer.parseInt(input);
+//				increaseRound();
+//				//shooter.fire(x, y, board, player, shooter, game);
+//			} else {
+//				Main.getLogger().info("invalid input."); // TODO LOG!
+//				startFiring(player, board, shooter, game);
+//			}
+//		} else {
+//			Main.getLogger().info("invalid input."); // TODO LOG!
+//			startFiring(player, board, shooter, game);
+//		}
+//	}
+//	
 	
 	
 	
@@ -217,6 +218,7 @@ public class Game {
 		board2 = bf.createBoard(2);
 
 		setShipsBack (board1, board2);
+
 		
 		Main.getLogger().info("startGame Methode erfolgreich ausgeführt");
 
@@ -227,26 +229,26 @@ public class Game {
 		}
 	
 
-	protected void showMenu(Game game) {
-		Main.getLogger().info("Hauptmenu:\n\n Optionen:\n 1. Spiel Starten \n 2. Highscore anzeigen\n 3. Beenden\n\n"
-				+ "You can always go back to this menu by entering 'm'!");
-
-		Scanner scan = new Scanner(System.in);
-
-		String str = scan.next();
-
-		switch (str) {
-		//case "1": startGame(game, scan);
-		case "2": Highscore.printBestenliste();
-		case "3": scan.close();
-			quit();
-		case "m": showMenu(game);
-
-		default :
-			Main.getLogger().info("Invalid input! Back to Main Menu"); //TODO log
-			showMenu(game);
-		}
-	} 
+//	protected void showMenu(Game game) {
+//		Main.getLogger().info("Hauptmenu:\n\n Optionen:\n 1. Spiel Starten \n 2. Highscore anzeigen\n 3. Beenden\n\n"
+//				+ "You can always go back to this menu by entering 'm'!");
+//
+//		Scanner scan = new Scanner(System.in);
+//
+//		String str = scan.next();
+//
+//		switch (str) {
+//		//case "1": startGame(game, scan);
+//		case "2": Highscore.printBestenliste();
+//		case "3": scan.close();
+//			quit();
+//		case "m": showMenu(game);
+//
+//		default :
+//			Main.getLogger().info("Invalid input! Back to Main Menu"); //TODO log
+//			showMenu(game);
+//		}
+//	} 
 
 	//private static void showHighscore (Game game) {
 
@@ -289,8 +291,9 @@ public class Game {
 		}
 	}
 	
-	//Felder zurücksetzen für die Spieler, falls sie sich entscheiden, ihre Schiffe nochmal neu zu setzen
-	public void setShipsBackBoard1 (WarShip board1[][]){
+	// Felder zurücksetzen für die Spieler, falls sie sich entscheiden, ihre
+	// Schiffe nochmal neu zu setzen
+	public void setShipsBackBoard1(WarShip board1[][]) {
 		for (int i = 0; i < Board.fieldSizeX; i++) {
 			for (int x = 0; x < Board.fieldSizeY; x++) {
 				board1[i][x] = null;
@@ -300,8 +303,8 @@ public class Game {
 		player1.setCountMiddle(3);
 		player1.setCountBig(2);
 	}
-	
-	public void setShipsBackBoard2 (WarShip board2[][]){
+
+	public void setShipsBackBoard2(WarShip board2[][]) {
 		for (int i = 0; i < Board.fieldSizeX; i++) {
 			for (int x = 0; x < Board.fieldSizeY; x++) {
 				board2[i][x] = null;
@@ -311,19 +314,36 @@ public class Game {
 		player2.setCountMiddle(3);
 		player2.setCountBig(2);
 	}
-	
-	public String textWhosNext(){
-	String player1 = "Player 1";
-	String player2 = "Player 2";
-	int round =	getRound();
-	if(round % 2 == 0) {return player1;} // auf Player 1 wird geschossen
-	else{ return player2;}				// auf Player 2 wird geschossen
-	
-	}
-	public int intWhosNext(){
+
+	public String textWhosNext() {
+		String player1 = "Player 1";
+		String player2 = "Player 2";
 		int round = getRound();
-		if(round % 2 == 0){return 1;} // Player 2 ist dran
-		else{ return 2;} // Player 1 ist dran
+		if (round % 2 == 0) {
+			return player1;
+		} // auf Player 1 wird geschossen
+		else {
+			return player2;
+		} // auf Player 2 wird geschossen
 	}
 
+	public int intWhosNext() {
+		int round = getRound();
+		if (round % 2 == 0) {
+			return 1;
+		} // Player 2 ist dran
+		else {
+			return 2;
+		} // Player 1 ist dran
+	}
+	
+	
+	public boolean gameOver() {
+//		if (player1.getScore() == 21 || player2.getScore() == 21) {
+//			return true;
+//		} 
+		return false;
+	}
+
+	
 }

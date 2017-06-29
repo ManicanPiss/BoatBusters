@@ -45,13 +45,11 @@ public class Main{
 	static final Scanner scan = new Scanner(System.in);
 	
 	private final static Logger logger = LogManager.getRootLogger();
-
-
+	
 
 	public static void main (String [] args) {
 		
 
-		
 		File dataFile = new File("bestenliste.csv"); // Eingelesene Datei
 		
 		try (Scanner reader = new Scanner(dataFile).useDelimiter("\n")){ 

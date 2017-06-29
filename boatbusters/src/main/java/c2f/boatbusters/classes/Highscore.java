@@ -25,11 +25,9 @@ public class Highscore {
 				.info("Player            | NumberOfWins\n                  "
 						+ "                                                                "
 						+ "                ------------------+---------------");
-		Iterator<Player> itr = bestenliste.iterator();
-		while (itr.hasNext()) {
-			Main.getLogger().info(itr.next().toString2());
+		bestenliste.forEach(o -> Main.getLogger().info(o.toString2()));
 		}
-	}
+	
 	
 	
     //Wenn die Methode einen Spieler findet, der mehr Siege (numberOfWins) hat, als die Person, die vor ihm in der
