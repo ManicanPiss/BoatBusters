@@ -10,6 +10,7 @@ import c2f.boatbusters.classes.GameLog;
 import c2f.boatbusters.classes.Highscore;
 import c2f.boatbusters.classes.Main;
 import c2f.boatbusters.classes.Player;
+import c2f.boatbusters.classes.SetShipException;
 import c2f.boatbusters.classes.WarShip;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -436,13 +437,15 @@ public class GUI extends Application {
 
 					});
 
-					try {
+
 						menuStage.close();
 						GameField gameField = new GameField();
-						gameField.GameField();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+						try {
+							gameField.GameField();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
 				}
 			});
 
@@ -781,29 +784,34 @@ public class GUI extends Application {
 
 						// Wenn die Spieler noch nicht alle Schiffe gesetzt
 						// haben sowie noch nicht auf ready geklickt haben
-						if (player1.getReady() == false) {
+						if (player1.getReady() == true && player2.getReady() == false){
+							Main.getLogger().info("It's the turn of " + namePlayer2 + " to set his Ships.\n"
+									+ namePlayer1 + ", please wait until the fire mode begins");	
+						}
+						
+						else if (player1.getReady() == false) {
 
-							// if (player1.getSecondIteration() == false) {
 							if (player1.getSecondClick() == false) {
 								player1.setXfirst(x);
 								player1.setYfirst(y);
 								player1.setSecondClick(true);
 							} else if (player1.getSecondClick() == true) {
-								player1.setShipPartsGui(x, y, game.board1, player1);
+								try {
+									player1.setShipPartsGui(x, y, game.board1, player1);
+								} catch (SetShipException e) {
+									// Error Nachricht an Benutzer, warum das
+									// Schiff nicht gesetzt werdeb konnte
+									Main.getLogger().error("Achtung. falsche Koordinaten-Eingabe, "
+											+ "Sie können ihr Schiff so nicht setzen!\nFolgendes kann "
+											+ "schief gelaufen sein:\n1. Sie haben versucht, ihr Schiff "
+											+ "diagonal oder quer zu setzen.\n2. Sie haben versucht, "
+											+ "ihr Schiff auf Zellen / Koordinaten zu setzen, auf denen sich bereits "
+											+ "Schiffe befinden.\n3. Sie haben ein zu langes oder zu kurzes Schiff "
+											+ "gesetzt.\n4. Sie haben kein Schiff der gewählten Länge mehr verfügbar.");
+								}	
 								player1.setSecondClick(false);
 								updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 								gameUpdate(textVBoxTop);
-
-								// TODO Eine Art update-Methode, in der der
-								// Spielstand
-								// aktualisiert und visualisiert wird;
-
-								Main.getLogger().info("Player 1 Count Small Variable:" + player1.getCountSmall());
-								Main.getLogger().info("Player 1 Count Middle Variable:" + player1.getCountMiddle());
-								Main.getLogger().info("Player 1 Big Variable:" + player1.getCountBig());
-
-								Main.getLogger().info("Ist WarShip gesetzt auf Endkoordiante?\n" + "Speicheradresse: "
-										+ board1[x][y]);
 
 							}
 						}
@@ -816,13 +824,11 @@ public class GUI extends Application {
 							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 							gameUpdate(textVBoxTop);
 						}
-
-						if (board1[x][y] == null) {
-							Main.getLogger().info("Zelle mit Endkoordinaten hat Referenz null\n"
-									+ "statt 'ship' oder 'warship', also anscheinend nein.");
-						} else if (board1[x][y] != null) {
-							Main.getLogger().info("#sotrue , Ja, hier ist ein Schiff");
+						else if (player2.getReady() && player1.getReady() && game.getRound() % 2 == 0){
+							Main.getLogger().info("It's the turn of " + namePlayer1 + " to fire.\n"
+									+ namePlayer2 + ", please wait until you it's your turn");		
 						}
+
 
 					});
 
@@ -845,28 +851,34 @@ public class GUI extends Application {
 
 						// Wenn die Spieler noch nicht alle Schiffe gesetzt
 						// haben sowie noch nicht auf ready geklickt haben
-						if (player1.getReady() && player2.getReady() == false) {
+						if (player1.getReady() == false && player2.getReady() == false){
+							Main.getLogger().info("It's the turn of " + namePlayer1 + " to set his Ships.\n"
+									+ namePlayer2 + ", please wait until you it's your turn");	
+						}
+						
+						else if (player1.getReady() && player2.getReady() == false) {
 
 							if (player2.getSecondClick() == false) {
 								player2.setXfirst(x);
 								player2.setYfirst(y);
 								player2.setSecondClick(true);
 							} else if (player2.getSecondClick() == true) {
-								player2.setShipPartsGui(x, y, game.board2, player2);
+								try {
+									player2.setShipPartsGui(x, y, game.board2, player2);
+								} catch (SetShipException e) {
+									//Error Nachricht an Benutzer, warum das Schiff nicht gesetzt werdeb konnte
+									Main.getLogger().error("Achtung. falsche Koordinaten-Eingabe, "
+											+ "Sie können ihr Schiff so nicht setzen!\nFolgendes kann "
+											+ "schief gelaufen sein:\n1. Sie haben versucht, ihr Schiff "
+											+ "diagonal oder quer zu setzen.\n2. Sie haben versucht, "
+											+ "ihr Schiff auf Zellen / Koordinaten zu setzen, auf denen sich bereits "
+											+ "Schiffe befinden.\n3. Sie haben ein zu langes oder zu kurzes Schiff "
+											+ "gesetzt.\n4. Sie haben kein Schiff der gewählten Länge mehr verfügbar.");
+								}	
 								player2.setSecondClick(false);
 								updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 								gameUpdate(textVBoxTop);
 
-								// TODO Eine Art update-Methode, in der der
-								// Spielstand
-								// aktualisiert und visualisiert wird;
-
-								Main.getLogger().info("Player 2 Count Small Variable:" + player2.getCountSmall());
-								Main.getLogger().info("Player 2  Middle Variable:" + player2.getCountMiddle());
-								Main.getLogger().info("Player 2 Big Variable:" + player2.getCountBig());
-
-								Main.getLogger().info("Ist WarShip gesetzt auf Endkoordinate?\n" + "Speicheradresse: "
-										+ board2[x][y]);
 							}
 						}
 						// Wenn beide Spieler alle Schiffe gesetzt haben und
@@ -878,12 +890,9 @@ public class GUI extends Application {
 							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 							gameUpdate(textVBoxTop);
 						}
-
-						if (board2[x][y] == null) {
-							Main.getLogger().info("Zelle mit Anfangskoordinaten hat Referenz null\n"
-									+ "statt 'ship' oder 'warship', also anscheinend nein.");
-						} else if (board2[x][y] != null) {
-							Main.getLogger().info("#sotrue , Ja, hier ist ein Schiff");
+						else if (player2.getReady() && player1.getReady() && game.getRound() % 2 != 0){
+							Main.getLogger().info("It's the turn of " + namePlayer2 + " to fire.\n"
+									+ namePlayer1 + ", please wait until you it's your turn");		
 						}
 
 					});

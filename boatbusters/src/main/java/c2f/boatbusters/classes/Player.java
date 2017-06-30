@@ -317,7 +317,9 @@ public class Player implements IPlayer {
 	 * @see c2f.boatbusters.classes.IPlayer#checkIfLineIsFreeAndLengthCorrect(int, int, int, int, int, c2f.boatbusters.classes.WarShip[][])
 	 */
 	@Override
-	public boolean checkIfLineIsFreeAndLengthCorrect (int xfirst, int yfirst, int xlast, int ylast, int length, WarShip[][] board) {
+	public boolean checkIfLineIsFreeAndLengthCorrect (int xfirst, int yfirst, int xlast,
+			int ylast, int length, WarShip[][] board) {
+		
 		int staticInt, changingStart, changingEnd;
 		// Hier wird festgelegt, welche Koordinate gleich bleibt und welche sich aendert,
 		// damit anhand der sich aendernden Koordinate die angepeilte Linie auf dem Feld auf ihre Leere gecheckt werden kann.
@@ -365,6 +367,7 @@ public class Player implements IPlayer {
 		if (!(changingEnd - changingStart + 1 == length)) {
 			isFree = false;
 		} 
+
 		return isFree;
 	}
 
@@ -496,35 +499,50 @@ public class Player implements IPlayer {
 
 	}
 	
+
+	
+	
 	// SHIP SETTER
 	//--------------------------------------------------------------
 
 	// Anfangs- und Endteil des Schiffs setzen
 	// Bei falschen Eingaben: Brechstange, fang von vorne an!
-	public void setShipPartsGui(int xlast, int ylast, WarShip[][] board, Player player) {
+	public void setShipPartsGui(int xlast, int ylast, WarShip[][] board,
+			Player player) throws SetShipException {
 
-		    int lengthOfShip = checkLength(xfirst, yfirst, xlast, ylast);
+
+		int lengthOfShip = checkLength(xfirst, yfirst, xlast, ylast);
 		
-			// input = Zahl? Position im Brett frei?
-			if (checkFree(xfirst, yfirst, board) && checkFree(xlast, ylast, board) && checkIfShipAvailable(lengthOfShip, player)) {
-                    
+		try {
+		// Checkt input, Freiheit der Start- und Endposition, Freiheit der
+		// Linie und Laenge des Schiffs. Setzt erst dann die Referenzen in das Feld.
+		if (checkIfLineIsFreeAndLengthCorrect(xfirst, yfirst, xlast, ylast, lengthOfShip, board) &&
+				checkFree(xfirst, yfirst, board) && checkFree(xlast, ylast, board)
+				&& checkIfShipAvailable(lengthOfShip, player)){	
+			// Schiff wird gesetzt, Anzahl der verfuegbaren Schiffe
+			// diesen Typs verringert
+			setShipOnBoard(xfirst, yfirst, xlast, ylast, board, lengthOfShip);
+			reduceShipCount(lengthOfShip, this);
+		}
+		//Wenn das Schiff falsch gesetzt wurde, wird die SetShipException geworfen
+		else { throw new SetShipException();
+			
+		}
+		}catch(SetShipException e){ 
+			//Error Nachricht an Benutzer, warum das Schiff nicht gesetzt werdeb konnte
+			Main.getLogger().error("Achtung. falsche Koordinaten-Eingabe, "
+					+ "Sie können ihr Schiff so nicht setzen!\nFolgendes kann "
+					+ "schief gelaufen sein:\n1. Sie haben versucht, ihr Schiff "
+					+ "diagonal oder quer zu setzen.\n2. Sie haben versucht, "
+					+ "ihr Schiff auf Zellen / Koordinaten zu setzen, auf denen sich bereits "
+					+ "Schiffe befinden.\n3. Sie haben ein zu langes oder zu kurzes Schiff "
+					+ "gesetzt.\n4. Sie haben kein Schiff der gewählten Länge mehr verfügbar.");
+		}	
+	}
 
-					// Checkt input, Freiheit der Endposition, Freiheit der
-					// Linie und Laenge des Schiffs.
-					// Setzt erst dann die Referenzen in das Feld.
-					if (checkIfLineIsFreeAndLengthCorrect(xfirst, yfirst, xlast, ylast, lengthOfShip, board)) {
-						//ylast = Integer.parseInt(input);
 
-						// Schiff wird gesetzt, Anzahl der verfuegbaren Schiffe
-						// diesen Typs verringert
-						setShipOnBoard(xfirst, yfirst, xlast, ylast, board, lengthOfShip);
-						reduceShipCount(lengthOfShip, this);
-						
-						//Test in Konsole Ausgabe ob es funktioniert hat
-						//Main.getLogger().info("Ships count variable: " + this.getShipsCount());
-					}
-			}
-     }
+	
+     
 	
 
 	private void setShipOnBoard(int xfirst, int yfirst, int xlast, int ylast, WarShip[][] board, int length) {

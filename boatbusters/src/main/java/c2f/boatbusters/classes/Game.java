@@ -195,10 +195,8 @@ public class Game {
 		player1 = pf.createPlayer(namePlayer1, Highscore.checkIfArrayListContainsName(namePlayer1));
 		player2 = pf.createPlayer(namePlayer2, Highscore.checkIfArrayListContainsName(namePlayer2));
 		
-		
 		setPlayer1(player1);
 		setPlayer2(player2);
-		
 
         if (Highscore.checkIfArrayListContainsName(namePlayer1).equals("0")){
 		Highscore.getBestenliste().add(player1);
@@ -207,9 +205,7 @@ public class Game {
         Highscore.getBestenliste().add(player2);
         }
 		
-
 		Highscore.sortArrayList();
-		
 
 		BoardFactory bf = new BoardFactory();
 		ShipFactory sf = new ShipFactory();
@@ -219,14 +215,7 @@ public class Game {
 
 		setShipsBack (board1, board2);
 
-		
-		Main.getLogger().info("startGame Methode erfolgreich ausgeführt");
-
-		//Solange kein Spieler gewonnen hat, wird weiter gespielt; Runden werden innerhalb der startFiring() Methode gezaehlt
-		//while (player1.getScore() < IPlayer.maxScore && player2.getScore() < IPlayer.maxScore) {
-			//startFiring(player1, board2, shooterPlayer1, game);
-			//startFiring(player2, board1, shooterPlayer2, game);
-		}
+}
 	
 
 //	protected void showMenu(Game game) {
