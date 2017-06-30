@@ -26,10 +26,11 @@ public class GameLog implements Runnable
 				Main.getLogger().info("Score of " + game.getPlayer2().getName() + ": " + game.getPlayer2().getScore());
 			}
 			
-			try
-			{
+			try 
+			{ 
 				Thread.sleep(10000L);
-			} catch (InterruptedException e)
+			}
+			catch (InterruptedException e)
 			{
 				e.printStackTrace();
 			}

@@ -576,7 +576,7 @@ public class Player implements IPlayer {
 				player.increaseScore();
 				setHit(true);
 				setMissed(false);
-				//destroy(game.getBoard2()[x][y]);
+				destroy(game.getBoard2()[x][y]);
 			} else {
 				Main.getLogger().info("Missed! \n");
 				setMissed(true);
@@ -594,7 +594,7 @@ public class Player implements IPlayer {
 				setMissed(false);
 				Main.getLogger().info("HIT! \n");
 				player.increaseScore();
-				//destroy(game.getBoard1()[x][y]);
+				destroy(game.getBoard1()[x][y]);
 			} else {
 				Main.getLogger().info("Missed! \n");
 				setMissed(true);
@@ -607,9 +607,9 @@ public class Player implements IPlayer {
 		}
 	}
 
-//	private void destroy(WarShip warship) {
-//		warship.setShipDestroyed(true);
-//	}
+	private void destroy(WarShip warship) {
+		warship.setShipDestroyed(true);
+	}
 	
 	
 
