@@ -419,13 +419,12 @@ public class GUI extends Application {
 					namePlayer2 = textfieldLoginPlayer2.getText();
 					game.startGame(game, namePlayer1, namePlayer2);
 
-					System.out.println("asdasd");
-
 					player1 = game.getPlayer1();
 					player2 = game.getPlayer2();
 
 					board1 = game.board1;
 					board2 = game.board2;
+					
 
 					TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
 					t1.setToX(menuPlayer2.getTranslateX() - offset);
@@ -499,7 +498,6 @@ public class GUI extends Application {
 				namePlayer2 = textfieldLoginPlayer2.getText();
 
 				game.startGame(game, namePlayer1, namePlayer2);
-				System.out.println("asdasd");
 
 				player1 = game.getPlayer1();
 				player2 = game.getPlayer2();
@@ -1004,8 +1002,8 @@ public class GUI extends Application {
 						gameUpdate(textVBoxTop);
 						//Thread wird erstellt, der durch Logs den aktuellen Spielstand, d.h. die Scores von Spieler 1
 						//und von Spieler 2 sowie die aktuelle Runde ausgibt
-					    //GameLog gamelog = new GameLog(game);
-					    //gamelog.run();
+//					    GameLog gamelog = new GameLog(game);
+//					    gamelog.run();
 					}
 					if (player1.getReady()) {
 						darkenField(gamefieldRight);
