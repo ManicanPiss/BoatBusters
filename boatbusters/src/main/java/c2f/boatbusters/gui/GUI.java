@@ -17,6 +17,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -337,9 +338,17 @@ public class GUI extends Application {
 			});
 
 			//////////// HIGHSCORE BUTTON MAIN MENU ////////////
-			MenuButton btnScore = new MenuButton("HIGHSCORE");
+			MenuButton btnScore = new MenuButton("HIGHSCORE");//TODO:
 
 			btnScore.setOnMouseClicked(event -> {
+				Highscore.getBestenliste()
+											.stream()
+											.forEach(x -> {
+											System.out.println(x);
+											System.out.println("TEST");
+												
+											});
+				
 				rootMenu.getChildren().add(scoreMenu);
 
 				TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), mainMenu);
