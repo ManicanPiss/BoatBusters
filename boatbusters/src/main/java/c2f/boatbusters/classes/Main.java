@@ -37,15 +37,17 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
 public class Main {
-
-	static final Scanner scan = new Scanner(System.in);
-
+	
+    private static final Highscore highscore = new Highscore();
+	
 	private final static Logger logger = LogManager.getRootLogger();
 
 	public static void main(String[] args) {
 
 		File dataFile = new File("bestenliste.csv"); // Eingelesene Datei
 
+
+		
 		try (Scanner reader = new Scanner(dataFile).useDelimiter("\n")) {
 
 			while (reader.hasNext()) { // Einlesen der schon gespeicherten
@@ -54,14 +56,16 @@ public class Main {
 													// (Zwischenspeicher)
 				dataArray = reader.next().split(";", -1); // Teilen am ';'
 				// Erstelle Spieler und füge sie der Liste hinzu
-				Highscore.getBestenliste().add(new Player(dataArray[0], dataArray[1]));
+				Main.getHighscore().getBestenliste().add(new Player(dataArray[0], dataArray[1]));
 			}
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		
-		Highscore.sortArrayList();
+        //Highscore Array List wird sortiert mit stream-Methode
+		Main.getHighscore().setBestenliste(highscore.sortBestenlisteStream());
+		
 
 		logger.trace("Configuration File Defined To Be :: " + System.getProperty("log4j.configurationFile"));
 
@@ -72,5 +76,9 @@ public class Main {
 
 	public static Logger getLogger() {
 		return logger;
+	}
+	
+	public static Highscore getHighscore(){
+		return highscore;
 	}
 }

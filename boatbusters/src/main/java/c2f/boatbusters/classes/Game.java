@@ -14,7 +14,6 @@ public class Game {
 	public Player player2;
 	public WarShip[][] board1;
 	public WarShip[][] board2;
-	Highscore highscore;
 	PlayerFactory pf;
 	public Lock lock = new ReentrantLock();
 
@@ -56,46 +55,27 @@ public class Game {
 		return board2;
 	}
 
-	private boolean checkNumber(String s) {
 
-		int i = 0;
-
-		try {
-			i = Integer.parseInt(s);
-		} catch (NumberFormatException e) {
-			Main.getLogger().error("Invalid Input. Please type in a number.\n", e); // TODO
-																					// log,
-																					// nicht
-																					// zu
-																					// parsen
-		}
-
-		if (i > 0 && i <= Board.fieldSizeY) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 
 	public void startGame(Game game, String namePlayer1, String namePlayer2) {
 
 		// Erstellung der Factories um Spieler und Bretter zu erstellen
 		PlayerFactory pf = new PlayerFactory();
 
-		player1 = pf.createPlayer(namePlayer1, Highscore.checkIfArrayListContainsName(namePlayer1));
-		player2 = pf.createPlayer(namePlayer2, Highscore.checkIfArrayListContainsName(namePlayer2));
+		player1 = pf.createPlayer(namePlayer1, Main.getHighscore().checkIfArrayListContainsName(namePlayer1));
+		player2 = pf.createPlayer(namePlayer2, Main.getHighscore().checkIfArrayListContainsName(namePlayer2));
 
 		setPlayer1(player1);
 		setPlayer2(player2);
 
-		if (Highscore.checkIfArrayListContainsName(namePlayer1).equals("0")) {
-			Highscore.getBestenliste().add(player1);
+		if (Main.getHighscore().checkIfArrayListContainsName(namePlayer1) == 0) {
+			Main.getHighscore().getBestenliste().add(player1);
 		}
-		if (Highscore.checkIfArrayListContainsName(namePlayer2).equals("0")) {
-			Highscore.getBestenliste().add(player2);
+		if (Main.getHighscore().checkIfArrayListContainsName(namePlayer2) == 0) {
+			Main.getHighscore().getBestenliste().add(player2);
 		}
 
-		Highscore.sortArrayList();
+		Main.getHighscore().sortBestenlisteStream();
 
 		BoardFactory bf = new BoardFactory();
 
@@ -105,22 +85,14 @@ public class Game {
 		setShipsBack(board1, board2);
 	}
 	
-	//Diese Methode wird ausgeführt, nachdem ein Spieler gewonnen hat. Sie aktualisiert die Anzahl der Siege
-	//des Spielers und gibt den Spieler neu an die Array List am gleichen Index zurück
-//	public void updateBestenliste(){
-//		int index = Highscore.getBestenliste().indexOf(player1);
-//		int wins = Integer.parseInt(Highscore.getBestenliste().get(index).getNumberOfWins());
-//		wins++;
-//		Highscore.getBestenliste().set(index, pf.createPlayer(player1.getName(), String.valueOf(wins)));
-//	}
-	
 
-	public void quit() {
+	
+	public void quit(Highscore highscore) {
 		try {
 			FileWriter fWriter = new FileWriter("bestenliste.csv");
 			BufferedWriter writer = new BufferedWriter(fWriter);
-			for (int i = 0; i < Highscore.getBestenliste().size(); i++) {
-				writer.write(Highscore.getBestenliste().get(i).file());														
+			for (int i = 0; i < highscore.getBestenliste().size(); i++) {
+				writer.write(highscore.getBestenliste().get(i).file());														
 			}
 			writer.close();
 		} catch (Exception e) {
@@ -183,6 +155,7 @@ public class Game {
 			return 1;
 		} // Player 1 ist dran
 	}
+	
 
 	// Boolean Methode, die prüft, ob ein Spieler das Spiel gewonnen hat,
 	// und einen entsprechenden boolean zurückgibt

@@ -341,7 +341,7 @@ public class GUI extends Application {
 			MenuButton btnScore = new MenuButton("HIGHSCORE");//TODO:
 
 			btnScore.setOnMouseClicked(event -> {
-				Highscore.getBestenliste()
+				Main.getHighscore().getBestenliste()
 											.stream()
 											.forEach(x -> {
 											System.out.println(x);
@@ -363,7 +363,7 @@ public class GUI extends Application {
 				t1.setOnFinished(evt -> {
 					rootMenu.getChildren().remove(mainMenu);
 
-					Highscore.printBestenliste();
+					Main.getHighscore().printBestenliste();
 				});
 
 			});
@@ -371,7 +371,7 @@ public class GUI extends Application {
 			//////////// EXIT BUTTON MAIN MENU ////////////
 			MenuButton btnExit = new MenuButton("EXIT");
 			btnExit.setOnMouseClicked(event -> {
-				game.quit();
+				game.quit(Main.getHighscore());
 			});
 
 			//////////// Login Text Player1 ////////////
@@ -986,7 +986,7 @@ public class GUI extends Application {
 							if (player1.checkIfPlayerWins()) {
 								Main.getLogger().info("Herzlichen Glückwunsch " + player1.getName() + ", du hast "
 										+ "das Spiel gewonnen und grenzenlose Ehre erworben!");
-								// game.updateBestenliste();
+								 Main.getHighscore().updateBestenliste(player1);
 							}
 							game.increaseRound();
 

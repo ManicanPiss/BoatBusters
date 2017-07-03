@@ -28,9 +28,50 @@ public class Player implements IPlayer {
 	private boolean ready = false;
 	private boolean hit = false;
 	private boolean missed = false;
+	
+	// Sachen für Bestenliste/Highschore:
+
+	// Container für Paare. Jeder Spieler wird angelegt mit seinem Namen und der
+	// Anzahl an Siegen, die er schon
+	// erringen konnte
+	private String name;
+	private int numberOfWins;
+
+	// Konstruktor: Spieler erhält vor dem Spiel einen Namen, sowie wenn er das
+	// erste Mal spielt, numberOfWins = 0
+	public Player (String name, int numberOfWins) {
+		this.name = name;
+		this.numberOfWins = numberOfWins;
+	}
+	
+	public Player (String name, String numberOfWins){
+		this.name = name;
+		this.numberOfWins = Integer.parseInt(numberOfWins);
+	}
 
 	// GETTER AND SETTER
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see c2f.boatbusters.classes.IPlayer#getName()
+	 */
+	@Override
+	public String getName() {
+		return (String) name;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see c2f.boatbusters.classes.IPlayer#numberOfWins()
+	 */
+	@Override
+	public int getNumberOfWins() {
+		return (int) numberOfWins;
+	}
+	
+	
 	public int getXfirst() {
 		return xfirst;
 	}
@@ -585,40 +626,7 @@ public class Player implements IPlayer {
 		return false;
 	}
 
-	// Sachen für Bestenliste/Highschore: Anfang:
-
-	// Container für Paare. Jeder Spieler wird angelegt mit seinem Namen und der
-	// Anzahl an Siegen, die er schon
-	// erringen konnte
-	private Object name, numberOfWins;
-
-	// Konstruktor: Spieler erhält vor dem Spiel einen Namen, sowie wenn er das
-	// erste Mal spielt, numberOfWins = 0
-	public Player (String name, String numberOfWins) {
-		this.name = name;
-		this.numberOfWins = numberOfWins;
-	}
 	
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see c2f.boatbusters.classes.IPlayer#getName()
-	 */
-	@Override
-	public String getName() {
-		return (String) name;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see c2f.boatbusters.classes.IPlayer#numberOfWins()
-	 */
-	@Override
-	public String getNumberOfWins() {
-		return (String) numberOfWins;
-	}
 
 	// Ist in Einklang mit der printBestenliste Mehtode, es entsteht eine
 	// Tabelle im richtigen Format abhängig von der
@@ -630,43 +638,43 @@ public class Player implements IPlayer {
 	 */
 
 	public String toString2() {
-		if (name.toString().length() == 1) {
+		if (name.length() == 1) {
 			return name + "                 |   " + numberOfWins;
-		} else if (name.toString().length() == 2) {
+		} else if (name.length() == 2) {
 			return name + "                |   " + numberOfWins;
-		} else if (name.toString().length() == 3) {
+		} else if (name.length() == 3) {
 			return name + "               |   " + numberOfWins;
-		} else if (name.toString().length() == 4) {
+		} else if (name.length() == 4) {
 			return name + "              |   " + numberOfWins;
-		} else if (name.toString().length() == 5) {
+		} else if (name.length() == 5) {
 			return name + "             |   " + numberOfWins;
-		} else if (name.toString().length() == 6) {
+		} else if (name.length() == 6) {
 			return name + "            |   " + numberOfWins;
-		} else if (name.toString().length() == 7) {
+		} else if (name.length() == 7) {
 			return name + "           |   " + numberOfWins;
-		} else if (name.toString().length() == 8) {
+		} else if (name.length() == 8) {
 			return name + "          |   " + numberOfWins;
-		} else if (name.toString().length() == 9) {
+		} else if (name.length() == 9) {
 			return name + "         |   " + numberOfWins;
-		} else if (name.toString().length() == 10) {
+		} else if (name.length() == 10) {
 			return name + "        |   " + numberOfWins;
-		} else if (name.toString().length() == 11) {
+		} else if (name.length() == 11) {
 			return name + "       |   " + numberOfWins;
-		} else if (name.toString().length() == 12) {
+		} else if (name.length() == 12) {
 			return name + "      |   " + numberOfWins;
-		} else if (name.toString().length() == 13) {
+		} else if (name.length() == 13) {
 			return name + "     |   " + numberOfWins;
-		} else if (name.toString().length() == 14) {
+		} else if (name.length() == 14) {
 			return name + "    |   " + numberOfWins;
-		} else if (name.toString().length() == 15) {
+		} else if (name.length() == 15) {
 			return name + "   |   " + numberOfWins;
-		} else if (name.toString().length() == 16) {
+		} else if (name.length() == 16) {
 			return name + "  |   " + numberOfWins;
-		} else if (name.toString().length() == 17) {
+		} else if (name.length() == 17) {
 			return name + " |   " + numberOfWins;
-		} else if (name.toString().length() == 18) {
+		} else if (name.length() == 18) {
 			return name + "|   " + numberOfWins;
-		} else if (name.toString().length() == 0) {
+		} else if (name.length() == 0) {
 			return name + "                  |   " + numberOfWins;
 		} else {
 			return name + "      |   " + numberOfWins;
