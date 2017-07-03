@@ -835,24 +835,24 @@ public class GUI extends Application {
 								&& !game.gameOver()) {
 
 							player2.fire(x, y, player2, game);
-							game.increaseRound();
 							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 							gameUpdate(textVBoxTop);
+							
+							// Es wird überpüft, ob der
+							// Spieler mit dem aktuellen Mausklick / Feuern das
+							// letzte Schiff des Gegners zerstört hat,
+							// ob er also den Score von 21 Punkten erreicht und
+							// das Spiel gewonnen hat
+							if (player2.checkIfPlayerWins()) {
+								Main.getLogger().info("Herzlichen Glückwunsch " + player2.getName() + ", du hast "
+										+ "das Spiel gewonnen und grenzenlose Ehre erworben!");
+							}
+							game.increaseRound();
+
 						} else if (player2.getReady() && player1.getReady() && game.getRound() % 2 == 0
 								&& !game.gameOver()) {
 							Main.getLogger().info("It's the turn of " + namePlayer1 + " to fire.\n" + namePlayer2
 									+ ", please wait until you it's your turn");
-						}
-
-						// Zuletzt wird bei einem Button Klick auf die
-						// Spielfelder überprüft, ob der feuernde
-						// Spieler mit dem aktuellen Mausklick / Feuern das
-						// letzte Schiff des Gegners zerstört hat,
-						// ob er also den Score von 21 Punkten erreicht und das
-						// Spiel gewonnen hat
-						else if (player2.checkIfPlayerWins()) {
-							Main.getLogger().info("Herzlichen Glückwunsch " + player2.getName() + ", du hast "
-									+ "das Spiel gewonnen und grenzenlose Ehre erworben!");
 						}
 
 					});
@@ -929,23 +929,24 @@ public class GUI extends Application {
 						if (player2.getReady() && player1.getReady() && game.getRound() % 2 == 0 && !game.gameOver()) {
 
 							player1.fire(x, y, player1, game);
-							game.increaseRound();
 							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 							gameUpdate(textVBoxTop);
+
+							// Es wird überpüft, ob der
+							// Spieler mit dem aktuellen Mausklick / Feuern das
+							// letzte Schiff des Gegners zerstört hat,
+							// ob er also den Score von 21 Punkten erreicht und
+							// das Spiel gewonnen hat
+							if (player1.checkIfPlayerWins()) {
+								Main.getLogger().info("Herzlichen Glückwunsch " + player1.getName() + ", du hast "
+										+ "das Spiel gewonnen und grenzenlose Ehre erworben!");
+							}
+							game.increaseRound();
+
 						} else if (player2.getReady() && player1.getReady() && game.getRound() % 2 != 0
 								&& !game.gameOver()) {
 							Main.getLogger().info("It's the turn of " + namePlayer2 + " to fire.\n" + namePlayer1
 									+ ", please wait until you it's your turn");
-						}
-						// Zuletzt wird bei einem Button Klick auf die
-						// Spielfelder überprüft, ob der feuernde
-						// Spieler mit dem aktuellen Mausklick / Feuern das
-						// letzte Schiff des Gegners zerstört hat,
-						// ob er also den Score von 21 Punkten erreicht und das
-						// Spiel gewonnen hat
-						else if (player1.checkIfPlayerWins()) {
-							Main.getLogger().info("Herzlichen Glückwunsch " + player1.getName() + ", du hast "
-									+ "das Spiel gewonnen und grenzenlose Ehre erworben!");
 						}
 
 					});
