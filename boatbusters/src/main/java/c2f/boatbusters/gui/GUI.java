@@ -846,6 +846,7 @@ public class GUI extends Application {
 							if (player2.checkIfPlayerWins()) {
 								Main.getLogger().info("Herzlichen Glückwunsch " + player2.getName() + ", du hast "
 										+ "das Spiel gewonnen und grenzenlose Ehre erworben!");
+//                              game.updateBestenliste();
 							}
 							game.increaseRound();
 
@@ -940,6 +941,7 @@ public class GUI extends Application {
 							if (player1.checkIfPlayerWins()) {
 								Main.getLogger().info("Herzlichen Glückwunsch " + player1.getName() + ", du hast "
 										+ "das Spiel gewonnen und grenzenlose Ehre erworben!");
+//                                game.updateBestenliste();
 							}
 							game.increaseRound();
 

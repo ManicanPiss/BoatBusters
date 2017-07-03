@@ -60,7 +60,7 @@ public class Main {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
+		
 		Highscore.sortArrayList();
 
 		logger.trace("Configuration File Defined To Be :: " + System.getProperty("log4j.configurationFile"));
