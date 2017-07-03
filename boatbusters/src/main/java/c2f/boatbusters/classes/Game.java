@@ -171,10 +171,10 @@ public class Game {
 	public int intWhosNext() {
 		int round = getRound();
 		if (round % 2 == 0) {
-			return 1;
+			return 2;
 		} // Player 2 ist dran
 		else {
-			return 2;
+			return 1;
 		} // Player 1 ist dran
 	}
 
