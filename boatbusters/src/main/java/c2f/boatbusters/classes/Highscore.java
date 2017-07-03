@@ -44,8 +44,8 @@ public class Highscore {
     	  boolean wrongOrder = false;
     	  for (int i = 0; i < bestenliste.size()-1; i++){
     	        
-    	  if((Integer.parseInt((String) bestenliste.get(i).numberOfWins())
-    			  - (Integer.parseInt((String) bestenliste.get(i+1).numberOfWins())) < 0)){
+    	  if((Integer.parseInt((String) bestenliste.get(i).getNumberOfWins())
+    			  - Integer.parseInt((String) bestenliste.get(i+1).getNumberOfWins())) < 0){
     	           Player o = bestenliste.get(i);
     	     	   bestenliste.set(i, bestenliste.get(i+1));
     	     	   bestenliste.set(i+1, o);
@@ -64,7 +64,7 @@ public class Highscore {
 		Iterator<Player> itr = bestenliste.iterator();
     	while (itr.hasNext()){
     		if (itr.next().getName().equals(namePlayer)){
-    			return (String) itr.next().numberOfWins();   			
+    			return itr.next().getNumberOfWins();   			
     		}   		
     	}
     	return "0";

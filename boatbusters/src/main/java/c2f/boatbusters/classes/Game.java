@@ -15,6 +15,7 @@ public class Game {
 	public WarShip[][] board1;
 	public WarShip[][] board2;
 	Highscore highscore;
+	PlayerFactory pf;
 	public Lock lock = new ReentrantLock();
 
 	private int round = 1;
@@ -97,24 +98,29 @@ public class Game {
 		Highscore.sortArrayList();
 
 		BoardFactory bf = new BoardFactory();
-		ShipFactory sf = new ShipFactory();
 
 		board1 = bf.createBoard(1);
 		board2 = bf.createBoard(2);
 
 		setShipsBack(board1, board2);
-
 	}
+	
+	//Diese Methode wird ausgeführt, nachdem ein Spieler gewonnen hat. Sie aktualisiert die Anzahl der Siege
+	//des Spielers und gibt den Spieler neu an die Array List am gleichen Index zurück
+//	public void updateBestenliste(){
+//		int index = Highscore.getBestenliste().indexOf(player1);
+//		int wins = Integer.parseInt(Highscore.getBestenliste().get(index).getNumberOfWins());
+//		wins++;
+//		Highscore.getBestenliste().set(index, pf.createPlayer(player1.getName(), String.valueOf(wins)));
+//	}
+	
 
 	public void quit() {
 		try {
 			FileWriter fWriter = new FileWriter("bestenliste.csv");
 			BufferedWriter writer = new BufferedWriter(fWriter);
 			for (int i = 0; i < Highscore.getBestenliste().size(); i++) {
-				writer.write(Highscore.getBestenliste().get(i).file()); // 1
-																		// Person
-																		// -> 1
-																		// Zeile
+				writer.write(Highscore.getBestenliste().get(i).file());														
 			}
 			writer.close();
 		} catch (Exception e) {

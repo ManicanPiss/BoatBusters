@@ -49,7 +49,7 @@ public interface IPlayer {
 
 	Object getName();
 
-	Object numberOfWins();
+	Object getNumberOfWins();
 
 	// Ist in Einklang mit der printBestenliste Mehtode, es entsteht eine
 	// Tabelle im richtigen Format abhängig von der

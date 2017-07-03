@@ -512,15 +512,15 @@ public class Player implements IPlayer {
 				// werden die boolean-Variablen missed und hit angepasst, damit
 				// die GUI das Ergebnis des aktuellen Schusses
 				// richtig ausgibt ("HIT!" bzw. "Missed!")
-			} else if (!player.checkFree(x, y, game.getBoard2()) && game.getBoard2()[x][y].getEmpty() == true) {
-				setMissed(true);
-				setHit(false);
+				
 				// Wenn der Spieler auf ein Feld schießt, auf dem er bereits ein
 				// Schiff zerstört hat, verfehlt er beim
 				// zweiten mal Schießen auf dieses Feld
-			} else if (!player.checkFree(x, y, game.getBoard2()) && game.getBoard2()[x][y].getShipDestroyed() == true) {
+			} else if (!player.checkFree(x, y, game.getBoard2()) && (game.getBoard2()[x][y].getEmpty() == true
+					|| game.getBoard2()[x][y].getShipDestroyed() == true)) {
 				setMissed(true);
 				setHit(false);
+				//Spieler 1 feuert auf leeres Feld
 			} else if (player.checkFree(x, y, game.getBoard2())) {
 				setMissed(true);
 				setHit(false);
@@ -539,15 +539,15 @@ public class Player implements IPlayer {
 				// werden die boolean-Variablen missed und hit angepasst, damit
 				// die GUI das Ergebnis des aktuellen Schusses
 				// richtig ausgibt ("HIT!" bzw. "Missed!")
-			} else if (!player.checkFree(x, y, game.getBoard1()) && game.getBoard1()[x][y].getEmpty() == true) {
-				setMissed(true);
-				setHit(false);
+				
 				// Wenn der Spieler auf ein Feld schießt, auf dem er bereits ein
 				// Schiff zerstört hat, verfehlt er beim
 				// zweiten mal Schießen auf dieses Feld
-			} else if (!player.checkFree(x, y, game.getBoard1()) && game.getBoard1()[x][y].getShipDestroyed() == true) {
+			} else if (!player.checkFree(x, y, game.getBoard1())  && (game.getBoard1()[x][y].getEmpty() == true
+					|| game.getBoard1()[x][y].getShipDestroyed() == true)) {
 				setMissed(true);
 				setHit(false);
+				//Spieler 2 feuert auf leeres Feld
 			} else if (player.checkFree(x, y, game.getBoard1())) {
 				setMissed(true);
 				setHit(false);
@@ -594,11 +594,12 @@ public class Player implements IPlayer {
 
 	// Konstruktor: Spieler erhält vor dem Spiel einen Namen, sowie wenn er das
 	// erste Mal spielt, numberOfWins = 0
-	public Player(Object name, Object numberOfWins) {
+	public Player (String name, String numberOfWins) {
 		this.name = name;
 		this.numberOfWins = numberOfWins;
 	}
-
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -615,8 +616,8 @@ public class Player implements IPlayer {
 	 * @see c2f.boatbusters.classes.IPlayer#numberOfWins()
 	 */
 	@Override
-	public Object numberOfWins() {
-		return numberOfWins;
+	public String getNumberOfWins() {
+		return (String) numberOfWins;
 	}
 
 	// Ist in Einklang mit der printBestenliste Mehtode, es entsteht eine
