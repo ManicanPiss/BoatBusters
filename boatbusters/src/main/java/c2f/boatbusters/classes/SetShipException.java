@@ -23,5 +23,3 @@ public class SetShipException extends Throwable {
 		super(message, cause);
 	}
 }
-
-

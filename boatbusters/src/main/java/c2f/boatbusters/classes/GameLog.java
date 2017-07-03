@@ -1,13 +1,10 @@
 package c2f.boatbusters.classes;
 
-
-public class GameLog implements Runnable
-{
+public class GameLog implements Runnable {
 	private static int numberOfLog = 1;
 	private Game game;
 
-	
-	public GameLog (Game game){
+	public GameLog(Game game) {
 		this.game = game;
 	}
 

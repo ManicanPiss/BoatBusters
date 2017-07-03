@@ -1,7 +1,5 @@
 package c2f.boatbusters.classes;
 
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,49 +36,41 @@ import javafx.util.Duration;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
+public class Main {
 
-
-public class Main{
-	
 	static final Scanner scan = new Scanner(System.in);
-	
-	private final static Logger logger = LogManager.getRootLogger();
-	
 
-	public static void main (String [] args) {
-		
+	private final static Logger logger = LogManager.getRootLogger();
+
+	public static void main(String[] args) {
 
 		File dataFile = new File("bestenliste.csv"); // Eingelesene Datei
-		
-		try (Scanner reader = new Scanner(dataFile).useDelimiter("\n")){ 
 
-			while (reader.hasNext()) { // Einlesen der schon gespeicherten Spieler
-			String[] dataArray = new String[2]; // Erstellt Array  (Zwischenspeicher)
-			dataArray = reader.next().split(";", -1); // Teilen am ';'
-			// Erstelle Spieler und füge sie der Liste hinzu
-	       Highscore.getBestenliste().add(new Player(dataArray[0], dataArray[1]));} 
+		try (Scanner reader = new Scanner(dataFile).useDelimiter("\n")) {
 
-		   }
-	      catch (FileNotFoundException e) {
-	     e.printStackTrace();
-	     }
-		
-		
+			while (reader.hasNext()) { // Einlesen der schon gespeicherten
+										// Spieler
+				String[] dataArray = new String[2]; // Erstellt Array
+													// (Zwischenspeicher)
+				dataArray = reader.next().split(";", -1); // Teilen am ';'
+				// Erstelle Spieler und füge sie der Liste hinzu
+				Highscore.getBestenliste().add(new Player(dataArray[0], dataArray[1]));
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
 		Highscore.sortArrayList();
-		
-		
+
 		logger.trace("Configuration File Defined To Be :: " + System.getProperty("log4j.configurationFile"));
-		
-		
+
 		GUI javaFX = new GUI();
 		Application.launch(javaFX.getClass(), args);
-	
-  }
-	public static Logger getLogger(){
+
+	}
+
+	public static Logger getLogger() {
 		return logger;
 	}
 }
-
-
-
-

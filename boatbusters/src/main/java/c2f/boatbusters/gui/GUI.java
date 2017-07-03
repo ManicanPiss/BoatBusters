@@ -1,6 +1,5 @@
 package c2f.boatbusters.gui;
 
-
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -425,7 +424,6 @@ public class GUI extends Application {
 
 					board1 = game.board1;
 					board2 = game.board2;
-					
 
 					TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), menuPlayer2);
 					t1.setToX(menuPlayer2.getTranslateX() - offset);
@@ -437,14 +435,13 @@ public class GUI extends Application {
 
 					});
 
-
-						menuStage.close();
-						GameField gameField = new GameField();
-						try {
-							gameField.GameField();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+					menuStage.close();
+					GameField gameField = new GameField();
+					try {
+						gameField.GameField();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 
 				}
 			});
@@ -592,7 +589,7 @@ public class GUI extends Application {
 	}
 
 	public class GameField extends Parent {
-		
+
 		Text textQuit = new Text();
 
 		// Anzeigetexte für linke Spielhälfte, d.h. Spieler 1, wieviele Schiffe
@@ -611,18 +608,19 @@ public class GUI extends Application {
 		Text textWhosNextTop = new Text();
 		Text textHitTop = new Text();
 		Text textMissedTop = new Text();
-		
-		public void setTextQuit(){
+
+		public void setTextQuit() {
 			this.textQuit = new Text(" Press Q to Quit");
 			textQuit.setStyle(font14);
 			textQuit.setFill(Color.WHITE);
 		}
+
 		public void setTextHitTop() {
 			this.textHitTop = new Text("HIT!");
 			textHitTop.setStyle(font16);
 			textHitTop.setFill(Color.LIGHTCORAL);
 		}
-		
+
 		public void setTextMissedTop() {
 			this.textMissedTop = new Text("You Missed!");
 			textMissedTop.setStyle(font16);
@@ -661,8 +659,8 @@ public class GUI extends Application {
 			textBigLeft.setStyle(font14);
 			textBigLeft.setFill(Color.WHITE);
 		}
-		
-		public Text getTextQuit(){
+
+		public Text getTextQuit() {
 			return textQuit;
 		}
 
@@ -737,16 +735,16 @@ public class GUI extends Application {
 			Image img = new Image(is);
 			is.close();
 
-//			ColorAdjust colorAdjust = new ColorAdjust();
-//			colorAdjust.setContrast(0.001);
-//			colorAdjust.setHue(-0.05);
-//			colorAdjust.setBrightness(0.001);
-//			colorAdjust.setSaturation(0.2);
+			// ColorAdjust colorAdjust = new ColorAdjust();
+			// colorAdjust.setContrast(0.001);
+			// colorAdjust.setHue(-0.05);
+			// colorAdjust.setBrightness(0.001);
+			// colorAdjust.setSaturation(0.2);
 
 			ImageView imgGameBG = new ImageView(img);
 			imgGameBG.setFitWidth(WINDOW_SIZE_X);
 			imgGameBG.setFitHeight(WINDOW_SIZE_Y);
-//			imgGameBG.setEffect(colorAdjust);
+			// imgGameBG.setEffect(colorAdjust);
 
 			HBox gameBoardsHBox = new HBox();
 			gameBoardsHBox.setSpacing(100);
@@ -768,7 +766,7 @@ public class GUI extends Application {
 			StackPane bottomStackPane = new StackPane();
 			VBox textVBoxBottom = new VBox();
 			HBox textHBoxBottom = new HBox();
-			
+
 			setTextQuit();
 			gameBoardsHBox.getChildren().addAll(gamefieldLeft, gamefieldRight);
 
@@ -780,26 +778,42 @@ public class GUI extends Application {
 					int x = row;
 
 					button.setOnMouseClicked(event -> {
-						//Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
+						// Main.getLogger().info("LEFTSIDE: Button at " + x +
+						// "/" + y + " pressed");
 
 						// Wenn die Spieler noch nicht alle Schiffe gesetzt
 						// haben sowie noch nicht auf ready geklickt haben
-						if (player1.getReady() == true && player2.getReady() == false){
+						if (player1.getReady() == true && player2.getReady() == false) {
 							Main.getLogger().info("It's the turn of " + namePlayer2 + " to set his Ships.\n"
-									+ namePlayer1 + ", please wait until the fire mode begins");	
+									+ namePlayer1 + ", please wait until the fire mode begins");
 						}
-						
+						// Zunächst ist Spieler 1 mit dem Setzen seiner Schiffe
+						// (auf sein eigenes Feld) dran
 						else if (player1.getReady() == false) {
-
+							// Die Schiffe werden gesetzt durch Klick auf die
+							// Anfangskoordinate und einen Klick
+							// auf die Endkoordinate. Beim Klick auf die
+							// Anfangskoordinate werden diese zunächst
+							// zwischengespeichert in den Instanzvariablen
+							// xfirst und yfirst des jeweiligen Spielers
 							if (player1.getSecondClick() == false) {
 								player1.setXfirst(x);
 								player1.setYfirst(y);
 								player1.setSecondClick(true);
+								// Beim zweiten Klick, werden die Endkoordinaten
+								// zusammen mit dem Board von Spieler 2
+								// sowie mit Spieler 2 selbst an die
+								// setShipPartsGui Methode übergeben
 							} else if (player1.getSecondClick() == true) {
+								// der try-catch-Block fängt die eigens kreierte
+								// SetShipException ab, die geworfen wird,
+								// wenn jemand sein Schiff falsch setzt. (Genaue
+								// Erklärung des falschen Setzens
+								// in der Error Log Nachricht unten)
 								try {
 									player1.setShipPartsGui(x, y, game.board1, player1);
 								} catch (SetShipException e) {
-									// Error Nachricht an Benutzer, warum das
+									// Error Nachricht an Spieler, warum das
 									// Schiff nicht gesetzt werdeb konnte
 									Main.getLogger().error("Achtung. falsche Koordinaten-Eingabe, "
 											+ "Sie können ihr Schiff so nicht setzen!\nFolgendes kann "
@@ -808,7 +822,7 @@ public class GUI extends Application {
 											+ "ihr Schiff auf Zellen / Koordinaten zu setzen, auf denen sich bereits "
 											+ "Schiffe befinden.\n3. Sie haben ein zu langes oder zu kurzes Schiff "
 											+ "gesetzt.\n4. Sie haben kein Schiff der gewählten Länge mehr verfügbar.");
-								}	
+								}
 								player1.setSecondClick(false);
 								updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 								gameUpdate(textVBoxTop);
@@ -823,12 +837,21 @@ public class GUI extends Application {
 							game.increaseRound();
 							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 							gameUpdate(textVBoxTop);
-						}
-						else if (player2.getReady() && player1.getReady() && game.getRound() % 2 == 0){
-							Main.getLogger().info("It's the turn of " + namePlayer1 + " to fire.\n"
-									+ namePlayer2 + ", please wait until you it's your turn");		
+						} else if (player2.getReady() && player1.getReady() && game.getRound() % 2 == 0) {
+							Main.getLogger().info("It's the turn of " + namePlayer1 + " to fire.\n" + namePlayer2
+									+ ", please wait until you it's your turn");
 						}
 
+						// Zuletzt wird bei einem Button Klick auf die
+						// Spielfelder überprüft, ob der feuernde
+						// Spieler mit dem aktuellen Mausklick / Feuern das
+						// letzte Schiff des Gegners zerstört hat,
+						// ob er also den Score von 21 Punkten erreicht und das
+						// Spiel gewonnen hat
+						if (player2.checkIfPlayerWins()) {
+							Main.getLogger().info("Herzlichen Glückwunsch " + player1.getName() + ", du hast "
+									+ "das Spiel gewonnen und grenzenlose Ehre erworben!");
+						}
 
 					});
 
@@ -847,26 +870,44 @@ public class GUI extends Application {
 					int x = row;
 
 					button.setOnMouseClicked(event -> {
-						//Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
+						// Main.getLogger().info("RIGHTSIDE: Button at " + x +
+						// "/" + y + " pressed");
 
 						// Wenn die Spieler noch nicht alle Schiffe gesetzt
 						// haben sowie noch nicht auf ready geklickt haben
-						if (player1.getReady() == false && player2.getReady() == false){
+						if (player1.getReady() == false && player2.getReady() == false) {
 							Main.getLogger().info("It's the turn of " + namePlayer1 + " to set his Ships.\n"
-									+ namePlayer2 + ", please wait until you it's your turn");	
+									+ namePlayer2 + ", please wait until you it's your turn");
 						}
-						
+						// Wenn Spieler 1 seine Schiffe gesetzt hat und auf den
+						// Ready Button geklickt hat,
+						// ist Spieler 2 dran mit Schiffe setztn
 						else if (player1.getReady() && player2.getReady() == false) {
-
+							// Die Schiffe werden gesetzt durch Klick auf die
+							// Anfangskoordinate und einen Klick
+							// auf die Endkoordinate. Beim Klick auf die
+							// Anfangskoordinate werden diese zunächst
+							// zwischengespeichert in den Instanzvariablen
+							// xfirst und yfirst des jeweiligen Spielers
 							if (player2.getSecondClick() == false) {
 								player2.setXfirst(x);
 								player2.setYfirst(y);
 								player2.setSecondClick(true);
+								// Beim zweiten Klick, werden die Endkoordinaten
+								// zusammen mit dem Board von Spieler 2
+								// sowie mit Spieler 2 selbst an die
+								// setShipPartsGui Methode übergeben
 							} else if (player2.getSecondClick() == true) {
+								// der try-catch-Block fängt die eigens kreierte
+								// SetShipException ab, die geworfen wird,
+								// wenn jemand sein Schiff falsch setzt. (Genaue
+								// Erklärung des falschen Setzens
+								// in der Error Log Nachricht unten)
 								try {
 									player2.setShipPartsGui(x, y, game.board2, player2);
 								} catch (SetShipException e) {
-									//Error Nachricht an Benutzer, warum das Schiff nicht gesetzt werdeb konnte
+									// Error Nachricht an Benutzer, warum das
+									// Schiff nicht gesetzt werdeb konnte
 									Main.getLogger().error("Achtung. falsche Koordinaten-Eingabe, "
 											+ "Sie können ihr Schiff so nicht setzen!\nFolgendes kann "
 											+ "schief gelaufen sein:\n1. Sie haben versucht, ihr Schiff "
@@ -874,7 +915,7 @@ public class GUI extends Application {
 											+ "ihr Schiff auf Zellen / Koordinaten zu setzen, auf denen sich bereits "
 											+ "Schiffe befinden.\n3. Sie haben ein zu langes oder zu kurzes Schiff "
 											+ "gesetzt.\n4. Sie haben kein Schiff der gewählten Länge mehr verfügbar.");
-								}	
+								}
 								player2.setSecondClick(false);
 								updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 								gameUpdate(textVBoxTop);
@@ -889,10 +930,20 @@ public class GUI extends Application {
 							game.increaseRound();
 							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 							gameUpdate(textVBoxTop);
+						} else if (player2.getReady() && player1.getReady() && game.getRound() % 2 != 0) {
+							Main.getLogger().info("It's the turn of " + namePlayer2 + " to fire.\n" + namePlayer1
+									+ ", please wait until you it's your turn");
 						}
-						else if (player2.getReady() && player1.getReady() && game.getRound() % 2 != 0){
-							Main.getLogger().info("It's the turn of " + namePlayer2 + " to fire.\n"
-									+ namePlayer1 + ", please wait until you it's your turn");		
+
+						// Zuletzt wird bei einem Button Klick auf die
+						// Spielfelder überprüft, ob der feuernde
+						// Spieler mit dem aktuellen Mausklick / Feuern das
+						// letzte Schiff des Gegners zerstört hat,
+						// ob er also den Score von 21 Punkten erreicht und das
+						// Spiel gewonnen hat
+						if (player1.checkIfPlayerWins()) {
+							Main.getLogger().info("Herzlichen Glückwunsch " + player1.getName() + ", du hast "
+									+ "das Spiel gewonnen und grenzenlose Ehre erworben!");
 						}
 
 					});
@@ -910,15 +961,15 @@ public class GUI extends Application {
 			bgTopBox1.setOpacity(0.5);
 			bgTopBox1.setFill(Color.DIMGREY);
 			bgTopBox1.setStroke(Color.LIGHTGRAY);
-			
+
 			bgTopBox2.setOpacity(0.5);
 			bgTopBox2.setFill(Color.DIMGRAY);
 			bgTopBox2.setStroke(Color.ROYALBLUE);
 
-//			textVBoxTop.setTranslateX(WINDOW_SIZE_X / 2);
-//			textVBoxTop.setTranslateY(25);
+			// textVBoxTop.setTranslateX(WINDOW_SIZE_X / 2);
+			// textVBoxTop.setTranslateY(25);
 			textVBoxTop.setAlignment(Pos.CENTER);
-			
+
 			Text textInfoTop = new Text("Boat Busters");
 			textInfoTop.setStyle(font30);
 			textInfoTop.setFill(Color.ORANGE);
@@ -930,7 +981,6 @@ public class GUI extends Application {
 			Text textP2Set = new Text("Player 2: set your Ships and press READY!");
 			textP2Set.setStyle(font16);
 			textP2Set.setFill(Color.WHITE);
-
 
 			textVBoxTop.getChildren().addAll(textInfoTop, textP1Set);
 			topStackPane.getChildren().addAll(bgTopBox1, textVBoxTop);
@@ -970,7 +1020,7 @@ public class GUI extends Application {
 				}
 
 			});
-			
+
 			textVBoxLeft.getChildren().addAll(textPlayerLeft, btnResetLeft, btnReadyLeft);
 			leftStackPane.getChildren().addAll(bgLeftBox, textVBoxLeft);
 			//////////////////////////////////////////
@@ -1005,14 +1055,15 @@ public class GUI extends Application {
 						leftStackPane.getChildren().removeAll(textVBoxLeft, bgLeftBox);
 						topStackPane.getChildren().removeAll(bgTopBox1, textVBoxTop);
 						topStackPane.getChildren().addAll(bgTopBox2, textVBoxTop);
-						
+
 						textVBoxTop.getChildren().remove(textP2Set);
 						textVBoxTop.getChildren().addAll(getTextWhosNextTop());
 						gameUpdate(textVBoxTop);
-						//Thread wird erstellt, der durch Logs den aktuellen Spielstand, d.h. die Scores von Spieler 1
-						//und von Spieler 2 sowie die aktuelle Runde ausgibt
-					    Thread log = new Thread(new GameLog(game));
-					    log.start();
+						// Thread wird erstellt, der durch Logs den aktuellen
+						// Spielstand, d.h. die Scores von Spieler 1
+						// und von Spieler 2 sowie die aktuelle Runde ausgibt
+						Thread log = new Thread(new GameLog(game));
+						log.start();
 					}
 					if (player1.getReady()) {
 						darkenField(gamefieldRight);
@@ -1030,7 +1081,7 @@ public class GUI extends Application {
 			bgBottomBox.setOpacity(0.5);
 			bgBottomBox.setFill(Color.DIMGRAY);
 			bgBottomBox.setStroke(Color.LIGHTGRAY);
-		
+
 			textHBoxBottom.setSpacing(250);
 			textHBoxBottom.setAlignment(Pos.BASELINE_CENTER);
 			Text textPlayer1 = new Text("Player 1: " + player1.getName());
@@ -1147,8 +1198,7 @@ public class GUI extends Application {
 				setTextBigRight();
 				right.getChildren().addAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
 			}
-		  }
-		
+		}
 
 		void darkenField(GridPane feld) {
 			// Feld 2 wird komplett schwarz gefärbt, da die Spieler im
@@ -1158,13 +1208,12 @@ public class GUI extends Application {
 				for (int j = 0; j < 10; j++) {
 					feld.getChildren().get(i * 10 + j).setStyle("-fx-background-color: black;");
 				}
-			  }
+			}
 		}
 
 		void gameUpdate(VBox top) {
 			if (player1.getReady() == true && player2.getReady() == true) {
 
-				
 				top.getChildren().removeAll(getTextWhosNextTop(), getTextTurnTop(), getTextHitTop(),
 						getTextMissedTop());
 				if ((player1.getHit() == true && game.intWhosNext() != 1)
@@ -1182,8 +1231,8 @@ public class GUI extends Application {
 				setTextTurnTop();
 				setTextWhosNextTop();
 				top.getChildren().addAll(getTextTurnTop(), getTextWhosNextTop());
-			
-		  }
+
+			}
 		}
 	}
 }

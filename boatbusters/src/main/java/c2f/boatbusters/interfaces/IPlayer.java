@@ -38,12 +38,12 @@ public interface IPlayer {
 	// noch ein schiff diesen Typs beim Spieler uebrig?
 	boolean checkIfShipAvailable(int i, IPlayer player);
 
-
-	// wenn man ein schiff setzt, wird die anzahl der verfuegbaren schiffe diesen typs um 1 verringert
+	// wenn man ein schiff setzt, wird die anzahl der verfuegbaren schiffe
+	// diesen typs um 1 verringert
 	void reduceShipCount(int i, IPlayer player);
 
-
-	// checkt, ob die Linie frei ist und ob die Distanz zwischen den beiden Punkte mit der Schifflänge übereinstimmen
+	// checkt, ob die Linie frei ist und ob die Distanz zwischen den beiden
+	// Punkte mit der Schifflänge übereinstimmen
 	boolean checkIfLineIsFreeAndLengthCorrect(int xfirst, int yfirst, int xlast, int ylast, int length,
 			WarShip[][] board);
 
@@ -51,18 +51,15 @@ public interface IPlayer {
 
 	Object numberOfWins();
 
-	//Ist in Einklang mit der printBestenliste Mehtode, es entsteht eine Tabelle im richtigen Format abhängig von der 
-	//Länge des Spielernamens
+	// Ist in Einklang mit der printBestenliste Mehtode, es entsteht eine
+	// Tabelle im richtigen Format abhängig von der
+	// Länge des Spielernamens
 	String toString();
 
-
 	void reduceShipCount(int i, Player player);
-
 
 	int getShipCountCheck();
 
 	boolean areShipsLeftToPut(Player player);
-
-
 
 }
