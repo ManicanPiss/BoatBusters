@@ -501,24 +501,54 @@ public class Player implements IPlayer {
 			// Schiffsreferenz gesetzt, die explizit sagen soll
 			// "Hier war kein Schiff". Für eine weiterführende Erklärung siehe
 			// das Kommentar unten zur setEmptyShip-Methode.
-			if (!player.checkFree(x, y, game.getBoard2()) && game.getBoard2()[x][y].getEmpty() == false) {
-				player.increaseScore();
+			if (!player.checkFree(x, y, game.getBoard2()) && game.getBoard2()[x][y].getEmpty() == false
+					&& game.getBoard2()[x][y].getShipDestroyed() == false) {
 				setHit(true);
 				setMissed(false);
 				destroy(game.getBoard2()[x][y]);
-			} else {
+				player.increaseScore();
+				// Wenn der Spieler auf ein Feld schießt, auf das er bereits
+				// geschossen hat und auf dem kein Schiff war,
+				// werden die boolean-Variablen missed und hit angepasst, damit
+				// die GUI das Ergebnis des aktuellen Schusses
+				// richtig ausgibt ("HIT!" bzw. "Missed!")
+			} else if (!player.checkFree(x, y, game.getBoard2()) && game.getBoard2()[x][y].getEmpty() == true) {
+				setMissed(true);
+				setHit(false);
+				// Wenn der Spieler auf ein Feld schießt, auf dem er bereits ein
+				// Schiff zerstört hat, verfehlt er beim
+				// zweiten mal Schießen auf dieses Feld
+			} else if (!player.checkFree(x, y, game.getBoard2()) && game.getBoard2()[x][y].getShipDestroyed() == true) {
+				setMissed(true);
+				setHit(false);
+			} else if (player.checkFree(x, y, game.getBoard2())) {
 				setMissed(true);
 				setHit(false);
 				setEmptyShip(x, y, game.getBoard2());
 			}
 		} else if (player == game.getPlayer2()) {
 
-			if (!player.checkFree(x, y, game.getBoard1()) && game.getBoard1()[x][y].getEmpty() == false) {
+			if (!player.checkFree(x, y, game.getBoard1()) && game.getBoard1()[x][y].getEmpty() == false
+					&& game.getBoard1()[x][y].getShipDestroyed() == false) {
 				setHit(true);
 				setMissed(false);
-				player.increaseScore();
 				destroy(game.getBoard1()[x][y]);
-			} else {
+				player.increaseScore();
+				// Wenn der Spieler auf ein Feld schießt, auf das er bereits
+				// geschossen hat und auf dem kein Schiff war,
+				// werden die boolean-Variablen missed und hit angepasst, damit
+				// die GUI das Ergebnis des aktuellen Schusses
+				// richtig ausgibt ("HIT!" bzw. "Missed!")
+			} else if (!player.checkFree(x, y, game.getBoard1()) && game.getBoard1()[x][y].getEmpty() == true) {
+				setMissed(true);
+				setHit(false);
+				// Wenn der Spieler auf ein Feld schießt, auf dem er bereits ein
+				// Schiff zerstört hat, verfehlt er beim
+				// zweiten mal Schießen auf dieses Feld
+			} else if (!player.checkFree(x, y, game.getBoard1()) && game.getBoard1()[x][y].getShipDestroyed() == true) {
+				setMissed(true);
+				setHit(false);
+			} else if (player.checkFree(x, y, game.getBoard1())) {
 				setMissed(true);
 				setHit(false);
 				setEmptyShip(x, y, game.getBoard1());
