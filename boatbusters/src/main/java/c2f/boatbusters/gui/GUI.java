@@ -780,7 +780,7 @@ public class GUI extends Application {
 					int x = row;
 
 					button.setOnMouseClicked(event -> {
-						Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
+						//Main.getLogger().info("LEFTSIDE: Button at " + x + "/" + y + " pressed");
 
 						// Wenn die Spieler noch nicht alle Schiffe gesetzt
 						// haben sowie noch nicht auf ready geklickt haben
@@ -847,7 +847,7 @@ public class GUI extends Application {
 					int x = row;
 
 					button.setOnMouseClicked(event -> {
-						Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
+						//Main.getLogger().info("RIGHTSIDE: Button at " + x + "/" + y + " pressed");
 
 						// Wenn die Spieler noch nicht alle Schiffe gesetzt
 						// haben sowie noch nicht auf ready geklickt haben
@@ -1011,8 +1011,8 @@ public class GUI extends Application {
 						gameUpdate(textVBoxTop);
 						//Thread wird erstellt, der durch Logs den aktuellen Spielstand, d.h. die Scores von Spieler 1
 						//und von Spieler 2 sowie die aktuelle Runde ausgibt
-//					    GameLog gamelog = new GameLog(game);
-//					    gamelog.run();
+					    Thread log = new Thread(new GameLog(game));
+					    log.start();
 					}
 					if (player1.getReady()) {
 						darkenField(gamefieldRight);

@@ -420,49 +420,55 @@ public class Player implements IPlayer {
 	// FIRE AND DESTROY METHODS
 	//--------------------------------------------------------------
 
-
+    //Feuer-Modus Methode
 	public void fire(int x, int y, Player player, Game game) {
 
 		if (player == game.getPlayer1()) {
-			if (!player.checkFree(x, y, game.getBoard2())) {
-				// TODO log System.out.println("HIT! \n");
-				Main.getLogger().info("HIT! \n");
+			//Wenn auf Zielreferenz ein Schiff ist, das Länge 2, 3, oder 4 hat, hat der Spieler ein Schiff getroffen
+			//Wenn auf der Referenz ein Schiff der Länge 0 ist, weiß das Programm, auf dieses Feld wurde bereits gefeuert
+			//und um diese Information zu speichern, wurde als Platzhalter eine Schiffsreferenz gesetzt, die explizit sagen soll
+			//"Hier war kein Schiff". Für eine weiterführende Erklärung siehe das Kommentar unten zur setEmptyShip-Methode.
+			if (!player.checkFree(x, y, game.getBoard2()) && game.getBoard2()[x][y].getEmpty() == false) {
 				player.increaseScore();
 				setHit(true);
 				setMissed(false);
 				destroy(game.getBoard2()[x][y]);
 			} else {
-				Main.getLogger().info("Missed! \n");
 				setMissed(true);
 				setHit(false);
-				ShipFactory sf = new ShipFactory();
-				WarShip empty = sf.getType(0);
-				game.board2[x][y] = empty;
-				empty.setEmpty(true);
+                setEmptyShip(x, y, game.getBoard2());
 			}
 		} else if (player == game.getPlayer2()) {
 
-			if (!player.checkFree(x, y, game.getBoard1())) {
-				// TODO log System.out.println("HIT! \n");
+			if (!player.checkFree(x, y, game.getBoard1()) && game.getBoard1()[x][y].getEmpty() == false) {
 				setHit(true);
 				setMissed(false);
-				Main.getLogger().info("HIT! \n");
 				player.increaseScore();
 				destroy(game.getBoard1()[x][y]);
 			} else {
-				Main.getLogger().info("Missed! \n");
 				setMissed(true);
 				setHit(false);
-				ShipFactory sf = new ShipFactory();
-				WarShip empty = sf.getType(0);
-				game.board1[x][y] = empty;
-				empty.setEmpty(true);
+                setEmptyShip(x, y, game.getBoard1());
 			}
 		}
 	}
 
 	private void destroy(WarShip warship) {
 		warship.setShipDestroyed(true);
+	}
+	
+	//Wenn der Spieler auf ein leeres Feld schießt, wird ein Platzhalter darauf
+	//gesetzt, der sozusagen für zwei logische Aussagen steht: 
+	//"Auf diesem Feld existiert kein Schiff, und es wurde schon darauf gefeuert"
+	//Die Methode dient dazu, später zu wissen, auf welche Felder schon gefeuert wurde,
+	//auf denen kein Schiff gesetzt war (diese Felder werden blau). So kann man diese
+	//Felder unterscheiden von denen, die auch leer sind, und auf die
+    // noch nicht gefeuert wurde (Diese Felder sind transparent, also grau-weiß).
+	private void setEmptyShip(int x, int y, WarShip[][] board){
+		ShipFactory sf = new ShipFactory();
+		WarShip empty = sf.getType(0);
+		board[x][y] = empty;
+		empty.setEmpty(true);
 	}
 	
 	

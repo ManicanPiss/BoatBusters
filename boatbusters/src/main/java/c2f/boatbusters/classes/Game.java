@@ -2,25 +2,11 @@ package c2f.boatbusters.classes;
 
 import c2f.boatbusters.abstractClasses.Board;
 import c2f.boatbusters.factories.*;
-import c2f.boatbusters.interfaces.IPlayer;
-import javafx.event.EventHandler;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-// import c2f.boatbusters.interfaces.WarShipInterface;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.util.Scanner;
-
-import org.apache.logging.log4j.core.Logger;
-import org.apache.logging.log4j.core.util.Loader;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Game {
 	
@@ -29,7 +15,7 @@ public class Game {
 	public WarShip[][] board1;
 	public WarShip[][] board2;
 	Highscore highscore;
-	public Object threadLock = new Object();
+	public Lock lock = new ReentrantLock();
 	
 	private int round = 1;
 	

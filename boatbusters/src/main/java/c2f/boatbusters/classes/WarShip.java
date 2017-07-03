@@ -11,8 +11,7 @@ import org.apache.logging.log4j.core.Logger;
 
 public class WarShip extends Ship {
 
-	private int shipSize;
-	private boolean empty;
+	private boolean empty = false;
 	
 	public boolean getEmpty(){
 		return empty;
@@ -22,18 +21,16 @@ public class WarShip extends Ship {
 		this.empty = empty;
 	}
 
+	public WarShip(int i) {
 
-	public WarShip (int i) {
-
-		if (i == 0){ this.empty = true;}
-		if (i == getShortShipLength()) {
-			this.shipSize = i;
+		if (i == 0) {
+			this.empty = true;
+		} else if (i == getShortShipLength()) {
+			this.empty = false;
 		} else if (i == getMiddleShipLength()) {
-			this.shipSize = i;
+			this.empty = false;
 		} else if (i == getBigShipLength()) {
-			this.shipSize = i;
-		} else {
-			// error log, groesse falsch
+			this.empty = false;
 		}
 	}
 	
