@@ -44,8 +44,8 @@ public class GUI extends Application {
 	final static int MENUBUTTON_SIZE_X = 250;
 	final static int MENUBUTTON_SIZE_Y = 30;
 	final static int CELLBUTTON_SIZE_X_Y = 30;
-	final static int SHIPBUTTON_SIZE_X = 150;
-	final static int SHIPBUTTON_SIZE_Y = 30;
+	final static int GAMEBUTTON_SIZE_X = 150;
+	final static int GAMEBUTTON_SIZE_Y = 30;
 	final static String font14 = "-fx-font: italic 14px Verdana";
 	final static String font16 = "-fx-font: italic 16px Verdana";
 	final static String font20 = "-fx-font: italic 20px Verdana";
@@ -244,7 +244,7 @@ public class GUI extends Application {
 			text.setFill(Color.WHITE);
 			text.setTextAlignment(TextAlignment.RIGHT);
 
-			Rectangle bg = new Rectangle(SHIPBUTTON_SIZE_X - 10, SHIPBUTTON_SIZE_Y);
+			Rectangle bg = new Rectangle(GAMEBUTTON_SIZE_X - 10, GAMEBUTTON_SIZE_Y);
 			bg.setFill(Color.DIMGRAY);
 			bg.setOpacity(0.4);
 			bg.setStroke(Color.BLACK);
@@ -274,7 +274,7 @@ public class GUI extends Application {
 
 		public void GameMenu() throws Exception {
 
-			game = new Game(0);
+			game = new Game(1);
 
 			Stage menuStage = new Stage();
 			Pane rootMenu = new Pane();
@@ -608,6 +608,18 @@ public class GUI extends Application {
 		Text textWhosNextTop = new Text();
 		Text textHitTop = new Text();
 		Text textMissedTop = new Text();
+		Text textWinner = new Text();
+
+		Text textP1Name = new Text();
+		Text textP2Name = new Text();
+
+		public void setTextWinner() {
+
+			this.textWinner = new Text("Congratulations, you have won the game \n and granted you unlimited glory");
+			textWinner.setStyle(font14);
+			textWinner.setFill(Color.WHITE);
+		}
+
 
 		public void setTextQuit() {
 			this.textQuit = new Text(" Press Q to Quit");
@@ -660,8 +672,32 @@ public class GUI extends Application {
 			textBigLeft.setFill(Color.WHITE);
 		}
 
+		public void setTextP1NameColor() {
+			this.textP1Name = new Text("Player 1 wins!");
+			textP1Name.setStyle(font20);
+			textP1Name.setFill(Color.ORANGE);
+		}
+
+		public void setTextP2NameColor() {
+			this.textP2Name = new Text("Player 2 wins!");
+			textP2Name.setStyle(font20);
+			textP2Name.setFill(Color.ORANGE);
+		}
+
 		public Text getTextQuit() {
 			return textQuit;
+		}
+
+		public Text getTextWinner() {
+			return textWinner;
+		}
+
+		public Text getP1NameColor() {
+			return textP1Name;
+		}
+
+		public Text getP2NameColor() {
+			return textP2Name;
 		}
 
 		public Text getTextTurnTop() {
@@ -837,7 +873,7 @@ public class GUI extends Application {
 							player2.fire(x, y, player2, game);
 							updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 							gameUpdate(textVBoxTop);
-							
+
 							// Es wird überpüft, ob der
 							// Spieler mit dem aktuellen Mausklick / Feuern das
 							// letzte Schiff des Gegners zerstört hat,
@@ -846,7 +882,7 @@ public class GUI extends Application {
 							if (player2.checkIfPlayerWins()) {
 								Main.getLogger().info("Herzlichen Glückwunsch " + player2.getName() + ", du hast "
 										+ "das Spiel gewonnen und grenzenlose Ehre erworben!");
-//                              game.updateBestenliste();
+								// game.updateBestenliste();
 							}
 							game.increaseRound();
 
@@ -941,7 +977,7 @@ public class GUI extends Application {
 							if (player1.checkIfPlayerWins()) {
 								Main.getLogger().info("Herzlichen Glückwunsch " + player1.getName() + ", du hast "
 										+ "das Spiel gewonnen und grenzenlose Ehre erworben!");
-//                                game.updateBestenliste();
+								// game.updateBestenliste();
 							}
 							game.increaseRound();
 
@@ -1044,7 +1080,7 @@ public class GUI extends Application {
 
 			GameButton btnResetRight = new GameButton("reset Ships");
 			btnResetRight.setOnMouseClicked(event -> {
-				game.setShipsBackBoard1(board2);
+				game.setShipsBackBoard2(board2);
 				updateFields(gamefieldLeft, gamefieldRight, textVBoxLeft, textVBoxRight);
 			});
 
@@ -1134,7 +1170,7 @@ public class GUI extends Application {
 			gameStage.show();
 		}
 
-		void updateFields(GridPane feld1, GridPane feld2, VBox left, VBox right) {
+		void updateFields(GridPane field1, GridPane field2, VBox left, VBox right) {
 			// Zellen, auf die eine Referenz gesetzt ist, werden eingefärbt
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
@@ -1142,21 +1178,21 @@ public class GUI extends Application {
 					// blau dargestellt
 					if (board1[i][j] != null && board1[i][j].getShipDestroyed() == false
 							&& player1.getReady() == false) {
-						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
+						field1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
 
 					}
 					// Zellen, auf denen ein Schiff ist, das aber versenkt, also
 					// getroffen wurde, werden rot dargestellt
 					else if (board1[i][j] != null && board1[i][j].getShipDestroyed() == true) {
-						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: red;");
+						field1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: red;");
 					}
 					// Zellen, die die Referenz null haben, werden transparent
 					// gemacht
 					else if (board2[i][j] == null && player1.getReady() == false && player2.getReady() == false) {
-						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
+						field1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
 					} else if (board1[i][j] != null && board1[i][j].getEmpty()) {
 
-						feld1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
+						field1.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
 					}
 				}
 			}
@@ -1167,21 +1203,21 @@ public class GUI extends Application {
 					// blau dargestellt
 					if (board2[i][j] != null && board2[i][j].getShipDestroyed() == false
 							&& player2.getReady() == false) {
-						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
+						field2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: green;");
 
 					}
 					// Zellen, auf denen ein Schiff ist, das aber versenkt, also
 					// getroffen wurde, werden rot dargestellt
 					else if (board2[i][j] != null && board2[i][j].getShipDestroyed() == true) {
-						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: red;");
+						field2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: red;");
 
 					}
 					// Zellen, die die Referenz null haben, werden transparent
 					// gemacht
-					else if (board2[i][j] == null && player1.getReady() == false && player2.getReady() == false) {
-						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
+					else if (board2[i][j] == null && player1.getReady() == true && player2.getReady() == false) {
+						field2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: transparent;"); // TODO:
 					} else if (board2[i][j] != null && board2[i][j].getEmpty()) {
-						feld2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
+						field2.getChildren().get(i * 10 + j).setStyle("-fx-background-color: blue;");
 					}
 				}
 			}
@@ -1203,6 +1239,13 @@ public class GUI extends Application {
 				setTextBigRight();
 				right.getChildren().addAll(getTextSmallRight(), getTextMiddleRight(), getTextBigRight());
 			}
+			// if (player1.checkIfPlayerWins()){
+			// gameField.getChildren().removeAll(field1, field2);
+			//
+			// }
+			// if(player2.checkIfPlayerWins()){
+			// gameField.getChildren().removeAll(field1, field2);
+			// }
 		}
 
 		void darkenField(GridPane feld) {
@@ -1238,6 +1281,22 @@ public class GUI extends Application {
 				top.getChildren().addAll(getTextTurnTop(), getTextWhosNextTop());
 
 			}
+
+			if (player1.checkIfPlayerWins()) {
+				setTextP1NameColor();
+				setTextWinner();
+
+				top.getChildren().removeAll(getTextTurnTop(), getTextWhosNextTop(), getTextHitTop());
+				top.getChildren().addAll(getP1NameColor(), getTextWinner());
+			}
+			if (player2.checkIfPlayerWins()) {
+				setTextP2NameColor();
+				setTextWinner();
+
+				top.getChildren().removeAll(getTextTurnTop(), getTextWhosNextTop(), getTextHitTop());
+				top.getChildren().addAll(getP2NameColor(), getTextWinner());
+			}
+
 		}
 	}
 }
