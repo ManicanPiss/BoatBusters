@@ -13,11 +13,14 @@ import c2f.boatbusters.classes.SetShipException;
 import c2f.boatbusters.classes.WarShip;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -303,7 +306,7 @@ public class GUI extends Application {
 			mainMenu.setTranslateY(translateY);
 
 			scoreMenu.setTranslateX(translateX);
-			scoreMenu.setTranslateY(translateY);
+			scoreMenu.setTranslateY(200);
 
 			menuPlayer1.setTranslateX(translateX);
 			menuPlayer1.setTranslateY(translateY);
@@ -339,32 +342,27 @@ public class GUI extends Application {
 
 			//////////// HIGHSCORE BUTTON MAIN MENU ////////////
 			MenuButton btnScore = new MenuButton("HIGHSCORE");//TODO:
+			MenuButton btnBack2 = new MenuButton("BACK");
 
 			btnScore.setOnMouseClicked(event -> {
-				Main.getHighscore().getBestenliste()
-											.stream()
-											.forEach(x -> {
-											System.out.println(x);
-											System.out.println("TEST");
-												
-											});
 				
 				rootMenu.getChildren().add(scoreMenu);
+				
+				
+//				TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), mainMenu);
+//				t1.setToX(mainMenu.getTranslateX() - offset);
+//
+//				TranslateTransition t2 = new TranslateTransition(Duration.seconds(0.5), scoreMenu);
+//				t2.setToX(mainMenu.getTranslateX());
+//
+//				t1.play();
+//				t2.play();
 
-				TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), mainMenu);
-				t1.setToX(mainMenu.getTranslateX() - offset);
-
-				TranslateTransition t2 = new TranslateTransition(Duration.seconds(0.5), scoreMenu);
-				t2.setToX(mainMenu.getTranslateX());
-
-				t1.play();
-				t2.play();
-
-				t1.setOnFinished(evt -> {
+//				t1.setOnFinished(evt -> {
+					
 					rootMenu.getChildren().remove(mainMenu);
-
-					Main.getHighscore().printBestenliste();
-				});
+					updateHighscore(scoreMenu, btnBack2);
+//				});
 
 			});
 
@@ -384,8 +382,7 @@ public class GUI extends Application {
 			loginTextPlayer2.setStyle(font30);
 			loginTextPlayer2.setFill(Color.WHITE);
 
-			Text highscoreText = new Text("HIGHSCORE");
-
+			
 			//////////// Textfield Login Player 1 ////////////
 			TextField textfieldLoginPlayer1 = new TextField();
 			textfieldLoginPlayer1.setStyle(font20);
@@ -559,29 +556,29 @@ public class GUI extends Application {
 			/////////////////////////////////////////////////////////
 
 			//////////// Back to MainMenu from HIGHSCORE ////////////
-			MenuButton btnBack2 = new MenuButton("BACK");
+			
 			btnBack2.setOnMouseClicked(event -> {
 
 				rootMenu.getChildren().add(mainMenu);
 
-				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), scoreMenu);
-				tt.setToX(scoreMenu.getTranslateX() + offset);
-
-				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), mainMenu);
-				tt1.setToX(scoreMenu.getTranslateX());
-
-				tt.play();
-				tt1.play();
-
-				tt.setOnFinished(evt -> {
+//				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), scoreMenu);
+//				tt.setToX(scoreMenu.getTranslateX() + offset);
+//
+//				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), mainMenu);
+//				tt1.setToX(scoreMenu.getTranslateX());
+//				tt1.setToY(scoreMenu.getTranslateY() + 100);
+//
+//				tt.play();
+//				tt1.play();
+//
+//				tt.setOnFinished(evt -> {
 					rootMenu.getChildren().remove(scoreMenu);
 
-				});
+//				});
 			});
 			/////////////////////////////////////////////////////////
 
 			mainMenu.getChildren().addAll(btnStart, btnScore, btnExit); // Hauptmenu
-			scoreMenu.getChildren().addAll(highscoreText, btnBack2); // HighscoreMenu
 			menuPlayer1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, btnLoginPlayer1, btnBackPlayer1); // login1
 			menuPlayer2.getChildren().addAll(loginTextPlayer2, textfieldLoginPlayer2, btnLoginPlayer2, btnBackPlayer2); // login2
 
@@ -595,6 +592,26 @@ public class GUI extends Application {
 			menuStage.show();
 
 		}
+
+		
+	}
+	
+	private void updateHighscore(VBox scoreMenu, MenuButton back){
+		//TODO:
+		TableView table = new TableView();
+		table.setEditable(true);
+		
+		TableColumn firstCol = new TableColumn("NAME");
+		firstCol.setMinWidth(250);
+		TableColumn secCol = new TableColumn("SCORE");
+		secCol.setMinWidth(250);
+		table.setPlaceholder(new Label("Sorry, kein Zugriff auf bestenliste.csv.\n"
+				+ "Ein Restart ihres Computers, sollte das Problem beheben.\n"
+				+ "Bei weiteren Fragen wenden Sie sich bitte an das Entwicklerteam."));
+		
+		table.getColumns().addAll(firstCol, secCol);
+		
+		scoreMenu.getChildren().addAll(table, back);
 	}
 
 	public class GameField extends Parent {
@@ -1307,5 +1324,7 @@ public class GUI extends Application {
 			}
 
 		}
+		
 	}
+	
 }

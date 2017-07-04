@@ -6,12 +6,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import c2f.boatbusters.factories.PlayerFactory;
+import javafx.scene.text.Text;
 
 public class Highscore {
 
 	private static ArrayList<Player> bestenliste = new ArrayList<>();
 
-	public ArrayList<Player> getBestenliste() {
+	public static ArrayList<Player> getBestenliste() {
 		return bestenliste;
 	}
 
@@ -86,6 +87,17 @@ public class Highscore {
 			}
 		}
 		return 0;
+	}
+	
+	public static String gibNames(){
+		Iterator<Player> itr = bestenliste.iterator();
+		while (itr.hasNext()) {
+			String test = itr.next().getName();
+			
+			return test;
+		}
+		String no = "kein text";
+		return no;
 	}
 
 	// Diese Methode wird ausgeführt, nachdem ein Spieler gewonnen hat. Sie
