@@ -599,7 +599,7 @@ public class GUI extends Application {
 	private void updateHighscore(VBox scoreMenu, MenuButton back){
 		//TODO:
 		TableView table = new TableView();
-		table.setEditable(true);
+		
 		
 		TableColumn firstCol = new TableColumn("NAME");
 		firstCol.setMinWidth(250);
@@ -610,7 +610,6 @@ public class GUI extends Application {
 				+ "Bei weiteren Fragen wenden Sie sich bitte an das Entwicklerteam."));
 		
 		table.getColumns().addAll(firstCol, secCol);
-		
 		scoreMenu.getChildren().addAll(table, back);
 	}
 
@@ -641,7 +640,7 @@ public class GUI extends Application {
 
 		public void setTextWinner() {
 
-			this.textWinner = new Text("Congratulations, you have won the game \n and granted you unlimited glory");
+			this.textWinner = new Text("Congratulations, you have won the game!");
 			textWinner.setStyle(font14);
 			textWinner.setFill(Color.WHITE);
 		}
