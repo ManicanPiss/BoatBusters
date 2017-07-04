@@ -1,43 +1,34 @@
 package c2f.boatbusters.gui;
 
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import c2f.boatbusters.classes.Game;
-import c2f.boatbusters.classes.GameLog;
-import c2f.boatbusters.classes.Highscore;
-import c2f.boatbusters.classes.Main;
-import c2f.boatbusters.classes.Player;
-import c2f.boatbusters.classes.SetShipException;
-import c2f.boatbusters.classes.WarShip;
+import c2f.boatbusters.classes.*;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.effect.*;
+
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class GUI extends Application {
 
@@ -274,6 +265,30 @@ public class GUI extends Application {
 		}
 	}
 
+	public static class PlayerProperty {
+		private final SimpleStringProperty name;
+		private final SimpleStringProperty score;
+
+		private PlayerProperty(String fName, String lName) {
+			this.name = new SimpleStringProperty(fName);
+			this.score = new SimpleStringProperty(lName);
+		}
+
+		public String getName() {
+			return name.get();
+		}
+		public void setName(String fName) {
+			name.set(fName);
+		}
+
+		public String getScore() {
+			return score.get();
+		}
+		public void setScore(String fName) {
+			score.set(fName);
+		}
+	}
+
 	public class GameMenu {
 
 		public void GameMenu() throws Exception {
@@ -306,7 +321,7 @@ public class GUI extends Application {
 			mainMenu.setTranslateY(translateY);
 
 			scoreMenu.setTranslateX(translateX);
-			scoreMenu.setTranslateY(200);
+			scoreMenu.setTranslateY(translateY);
 
 			menuPlayer1.setTranslateX(translateX);
 			menuPlayer1.setTranslateY(translateY);
@@ -342,27 +357,55 @@ public class GUI extends Application {
 
 			//////////// HIGHSCORE BUTTON MAIN MENU ////////////
 			MenuButton btnScore = new MenuButton("HIGHSCORE");//TODO:
-			MenuButton btnBack2 = new MenuButton("BACK");
+			
+			TableView<PlayerProperty> tabelle = new TableView<>();
+
+			ObservableList<PlayerProperty> data = FXCollections.observableArrayList();
+
+			for(Player p : Main.getHighscore().getBestenliste()) {
+				data.add(new PlayerProperty(p.getName(), ""+ p.getNumberOfWins()));
+			}
+
+			tabelle.setPrefWidth(750);
+			tabelle.setItems(data);
+
+			TableColumn<PlayerProperty, String> spalte1 = new TableColumn<>("Name: ");
+			spalte1.setCellValueFactory(new PropertyValueFactory<PlayerProperty, String>("name"));
+			spalte1.setPrefWidth(650);
+			TableColumn<PlayerProperty, String> spalte2 = new TableColumn<>("Score: ");
+			spalte2.setPrefWidth(70);
+			spalte2.setStyle("-fx-alignment: CENTER-RIGHT;");
+			spalte2.setCellValueFactory(new PropertyValueFactory<PlayerProperty, String>("score"));
+
+			tabelle.getColumns().add(spalte1);
+			tabelle.getColumns().add(spalte2);
+
 
 			btnScore.setOnMouseClicked(event -> {
-				
-				rootMenu.getChildren().add(scoreMenu);
-				
-				
-//				TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), mainMenu);
-//				t1.setToX(mainMenu.getTranslateX() - offset);
-//
-//				TranslateTransition t2 = new TranslateTransition(Duration.seconds(0.5), scoreMenu);
-//				t2.setToX(mainMenu.getTranslateX());
-//
-//				t1.play();
-//				t2.play();
 
-//				t1.setOnFinished(evt -> {
-					
+				Main.getHighscore().printBestenliste();
+				
+				tabelle.setTranslateX(520);
+				tabelle.setTranslateY(200);
+				rootMenu.getChildren().add(tabelle);
+
+				TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), mainMenu);
+				t1.setToX(mainMenu.getTranslateX() - offset);
+
+				TranslateTransition t2 = new TranslateTransition(Duration.seconds(0.5), scoreMenu);
+				t2.setToX(mainMenu.getTranslateX());
+
+				t1.play();
+				t2.play();
+
+				rootMenu.getChildren().add(scoreMenu);
+
+
+				t1.setOnFinished(evt -> {
 					rootMenu.getChildren().remove(mainMenu);
-					updateHighscore(scoreMenu, btnBack2);
-//				});
+
+				//	Main.getHighscore().printBestenliste();
+				});
 
 			});
 
@@ -382,7 +425,8 @@ public class GUI extends Application {
 			loginTextPlayer2.setStyle(font30);
 			loginTextPlayer2.setFill(Color.WHITE);
 
-			
+			Text highscoreText = new Text("HIGHSCORE");
+
 			//////////// Textfield Login Player 1 ////////////
 			TextField textfieldLoginPlayer1 = new TextField();
 			textfieldLoginPlayer1.setStyle(font20);
@@ -477,7 +521,7 @@ public class GUI extends Application {
 			//////////// Back to MainMenu from Login 1 ////////////
 			MenuButton btnBackPlayer1 = new MenuButton("BACK");
 			btnBackPlayer1.setOnMouseClicked(event -> {
-
+				rootMenu.getChildren().remove(menuPlayer1);
 				rootMenu.getChildren().add(mainMenu);
 
 				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menuPlayer1);
@@ -556,29 +600,32 @@ public class GUI extends Application {
 			/////////////////////////////////////////////////////////
 
 			//////////// Back to MainMenu from HIGHSCORE ////////////
-			
+			MenuButton btnBack2 = new MenuButton("BACK");
+
 			btnBack2.setOnMouseClicked(event -> {
 
+				rootMenu.getChildren().remove(tabelle);
+				rootMenu.getChildren().remove(scoreMenu);
 				rootMenu.getChildren().add(mainMenu);
 
-//				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), scoreMenu);
-//				tt.setToX(scoreMenu.getTranslateX() + offset);
-//
-//				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), mainMenu);
-//				tt1.setToX(scoreMenu.getTranslateX());
-//				tt1.setToY(scoreMenu.getTranslateY() + 100);
-//
-//				tt.play();
-//				tt1.play();
-//
-//				tt.setOnFinished(evt -> {
+				TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), scoreMenu);
+				tt.setToX(scoreMenu.getTranslateX() + offset);
+
+				TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), mainMenu);
+				tt1.setToX(scoreMenu.getTranslateX());
+
+				tt.play();
+				tt1.play();
+
+				tt.setOnFinished(evt -> {
 					rootMenu.getChildren().remove(scoreMenu);
 
-//				});
+				});
 			});
 			/////////////////////////////////////////////////////////
 
 			mainMenu.getChildren().addAll(btnStart, btnScore, btnExit); // Hauptmenu
+			scoreMenu.getChildren().addAll(highscoreText, btnBack2); // HighscoreMenu
 			menuPlayer1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, btnLoginPlayer1, btnBackPlayer1); // login1
 			menuPlayer2.getChildren().addAll(loginTextPlayer2, textfieldLoginPlayer2, btnLoginPlayer2, btnBackPlayer2); // login2
 
@@ -592,25 +639,6 @@ public class GUI extends Application {
 			menuStage.show();
 
 		}
-
-		
-	}
-	
-	private void updateHighscore(VBox scoreMenu, MenuButton back){
-		//TODO:
-		TableView table = new TableView();
-		
-		
-		TableColumn firstCol = new TableColumn("NAME");
-		firstCol.setMinWidth(250);
-		TableColumn secCol = new TableColumn("SCORE");
-		secCol.setMinWidth(250);
-		table.setPlaceholder(new Label("Sorry, kein Zugriff auf bestenliste.csv.\n"
-				+ "Ein Restart ihres Computers, sollte das Problem beheben.\n"
-				+ "Bei weiteren Fragen wenden Sie sich bitte an das Entwicklerteam."));
-		
-		table.getColumns().addAll(firstCol, secCol);
-		scoreMenu.getChildren().addAll(table, back);
 	}
 
 	public class GameField extends Parent {
@@ -640,7 +668,7 @@ public class GUI extends Application {
 
 		public void setTextWinner() {
 
-			this.textWinner = new Text("Congratulations, you have won the game!");
+			this.textWinner = new Text("Congratulations, you have won the game \n and granted you unlimited glory");
 			textWinner.setStyle(font14);
 			textWinner.setFill(Color.WHITE);
 		}
@@ -1002,7 +1030,7 @@ public class GUI extends Application {
 							if (player1.checkIfPlayerWins()) {
 								Main.getLogger().info("Herzlichen Glückwunsch " + player1.getName() + ", du hast "
 										+ "das Spiel gewonnen und grenzenlose Ehre erworben!");
-								 Main.getHighscore().updateBestenliste(player1);
+								Main.getHighscore().updateBestenliste(player1);
 							}
 							game.increaseRound();
 
@@ -1323,7 +1351,5 @@ public class GUI extends Application {
 			}
 
 		}
-		
 	}
-	
 }

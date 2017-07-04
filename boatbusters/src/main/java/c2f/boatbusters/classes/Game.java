@@ -2,6 +2,7 @@ package c2f.boatbusters.classes;
 
 import c2f.boatbusters.abstractClasses.Board;
 import c2f.boatbusters.factories.*;
+import c2f.boatbusters.interfaces.IPlayer;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -62,8 +63,8 @@ public class Game {
 		// Erstellung der Factories um Spieler und Bretter zu erstellen
 		PlayerFactory pf = new PlayerFactory();
 
-		player1 = pf.createPlayer(namePlayer1, Main.getHighscore().checkIfArrayListContainsName(namePlayer1));
-		player2 = pf.createPlayer(namePlayer2, Main.getHighscore().checkIfArrayListContainsName(namePlayer2));
+		player1 = pf.createPlayer(namePlayer1, Main.getHighscore().checkIfArrayListContainsName(namePlayer1), "player");
+		player2 = pf.createPlayer(namePlayer2, Main.getHighscore().checkIfArrayListContainsName(namePlayer2), "player");
 
 		setPlayer1(player1);
 		setPlayer2(player2);

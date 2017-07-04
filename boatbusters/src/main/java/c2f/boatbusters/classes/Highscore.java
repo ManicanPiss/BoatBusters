@@ -12,7 +12,7 @@ public class Highscore {
 
 	private static ArrayList<Player> bestenliste = new ArrayList<>();
 
-	public static ArrayList<Player> getBestenliste() {
+	public ArrayList<Player> getBestenliste() {
 		return bestenliste;
 	}
 
@@ -22,7 +22,7 @@ public class Highscore {
 
 	// Gibt die bestenliste in einem bestimmten Format (gewährleistet durch die
 	// toString2-Methode aus.
-	public static void printBestenliste() {
+	public void printBestenliste() {
 		Main.getLogger()
 				.info("Player            | NumberOfWins\n                  "
 						+ "                                                                "
@@ -89,7 +89,7 @@ public class Highscore {
 		return 0;
 	}
 	
-	public static String gibNames(){
+	public String receiveNames(){
 		Iterator<Player> itr = bestenliste.iterator();
 		while (itr.hasNext()) {
 			String test = itr.next().getName();
@@ -109,7 +109,7 @@ public class Highscore {
 		int wins = Main.getHighscore().getBestenliste().get(index).getNumberOfWins();
 		PlayerFactory pf2 = new PlayerFactory();
 		wins++;
-		Main.getHighscore().getBestenliste().set(index, pf2.createPlayer(player.getName(), wins));
+		Main.getHighscore().getBestenliste().set(index, pf2.createPlayer(player.getName(), wins, "player"));
 	}
 
 }
