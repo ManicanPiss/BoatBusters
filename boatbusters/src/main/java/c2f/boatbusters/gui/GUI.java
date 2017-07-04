@@ -321,7 +321,7 @@ public class GUI extends Application {
 			mainMenu.setTranslateY(translateY);
 
 			scoreMenu.setTranslateX(translateX);
-			scoreMenu.setTranslateY(translateY);
+			scoreMenu.setTranslateY(150);
 
 			menuPlayer1.setTranslateX(translateX);
 			menuPlayer1.setTranslateY(translateY);
@@ -357,7 +357,9 @@ public class GUI extends Application {
 
 			//////////// HIGHSCORE BUTTON MAIN MENU ////////////
 			MenuButton btnScore = new MenuButton("HIGHSCORE");//TODO:
-			
+			Text highscoreText = new Text("HIGHSCORE");
+			highscoreText.setFill(Color.WHITE);
+			highscoreText.setStyle(font30);
 			TableView<PlayerProperty> tabelle = new TableView<>();
 
 			ObservableList<PlayerProperty> data = FXCollections.observableArrayList();
@@ -385,9 +387,9 @@ public class GUI extends Application {
 
 				Main.getHighscore().printBestenliste();
 				
-				tabelle.setTranslateX(520);
-				tabelle.setTranslateY(200);
-				rootMenu.getChildren().add(tabelle);
+//				tabelle.setTranslateX(520);
+//				tabelle.setTranslateY(200);
+//				rootMenu.getChildren().add(tabelle);
 
 				TranslateTransition t1 = new TranslateTransition(Duration.seconds(0.25), mainMenu);
 				t1.setToX(mainMenu.getTranslateX() - offset);
@@ -425,7 +427,7 @@ public class GUI extends Application {
 			loginTextPlayer2.setStyle(font30);
 			loginTextPlayer2.setFill(Color.WHITE);
 
-			Text highscoreText = new Text("HIGHSCORE");
+			
 
 			//////////// Textfield Login Player 1 ////////////
 			TextField textfieldLoginPlayer1 = new TextField();
@@ -625,7 +627,7 @@ public class GUI extends Application {
 			/////////////////////////////////////////////////////////
 
 			mainMenu.getChildren().addAll(btnStart, btnScore, btnExit); // Hauptmenu
-			scoreMenu.getChildren().addAll(highscoreText, btnBack2); // HighscoreMenu
+			scoreMenu.getChildren().addAll(highscoreText, tabelle, btnBack2); // HighscoreMenu
 			menuPlayer1.getChildren().addAll(loginTextPlayer1, textfieldLoginPlayer1, btnLoginPlayer1, btnBackPlayer1); // login1
 			menuPlayer2.getChildren().addAll(loginTextPlayer2, textfieldLoginPlayer2, btnLoginPlayer2, btnBackPlayer2); // login2
 
